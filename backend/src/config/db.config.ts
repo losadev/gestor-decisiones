@@ -1,12 +1,20 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
+import { User } from "../models/user.model";
 
-const sequalize = new Sequelize("proyecto-final-db", "postgres", "password", {
+export const sequelize = new Sequelize({
+  database: "proyecto-final-db",
+  username: "postgres",
+  password: "password",
   host: "localhost",
   dialect: "postgres",
-});
+  models: [User],
 
 export const connectionDB = async () => {
   try {
+ 
+    await sequelize.authenticate();
+    console.log("La conexión ha sido establecida");
+
     await sequalize.authenticate();
     console.log("La conexion ha sido establecida");
   } catch (error) {
