@@ -39,6 +39,7 @@ export class User extends Model {
   email!: string;
 
   @AllowNull(false)
+  @Length({ min: 8, max: 64 })
   @Column(DataType.STRING)
   password!: string;
 
