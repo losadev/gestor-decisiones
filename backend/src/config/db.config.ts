@@ -1,13 +1,18 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
 
-const sequalize = new Sequelize("proyecto-final-db", "postgres", "password", {
-  host: "localhost",
-  dialect: "postgres",
-});
+export const sequelize = new Sequelize(
+  "proyecto-final-db",
+  "postgres",
+  "password",
+  {
+    host: "localhost",
+    dialect: "postgres",
+  }
+);
 
 export const connectionDB = async () => {
   try {
-    await sequalize.authenticate();
+    await sequelize.authenticate();
     console.log("La conexion ha sido establecida");
   } catch (error) {
     console.log("Error al conectarse a la BD", error);
