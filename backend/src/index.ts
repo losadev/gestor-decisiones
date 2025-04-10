@@ -2,12 +2,6 @@ import express from "express";
 import { connectionDB, sequelize } from "./config/db.config";
 import useRouter from "./routes/user.route";
 
-<<<<<<< HEAD
-=======
-
-import express, { Request, Response } from "express";
-import { connectionDB } from "./config/db.config";
->>>>>>> 6edf2a131cb1ea372dbd607df703b44b5731b2f2
 const app = express();
 app.use(express.json());
 
