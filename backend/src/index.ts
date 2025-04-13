@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.use("/api/register", userRouter);
 app.use("/api/login", login);
 app.get("/api/try", verify, (req: Request, res: Response) => {
-  res.json({ data: req.body, msg: "FUnciona", token: req.cookies });
+  res.json({ data: req.body, message: "Funciona", token: req.cookies });
 });
 
 app.listen(PORT, async () => {
