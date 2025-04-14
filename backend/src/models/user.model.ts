@@ -15,9 +15,10 @@ import {
   Unique,
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
+import { UserAttributes, UserCreationAttributes } from "../types/user.types";
 
 @Table
-export class User extends Model<User> {
+export class User extends Model<UserAttributes> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
