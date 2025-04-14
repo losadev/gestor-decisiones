@@ -1,6 +1,8 @@
 import { Sequelize } from "sequelize-typescript";
 import { User } from "../models/user.model";
 import dotenv from "dotenv";
+import { Decision } from "../models/decision.model";
+import { Category } from "../models/category.model";
 
 dotenv.config();
 
@@ -10,7 +12,7 @@ export const sequelize = new Sequelize({
   password: process.env.DB_PWD,
   host: "localhost",
   dialect: "postgres",
-  models: [User],
+  models: [User, Category, Decision],
 });
 
 export const connectionDB = async () => {

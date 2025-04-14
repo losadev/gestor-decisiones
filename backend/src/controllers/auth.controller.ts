@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import bcrypt from "bcryptjs";
-import { generateAccessJWT } from "../services/generateAccessJWT";
+import { generateAccessJWT } from "../utils/generateAccessJWT";
 
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body;

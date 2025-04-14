@@ -5,6 +5,7 @@ import {
   Column,
   DataType,
   Default,
+  HasMany,
   IsEmail,
   IsUUID,
   Length,
@@ -13,9 +14,10 @@ import {
   Table,
   Unique,
 } from "sequelize-typescript";
+import { Decision } from "./decision.model";
 
 @Table
-export class User extends Model {
+export class User extends Model<User> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -50,4 +52,7 @@ export class User extends Model {
   @AllowNull(true)
   @Column(DataType.STRING)
   avatar?: string;
+
+  @HasMany(() => Decision)
+  decisions!: Decision[];
 }
