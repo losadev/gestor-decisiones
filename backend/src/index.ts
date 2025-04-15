@@ -21,6 +21,10 @@ app.get("/api/try", verify, (req: Request, res: Response) => {
 });
 app.use("/api/decision", decisionRouter);
 
+app.get("/", (_req, res) => {
+  res.send("Hello, world!");
+});
+
 app.listen(PORT, async () => {
   connectionDB();
 });
