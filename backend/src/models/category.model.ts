@@ -11,6 +11,7 @@ import {
   Table,
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
+import { ProCon } from "./proCon.model";
 
 @Table
 export class Category extends Model<Category> {
@@ -25,6 +26,6 @@ export class Category extends Model<Category> {
   @Column(DataType.STRING)
   name!: string;
 
-  @HasMany(() => Decision)
-  decisions!: Decision[];
+  @HasMany(() => ProCon)
+  proCon!: ProCon[];
 }

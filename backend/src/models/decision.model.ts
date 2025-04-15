@@ -12,13 +12,13 @@ import {
   HasMany,
   HasOne,
 } from "sequelize-typescript";
-import { Category } from "./category.model";
 import { ProCon } from "./proCon.model";
 import { Evaluation } from "./evalutation.model";
 import { User } from "./user.model";
+import { CategoryType, DecisionAttributes } from "../types/decision.types";
 
 @Table
-export class Decision extends Model<Decision> {
+export class Decision extends Model<DecisionAttributes> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -29,12 +29,9 @@ export class Decision extends Model<Decision> {
   @Column(DataType.STRING)
   declare title: string;
 
-  @ForeignKey(() => Category)
-  @Column(DataType.UUID)
-  declare categoryId: string;
-
-  @BelongsTo(() => Category)
-  category!: Category;
+  @AllowNull(false)
+  @Column(DataType.ENUM(...Object.values(CategoryType)))
+  categoryType!: CategoryType;
 
   @ForeignKey(() => User)
   @Column(DataType.UUID)
