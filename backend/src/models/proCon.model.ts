@@ -5,6 +5,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasOne,
   IsUUID,
   Length,
   Model,
@@ -13,6 +14,7 @@ import {
 } from "sequelize-typescript";
 import { ProConType } from "../types/proCon.type";
 import { Decision } from "./decision.model";
+import { Category } from "./category.model";
 
 @Table
 export class ProCon extends Model<ProCon> {

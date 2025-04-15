@@ -26,6 +26,6 @@ export class Category extends Model<Category> {
   @Column(DataType.STRING)
   name!: string;
 
-  @HasMany(() => ProCon)
-  proCon!: ProCon[];
+  /*@HasMany(() => ProCon)
+  proCon!: ProCon[];*/
 }
