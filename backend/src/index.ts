@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import { connectionDB, sequelize } from "./config/db.config";
+import { connectionDB } from "./config/db.config";
 import userRouter from "./routes/user.routes";
 import login from "./routes/auth.routes";
 import cors from "cors";
-import { verify } from "./middlewares/verify";
+import { verifyUser } from "./middlewares/verifyUser";
 import cookieParser from "cookie-parser";
 import decisionRouter from "./routes/decision.routes";
 
@@ -16,10 +16,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use("/api/register", userRouter);
 app.use("/api/login", login);
-app.get("/api/try", verify, (req: Request, res: Response) => {
+app.get("/api/try", verifyUser, (req: Request, res: Response) => {
+  console.log("Esto es req.user : ", req.user);
   res.json({ data: req.body, message: "Funciona", token: req.cookies });
 });
-app.use("/api/decision", decisionRouter);
+app.use("/api/decision", verifyUser, decisionRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");

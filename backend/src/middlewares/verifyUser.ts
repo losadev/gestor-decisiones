@@ -2,11 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { User } from "../models/user.model";
-import cookieParser from "cookie-parser"; // Importamos cookie-parser
 
 dotenv.config();
 
-export const verify = async (
+export const verifyUser = async (
   req: Request,
   res: Response,
   next: NextFunction

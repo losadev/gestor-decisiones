@@ -1,9 +1,8 @@
-import { ProCon } from "../models/proCon.model";
-
 export type DecisionAttributes = {
   id: string;
   title: string;
   category: CategoryType;
+  userId: string;
 };
 
 export enum CategoryType {
