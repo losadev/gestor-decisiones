@@ -14,7 +14,7 @@ export const createDecision = async (req: Request, res: Response) => {
     // }
 
     const decision = await decisionService.create({
-      id: uuidv4(),
+      id,
       title,
       category,
       userId: userId.id,
