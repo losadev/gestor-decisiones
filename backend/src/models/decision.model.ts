@@ -31,7 +31,7 @@ export class Decision extends Model<DecisionAttributes> {
 
   @AllowNull(false)
   @Column(DataType.ENUM(...Object.values(CategoryType)))
-  categoryType!: CategoryType;
+  category!: CategoryType;
 
   @ForeignKey(() => User)
   @Column(DataType.UUID)
