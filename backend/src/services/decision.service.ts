@@ -1,5 +1,6 @@
 import { Decision } from "../models/decision.model";
 import { CategoryType } from "../types/decision.types";
+import { v4 as uuidv4 } from "uuid";
 
 export const decisionService = {
   create: async (decisionData: {
@@ -8,10 +9,10 @@ export const decisionService = {
     category: CategoryType;
     userId: string;
   }) => {
-    const { id, title, category, userId } = decisionData;
+    const { title, category, userId } = decisionData;
 
     const decision = await Decision.create({
-      id,
+      id: uuidv4(),
       title,
       category,
       userId,
