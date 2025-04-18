@@ -1,7 +1,7 @@
 export type DecisionAttributes = {
   id: string;
   title: string;
-  category: CategoryType;
+  category: CategoryType | string;
   userId: string;
 };
 
