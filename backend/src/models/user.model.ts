@@ -16,6 +16,7 @@ import {
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
 import { UserAttributes, UserCreationAttributes } from "../types/user.types";
+import { Recommendation } from "./recommendation.model";
 
 @Table
 export class User extends Model<UserAttributes> {
@@ -23,7 +24,7 @@ export class User extends Model<UserAttributes> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  declare id: string;
+  id!: string;
 
   @AllowNull(false)
   @Length({ min: 2, max: 255 })
@@ -56,4 +57,7 @@ export class User extends Model<UserAttributes> {
 
   @HasMany(() => Decision)
   decisions!: Decision[];
+
+  @HasMany(() => Recommendation)
+  recommendations!: Recommendation[];
 }
