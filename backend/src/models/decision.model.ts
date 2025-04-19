@@ -16,6 +16,7 @@ import { ProCon } from "./proCon.model";
 import { Evaluation } from "./evalutation.model";
 import { User } from "./user.model";
 import { CategoryType, DecisionAttributes } from "../types/decision.types";
+import { Recommendation } from "./recommendation.model";
 
 @Table
 export class Decision extends Model<DecisionAttributes> {
@@ -23,7 +24,7 @@ export class Decision extends Model<DecisionAttributes> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  declare id: string;
+  id!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
@@ -35,7 +36,7 @@ export class Decision extends Model<DecisionAttributes> {
 
   @ForeignKey(() => User)
   @Column(DataType.UUID)
-  declare userId: User;
+  userId!: string;
 
   @BelongsTo(() => User)
   user!: User;
@@ -45,4 +46,7 @@ export class Decision extends Model<DecisionAttributes> {
 
   @HasOne(() => Evaluation)
   evaluation!: Evaluation;
+
+  @HasOne(() => Recommendation)
+  recommendation!: Recommendation;
 }

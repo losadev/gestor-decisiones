@@ -19,7 +19,7 @@ export class Category extends Model<Category> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  declare id: string;
+  id!: string;
 
   @AllowNull(false)
   @Length({ min: 2, max: 255 })
