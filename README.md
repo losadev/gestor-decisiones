@@ -1,3 +1,4 @@
+
 # Plataforma de Gestión de Decisiones Personales
 
 ## Descripción
@@ -153,6 +154,4 @@ El frontend debería estar corriendo en http://localhost:3000.
 4. Abre un Pull Request en GitHub.
 
 Por favor, asegúrate de que tu código siga las convenciones y pase las pruebas antes de hacer un Pull Request.
-
-
 
