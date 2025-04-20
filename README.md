@@ -47,7 +47,7 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/losadev/plataforma-decisiones-personales.git
+   git clone https://github.com/losadev/proyecto-final.git
    
 2. Navega al directorio del backend:
 
@@ -65,7 +65,7 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
 
     ```bash
     SALT=10
-    PORT=numero-puerto
+    PORT=numero_puerto
     JWT_SECRET=tu_secreto
     DB_NAME=tu_base_datos
     DB_USERNAME=tu_usuario
@@ -128,30 +128,4 @@ El frontend debería estar corriendo en http://localhost:3000.
 
 - Ver gráficos: Los gráficos interactivos ayudan a visualizar los resultados de las decisiones a lo largo del tiempo.
 
-
-
-## Contribución
-
-### ¡Las contribuciones son bienvenidas! Si deseas contribuir, sigue estos pasos:
-
-1. Haz un fork del repositorio.
-
-2. Crea una nueva rama:
-
-    ```bash
-    git checkout -b feature/nueva-característica
-
-3. Realiza los cambios y haz commit:
-
-    ```bash
-    git commit -m 'Añadido nueva característica'
-
-3. Haz push a tu rama:
-
-    ```bash
-    git push origin feature/nueva-característica
-
-4. Abre un Pull Request en GitHub.
-
-Por favor, asegúrate de que tu código siga las convenciones y pase las pruebas antes de hacer un Pull Request.
 
