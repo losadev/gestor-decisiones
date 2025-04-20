@@ -29,6 +29,10 @@ export class Recommendation extends Model<RecommendationAttributes> {
   userId!: string;
 
   @AllowNull(false)
+  @Column(DataType.STRING)
+  title!: string;
+
+  @AllowNull(false)
   @Column(DataType.TEXT)
   content!: string;
 
