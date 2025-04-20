@@ -47,7 +47,7 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu_usuario/plataforma-decisiones-personales.git
+   git clone https://github.com/losadev/plataforma-decisiones-personales.git
    
 2. Navega al directorio del backend:
 
