@@ -22,6 +22,7 @@ export async function getRecommendationFromAI(
 
   const response = await openai.chat.completions.create({
     model: "gpt-4",
+    max_tokens: 150,
     messages: [
       {
         role: "system",
