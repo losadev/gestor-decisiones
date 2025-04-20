@@ -19,14 +19,14 @@ export class Evaluation extends Model<EvaluationAttributes> {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  declare id: string;
+  id!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
   result!: string;
 
   @AllowNull(false)
-  @Column(DataType.INTEGER)
+  @Column(DataType.NUMBER)
   score!: number;
 
   @AllowNull(false)
@@ -35,7 +35,7 @@ export class Evaluation extends Model<EvaluationAttributes> {
 
   @ForeignKey(() => Decision)
   @Column(DataType.UUID)
-  declare decisionId: string;
+  decisionId!: string;
 
   @BelongsTo(() => Decision)
   decision!: Decision;

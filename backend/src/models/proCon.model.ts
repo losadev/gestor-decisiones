@@ -5,39 +5,40 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasOne,
   IsUUID,
   Length,
   Model,
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { ProConAttributes, ProConType } from "../types/proCon.type";
+import { ProConType } from "../types/proCon.type";
 import { Decision } from "./decision.model";
+import { Category } from "./category.model";
 
 @Table
-export class ProCon extends Model<ProConAttributes> {
+export class ProCon extends Model<ProCon> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  declare id: string;
+  id!: string;
 
   @AllowNull(false)
   @Length({ min: 5, max: 255 })
   @Column(DataType.TEXT)
-  description!: string;
+  text!: string;
 
   @AllowNull(false)
   @Column(DataType.ENUM("PRO", "CONTRA"))
   type!: ProConType;
 
-  @AllowNull(false)
   @Column(DataType.FLOAT)
   weight!: number;
 
   @ForeignKey(() => Decision)
   @Column(DataType.UUID)
-  declare decisionId: string;
+  decisionId!: string;
 
   @BelongsTo(() => Decision)
   decision!: Decision;
