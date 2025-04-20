@@ -10,8 +10,6 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { Decision } from "./decision.model";
-import { ProCon } from "./proCon.model";
 
 @Table
 export class Category extends Model<Category> {

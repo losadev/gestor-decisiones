@@ -10,9 +10,10 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { RecommendationAttributes } from "../types/recommednation.types";
+import { RecommendationAttributes } from "../types/recommendation.types";
 import { User } from "./user.model";
 import { Decision } from "./decision.model";
+import { Evaluation } from "./evaluation.model";
 
 @Table
 export class Recommendation extends Model<RecommendationAttributes> {
@@ -28,6 +29,10 @@ export class Recommendation extends Model<RecommendationAttributes> {
   userId!: string;
 
   @AllowNull(false)
+  @Column(DataType.STRING)
+  title!: string;
+
+  @AllowNull(false)
   @Column(DataType.TEXT)
   content!: string;
 
@@ -36,8 +41,16 @@ export class Recommendation extends Model<RecommendationAttributes> {
   @Column(DataType.UUID)
   decisionId!: string;
 
+  @AllowNull(false)
+  @Column(DataType.UUID)
+  @ForeignKey(() => Evaluation)
+  evaluationId!: string;
+
   @BelongsTo(() => Decision)
   decision!: Decision;
+
+  @BelongsTo(() => Evaluation)
+  evaluation!: Evaluation;
 
   @BelongsTo(() => User)
   user!: User;

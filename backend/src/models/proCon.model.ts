@@ -12,12 +12,11 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { ProConType } from "../types/proCon.type";
+import { ProConAttributes, ProConType } from "../types/proCon.type";
 import { Decision } from "./decision.model";
-import { Category } from "./category.model";
 
 @Table
-export class ProCon extends Model<ProCon> {
+export class ProCon extends Model<ProConAttributes> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -27,7 +26,7 @@ export class ProCon extends Model<ProCon> {
   @AllowNull(false)
   @Length({ min: 5, max: 255 })
   @Column(DataType.TEXT)
-  text!: string;
+  description!: string;
 
   @AllowNull(false)
   @Column(DataType.ENUM("PRO", "CONTRA"))

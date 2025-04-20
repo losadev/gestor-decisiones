@@ -1,5 +1,3 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../config/db.config";
 import {
   AllowNull,
   Column,
@@ -15,7 +13,7 @@ import {
   Unique,
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
-import { UserAttributes, UserCreationAttributes } from "../types/user.types";
+import { UserAttributes } from "../types/user.types";
 import { Recommendation } from "./recommendation.model";
 
 @Table

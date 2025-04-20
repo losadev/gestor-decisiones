@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { connectionDB } from "./config/db.config";
 import userRouter from "./routes/user.routes";
 import login from "./routes/auth.routes";
@@ -7,6 +7,7 @@ import { verifyUser } from "./middlewares/verifyUser";
 import cookieParser from "cookie-parser";
 import decisionRouter from "./routes/decision.routes";
 import evaluationRouter from "./routes/evaluation.router";
+import recommendationRouter from "./routes/recommendation.routes";
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use("/api/login", login);
 // });
 app.use("/api/decision", verifyUser, decisionRouter);
 app.use("/api/evaluation", verifyUser, evaluationRouter);
+app.use("/api/recommendation", verifyUser, recommendationRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");

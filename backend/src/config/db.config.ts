@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 import { Decision } from "../models/decision.model";
 import { Category } from "../models/category.model";
 import { ProCon } from "../models/proCon.model";
-import { Evaluation } from "../models/evalutation.model";
+import { Evaluation } from "../models/evaluation.model";
+import { Recommendation } from "../models/recommendation.model";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const sequelize = new Sequelize({
   password: process.env.DB_PWD,
   host: "localhost",
   dialect: "postgres",
-  models: [User, Category, Decision, ProCon, Evaluation],
+  models: [User, Category, Decision, ProCon, Evaluation, Recommendation],
 });
 
 export const connectionDB = async () => {

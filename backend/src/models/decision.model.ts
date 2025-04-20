@@ -13,7 +13,7 @@ import {
   HasOne,
 } from "sequelize-typescript";
 import { ProCon } from "./proCon.model";
-import { Evaluation } from "./evalutation.model";
+import { Evaluation } from "./evaluation.model";
 import { User } from "./user.model";
 import { CategoryType, DecisionAttributes } from "../types/decision.types";
 import { Recommendation } from "./recommendation.model";
