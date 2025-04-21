@@ -3,13 +3,14 @@ import { Evaluation } from "../models/evaluation.model";
 import { Decision } from "../models/decision.model";
 import { recommendationService } from "../services/recommendation.service";
 import { Request, Response } from "express";
+import { ProCon } from "../models/proCon.model";
 
 export const createRecommendation = async (req: Request, res: Response) => {
   try {
-    const { decisionId, evaluationId } = req.body;
+    const { decisionId } = req.body;
 
-    if (!decisionId || !evaluationId) {
-      res.status(400).json({ message: "Faltan datos necesarios" });
+    if (!decisionId) {
+      res.status(400).json({ message: "No se h encontrado la Decision" });
       return;
     }
 
@@ -26,18 +27,18 @@ export const createRecommendation = async (req: Request, res: Response) => {
       // Si no existe, genero una nueva recomendación
 
       const decision = await Decision.findByPk(decisionId);
-      const evaluation = await Evaluation.findByPk(evaluationId);
-
-      if (!decision || !evaluation) {
+      //const prosCons = await ProCon.findAll({ where: { id: decisionId } });
+      const prosCons = await ProCon.findAll({ where: { decisionId } });
+      if (!decision || prosCons.length === 0) {
         res
           .status(404)
-          .json({ message: "Decisión o evaluación no encontrada" });
+          .json({ message: "Decisión o pro/contra no encontrada" });
         return;
       }
 
       const recommendationData = await getRecommendationFromAI(
         decision,
-        evaluation
+        prosCons
       );
 
       if (!recommendationData) {
@@ -51,7 +52,6 @@ export const createRecommendation = async (req: Request, res: Response) => {
         userId: user.id,
         ...recommendationData,
         decisionId,
-        evaluationId,
       });
 
       res.status(201).json({

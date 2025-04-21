@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { Decision } from "../models/decision.model";
 import { Evaluation } from "../models/evaluation.model";
+import { ProCon } from "../models/proCon.model";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -8,13 +9,13 @@ const openai = new OpenAI({
 
 export async function getRecommendationFromAI(
   decision: Decision,
-  evaluation: Evaluation
+  proCon: ProCon[]
 ) {
   const decisionData = decision.toJSON();
-  const evaluationData = evaluation.toJSON();
+  const proConData = proCon[0].toJSON();
 
   const prompt = `
-Has tomado la decisión: "${decisionData.title}", pero ha sido evaluada con un resultado "${evaluationData.result}" y una puntuación baja (${evaluationData.score}/10).
+Vas a tomar la decisión: "${decisionData.title}", y estos son los pros/contras de tomar esta decision "${proConData}"
 
 Queremos ayudarte a mejorar tu proceso de toma de decisiones en el futuro.
 

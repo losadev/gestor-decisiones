@@ -6,7 +6,6 @@ export const recommendationService = {
     userId: string;
     title: string;
     content: string;
-    evaluationId: string;
     decisionId: string;
   }) => {
     const recommendation = await Recommendation.create({
