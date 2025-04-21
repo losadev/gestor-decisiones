@@ -11,13 +11,12 @@ export const createDecision = async (req: Request, res: Response) => {
       userId: userId.id,
       ...req.body,
     });
+    const proConsArray: ProConReqBody[] = req.body.prosCons;
 
-    if (!req.body.prosCons) {
+    if (!proConsArray || proConsArray.length === 0) {
       res.status(404).json({ message: "No se encuentran los ProCons" });
       return;
     }
-
-    const proConsArray: ProConReqBody[] = req.body.prosCons;
 
     let prosCons = [];
 
@@ -40,6 +39,18 @@ export const createDecision = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(req.body.prosCons);
+    res.status(500).json({ message: "Server Internal Error" });
+  }
+};
+
+export const deleteDecision = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const deletedDecision = await decisionService.delete(id);
+
+    res.status(200).json({ message: deletedDecision.message });
+  } catch (error) {
     res.status(500).json({ message: "Server Internal Error" });
   }
 };

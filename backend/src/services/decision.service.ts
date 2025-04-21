@@ -1,4 +1,5 @@
 import { Decision } from "../models/decision.model";
+import { deleteDecisionById } from "../repositories/decision.repository";
 import { CategoryType } from "../types/decision.types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,5 +20,9 @@ export const decisionService = {
     });
 
     return decision;
+  },
+  delete: async (decisionId: string) => {
+    const deletedDecision = await deleteDecisionById(decisionId);
+    return deletedDecision;
   },
 };

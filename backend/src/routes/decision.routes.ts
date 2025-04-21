@@ -1,8 +1,13 @@
+// routes/decision.routes.ts
 import { Router } from "express";
-import { createDecision } from "../controllers/decision.controller";
+import {
+  createDecision,
+  deleteDecision,
+} from "../controllers/decision.controller";
 
 const router = Router();
 
 router.post("/", createDecision);
+router.post("/:id", deleteDecision);
 
 export default router;

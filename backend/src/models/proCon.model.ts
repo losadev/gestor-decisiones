@@ -39,6 +39,6 @@ export class ProCon extends Model<ProConAttributes> {
   @Column(DataType.UUID)
   decisionId!: string;
 
-  @BelongsTo(() => Decision)
+  @BelongsTo(() => Decision, { onDelete: "CASCADE" })
   decision!: Decision;
 }
