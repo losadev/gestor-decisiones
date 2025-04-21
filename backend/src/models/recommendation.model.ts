@@ -41,16 +41,8 @@ export class Recommendation extends Model<RecommendationAttributes> {
   @Column(DataType.UUID)
   decisionId!: string;
 
-  @AllowNull(false)
-  @Column(DataType.UUID)
-  @ForeignKey(() => Evaluation)
-  evaluationId!: string;
-
   @BelongsTo(() => Decision)
   decision!: Decision;
-
-  @BelongsTo(() => Evaluation)
-  evaluation!: Evaluation;
 
   @BelongsTo(() => User)
   user!: User;
