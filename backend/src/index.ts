@@ -5,7 +5,8 @@ import login from "./routes/auth.routes";
 import cors from "cors";
 import { verifyUser } from "./middlewares/verifyUser";
 import cookieParser from "cookie-parser";
-import decisionRouter from "./routes/decision.routes";
+import createDecisionRouter from "./routes/decision.routes";
+import deleteDecisionRouter from "./routes/decision.routes";
 import evaluationRouter from "./routes/evaluation.router";
 import recommendationRouter from "./routes/recommendation.routes";
 
@@ -22,9 +23,10 @@ app.use("/api/login", login);
 //   console.log("Esto es req.user : ", req.user);
 //   res.json({ data: req.body, message: "Funciona", token: req.cookies });
 // });
-app.use("/api/decision", verifyUser, decisionRouter);
+app.use("/api/decision", verifyUser, createDecisionRouter);
 app.use("/api/evaluation", verifyUser, evaluationRouter);
 app.use("/api/recommendation", verifyUser, recommendationRouter);
+app.use("/api/decision/:id", verifyUser, deleteDecisionRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");
