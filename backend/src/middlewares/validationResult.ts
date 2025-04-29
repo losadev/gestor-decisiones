@@ -6,6 +6,7 @@ export const validarDatos = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("esto falla", req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });

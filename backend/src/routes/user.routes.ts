@@ -21,7 +21,7 @@ router.post(
     .notEmpty()
     .isLength({ min: 8, max: 64 }),
   body("birthDate").isDate().notEmpty(),
-  body("avatar").isString().optional().isURL(),
+  body("avatar").isString().optional(),
   validarDatos,
   createUser
 );
