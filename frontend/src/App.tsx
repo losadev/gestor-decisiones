@@ -1,10 +1,14 @@
-import FormRegister from './components/FormRegister';
+import FormRegister from './components/Register/FormRegister';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 function App() {
     return (
-        <div className="px-4 py-8 font-display h-full">
-            <FormRegister />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/register" element={<FormRegister />} />
+                <Route path="/login" element={<FormLogin />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

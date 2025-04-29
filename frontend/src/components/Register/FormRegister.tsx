@@ -1,10 +1,10 @@
-import Input from './Input';
-import InputFile from './InputFile';
-import LoginLink from './LoginLink';
+import Input from '../Input';
+import InputFile from '../InputFile';
+import LoginLink from '../LoginLink';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormRegisterValues, registerFormSchema } from '../schemas/register.schema';
-import Button from './Button';
+import { FormRegisterValues, registerFormSchema } from '../../schemas/register.schema';
+import Button from '../Button';
 import axios from 'axios';
 import { useState } from 'react';
 const FormRegister = () => {
@@ -44,7 +44,7 @@ const FormRegister = () => {
         try {
             const req = await axios.post('http://localhost:5000/api/register', formData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json', // ! NO FUNCIONA CON MULTIPART
                 },
             });
             setMessage(req.data.message);
