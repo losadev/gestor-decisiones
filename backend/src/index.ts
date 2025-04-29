@@ -12,6 +12,7 @@ import recommendationRouter from "./routes/recommendation.routes";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser()); // cookie-parser para poder leer cookies
 
