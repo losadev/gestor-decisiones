@@ -1,8 +1,10 @@
+import FormRegister from './components/FormRegister';
+
 function App() {
     return (
-        <>
-            <h1>Hello world! </h1>
-        </>
+        <div className="px-4 py-8 font-display h-full">
+            <FormRegister />
+        </div>
     );
 }
 
