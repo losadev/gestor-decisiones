@@ -1,5 +1,5 @@
 import express from "express";
-import { connectionDB } from "./config/db.config";
+import { connectionDB } from "./config/database";
 import userRouter from "./routes/user.routes";
 import login from "./routes/auth.routes";
 import cors from "cors";
@@ -7,13 +7,18 @@ import { verifyUser } from "./middlewares/verifyUser";
 import cookieParser from "cookie-parser";
 import createDecisionRouter from "./routes/decision.routes";
 import deleteDecisionRouter from "./routes/decision.routes";
-import evaluationRouter from "./routes/evaluation.router";
+import evaluationRouter from "./routes/evaluation.routes";
 import recommendationRouter from "./routes/recommendation.routes";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // el puerto de tu frontend
+    credentials: true, // permite enviar cookies
+  })
+);
 app.use(cookieParser()); // cookie-parser para poder leer cookies
 
 const PORT = process.env.PORT || 3000;

@@ -29,7 +29,7 @@ export class ProCon extends Model<ProConAttributes> {
   description!: string;
 
   @AllowNull(false)
-  @Column(DataType.ENUM("PRO", "CONTRA"))
+  @Column(DataType.ENUM("Pro", "Contra"))
   type!: ProConType;
 
   @Column(DataType.FLOAT)

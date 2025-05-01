@@ -14,6 +14,6 @@ export interface ProConReqBody {
 }
 
 export enum ProConType {
-  PRO = "PRO",
-  CONTRA = "CONTRA",
+  PRO = "Pro",
+  CONTRA = "Contra",
 }

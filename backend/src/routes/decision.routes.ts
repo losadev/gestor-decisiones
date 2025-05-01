@@ -8,6 +8,6 @@ import {
 const router = Router();
 
 router.post("/", createDecision);
-router.post("/:id", deleteDecision);
+router.delete("/:id", deleteDecision);
 
 export default router;

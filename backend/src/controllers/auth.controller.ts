@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response) => {
   let options = {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "none" as const,
   };
   const token = generateAccessJWT({ id: existingUser.id });

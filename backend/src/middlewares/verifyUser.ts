@@ -18,14 +18,12 @@ export const verifyUser = async (
       return;
     }
 
-    const cookies = req.cookies;
-
-    if (!cookies || !cookies.access_token) {
-      res.status(401).json({ message: "No token provided. Please login" });
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) {
+      res.status(401).json({ message: "No token provided" });
       return;
     }
-
-    const token = cookies.access_token;
 
     /**
      * 1. Decodifica el token
@@ -49,7 +47,7 @@ export const verifyUser = async (
     const { password, ...data } = existingUser.get({ plain: true });
     req.user = data;
     next();
-  } catch (error) {
-    res.status(500).json({ message: "Server Internal Error" });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
   }
 };

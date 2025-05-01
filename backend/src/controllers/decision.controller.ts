@@ -37,9 +37,11 @@ export const createDecision = async (req: Request, res: Response) => {
       data: decision,
       prosCons: prosCons,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(req.body.prosCons);
-    res.status(500).json({ message: "Server Internal Error" });
+    res
+      .status(500)
+      .json({ message: "Server Internal Error", error: error.message });
   }
 };
 
@@ -50,7 +52,9 @@ export const deleteDecision = async (req: Request, res: Response) => {
     const deletedDecision = await decisionService.delete(id);
 
     res.status(200).json({ message: deletedDecision.message });
-  } catch (error) {
-    res.status(500).json({ message: "Server Internal Error" });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: "Server Internal Error", error: error.message });
   }
 };
