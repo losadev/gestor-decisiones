@@ -1,6 +1,6 @@
 import Input from '../Input';
-import InputFile from '../InputFile';
-import LoginLink from '../LoginLink';
+import InputFile from './InputFile';
+import LoginLink from './LoginLink';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormRegisterValues, registerFormSchema } from '../../schemas/register.schema';

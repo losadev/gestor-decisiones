@@ -21,7 +21,7 @@ const Button = ({ text, type, onClick, styles }: Props) => {
             style={{ ...styles }}
             type={type}
             onClick={onClick}
-            className="bg-black/90 hover:bg-black/80 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100">
+            className="bg-black/90 hover:bg-black/80 active:bg-amber-600 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100">
             {text}
         </button>
     );

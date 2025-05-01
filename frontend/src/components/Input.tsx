@@ -1,9 +1,10 @@
 import { Control, Controller, FieldError } from 'react-hook-form';
 import { FormRegisterValues } from '../schemas/register.schema';
+import { FormLoginValues } from '../schemas/login.schema';
 
 type Props = {
     name: keyof FormRegisterValues;
-    control: Control<FormRegisterValues>;
+    control?: Control<FormRegisterValues | FormLoginValues>;
     type?: string;
     label: string;
     placeholder?: string;
