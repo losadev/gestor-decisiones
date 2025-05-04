@@ -5,8 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Button from '../Button';
 import Input from '../Input';
+import { useNavigate } from 'react-router';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState<string>('');
 
     const {
@@ -21,17 +23,15 @@ const LoginForm = () => {
     const onSubmit = async (data: { email: string; password: string }) => {
         console.log(data);
         try {
-            const res = await axios.post('http://localhost:5000/api/login', data, {
+            const response = await axios.post('http://localhost:5000/api/login', data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                withCredentials: true, // <-- necesario para aceptar cookies
+                withCredentials: true,
             });
-            const token = res.data.token;
 
-            localStorage.setItem('token', token); // también puedes usar cookies seguras
-
-            setMessage(res.data.message);
+            navigate('/create-decision');
+            setMessage(response.data.message);
         } catch (error: any) {
             setMessage(error.response.data.message);
         }

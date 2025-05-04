@@ -3,6 +3,8 @@ import LoginForm from './components/Login/LoginForm';
 import FormRegister from './components/Register/FormRegister';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import Home from './pages/Home/Home';
+import ProtectedRoutes from './utils/ProtectedRoutes';
+
 
 function App() {
     return (
@@ -11,7 +13,10 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/register" element={<FormRegister />} />
                 <Route path="/login" element={<LoginForm />} />
-                <Route path="/create-decision" element={<DecisionForm />} />
+
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="/create-decision" element={<DecisionForm />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );

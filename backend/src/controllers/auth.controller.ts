@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
     secure: false,
-    sameSite: "none" as const,
+    sameSite: "lax" as const,
   };
   const token = generateAccessJWT({ id: existingUser.id });
   res.cookie("access_token", token, options);
