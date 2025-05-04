@@ -1,12 +1,14 @@
-import { NavLink } from 'react-router';
+import NavBar from './NavBar';
 
-type Props = {};
-
-const Home = (props: Props) => {
+const Home = () => {
     return (
-        <nav>
-            <NavLink to={'/'} className={({ isActive }) => (isActive ? 'bg-amber-300' : '')} />
-        </nav>
+        <>
+            <NavBar />
+            <main>
+                <h1>ESTO ES EL HOME</h1>
+            </main>
+            {/*FOOTER*/}
+        </>
     );
 };
 
