@@ -11,17 +11,18 @@ export const verifyUser = async (
   next: NextFunction
 ) => {
   try {
-    const SECRET_ACCESS_TOKEN = process.env.JWT_SECRET; // Corregimos el nombre del env var
+    const SECRET_ACCESS_TOKEN = process.env.JWT_SECRET;
 
-    if (!SECRET_ACCESS_TOKEN) {
-      res.status(500).json({ message: "JWT secret not configured" });
+    const token = req.cookies["access_token"];
+    console.log("Token recibido: ", req.cookies);
+
+    if (!token) {
+      res.status(401).json({ message: "No se ha proveído el token" });
       return;
     }
 
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) {
-      res.status(401).json({ message: "No token provided" });
+    if (!SECRET_ACCESS_TOKEN) {
+      res.status(500).json({ message: "El secreto JWT no se ha configurado" });
       return;
     }
 
