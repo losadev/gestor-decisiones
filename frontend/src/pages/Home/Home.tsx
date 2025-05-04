@@ -1,3 +1,4 @@
+import Hero from './Hero';
 import NavBar from './NavBar';
 
 const Home = () => {
@@ -5,7 +6,7 @@ const Home = () => {
         <>
             <NavBar />
             <main>
-                <h1>ESTO ES EL HOME</h1>
+                <Hero />
             </main>
             {/*FOOTER*/}
         </>
