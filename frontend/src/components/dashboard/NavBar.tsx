@@ -6,7 +6,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 
 const NavBar = () => {
     return (
-        <nav className="w-60 min-h-screen bg-orange-500 py-8 px-4 flex flex-col">
+        <nav className="w-60 min-h-screen  bg-orange-500 py-8 px-4 flex flex-col">
             <NavLink to="/" className="text-2xl font-bold">
                 [LOGO]
             </NavLink>
@@ -22,24 +22,16 @@ const NavBar = () => {
                         <span>Dashboard</span>
                     </NavLink>
                     <NavLink
-                        to="/analytics"
+                        to="analytics"
                         className={({ isActive }) =>
                             `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
                         }>
                         <IoMdAnalytics />
                         <span>Análisis</span>
                     </NavLink>
-                    <NavLink
-                        to="/create-decision"
-                        className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 items-center  hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
-                        }>
-                        <FaPlusCircle />
-                        <span>Nueva decisión</span>
-                    </NavLink>
                 </div>
                 <NavLink
-                    to="/settings"
+                    to="settings"
                     className={({ isActive }) =>
                         `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
                     }>
