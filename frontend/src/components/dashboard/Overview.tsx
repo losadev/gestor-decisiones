@@ -1,6 +1,6 @@
 import NewDecisionButton from './NewDecisionButton';
+import QuickStatsCard from './QuickStatsCard';
 import RecentActivity from './RecentActivity';
-import { Link } from 'react-router';
 
 const Overview = () => {
     return (
@@ -13,7 +13,7 @@ const Overview = () => {
             <section className="grid grid-cols-3 gap-4 mt-8">
                 <RecentActivity />
                 <RecentActivity />
-                <RecentActivity />
+                <QuickStatsCard />
             </section>
             <section>LISTA Y FILTRADO DE DECISIONES</section>
         </div>
