@@ -63,7 +63,7 @@ const DecisionForm = () => {
         <div>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%] flex flex-col gap-4">
+                className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[255%] flex flex-col gap-4">
                 <h1 className="mx-auto text-2xl font-semibold">Decisión</h1>
 
                 <Controller
