@@ -36,10 +36,7 @@ const FormRegister = () => {
         formData.append('birthDate', formattedDate); // 'YYYY-MM-DD'
         if (data && data.avatar) {
             formData.append('avatar', data.avatar[0]); // Aquí subes el archivo (muy importante)
-        } else {
-            console.log('No hay avatar');
         }
-        formData.forEach((item) => console.log(item));
 
         try {
             const req = await axios.post('http://localhost:5000/api/register', formData, {
@@ -49,7 +46,6 @@ const FormRegister = () => {
             });
             setMessage(req.data.message);
         } catch (error: any) {
-            console.error(error.message);
             setMessage(error.message);
         }
     };

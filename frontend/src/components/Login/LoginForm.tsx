@@ -30,7 +30,7 @@ const LoginForm = () => {
                 withCredentials: true,
             });
 
-            navigate('/create-decision');
+            navigate('/dashboard');
             setMessage(response.data.message);
         } catch (error: any) {
             setMessage(error.response.data.message);

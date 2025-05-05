@@ -34,6 +34,11 @@ export class Decision extends Model<DecisionAttributes> {
   @Column(DataType.ENUM(...Object.values(CategoryType)))
   category!: CategoryType;
 
+  @AllowNull(false)
+  @Default("En progreso")
+  @Column(DataType.ENUM("progress", "evaluated"))
+  status!: string;
+
   @ForeignKey(() => User)
   @Column(DataType.UUID)
   userId!: string;
