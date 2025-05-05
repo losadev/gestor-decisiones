@@ -1,3 +1,4 @@
+import Footer from '../../components/Footer';
 import { AnalyticsIcon } from '../../components/Icons/AnalyticsIcon';
 import { DecisionTrackingIcon } from '../../components/Icons/DecisionTracking';
 import Card from './Card';
@@ -29,7 +30,7 @@ const Home = () => {
                     </div>
                 </section>
             </main>
-            {/*FOOTER*/}
+            <Footer />
         </>
     );
 };
