@@ -76,7 +76,7 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                     className="bg-black/50 py-3 px-4 rounded-lg transition duration-200 inline-flex hover:bg-black/40 cursor-pointer self-start">
                     <ImCross size={16} color="white" />
                 </button>
-                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll h-full text-[15px] rounded-lg  flex flex-col py-10 px-8 gap-4">
+                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll scroll-custom h-full text-[15px] rounded-lg  flex flex-col py-10 px-8 gap-4">
                     <h1 className="mx-auto text-4xl mb-4 font-semibold">Decisión</h1>
                     <Controller
                         name="title"
