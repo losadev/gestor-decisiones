@@ -22,3 +22,27 @@ input[type='date']::-webkit-calendar-picker-indicator {
     background-color: #f97316; /* Tailwind orange-500 */
     border-radius: 6px;
 }
+
+.custom-table {
+    @apply w-full border-[1px] border-gray-200;
+
+    & thead th {
+        @apply px-8 py-2 text-left;
+    }
+
+    & tbody td {
+        @apply px-8 py-2;
+    }
+
+    & tbody tr {
+        @apply h-12;
+    }
+
+    & tbody tr + tr {
+        @apply border-t border-gray-200;
+    }
+
+    & thead {
+        @apply bg-gray-100;
+    }
+}
