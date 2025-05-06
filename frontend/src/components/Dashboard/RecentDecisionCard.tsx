@@ -23,7 +23,7 @@ export const RecentDecisionCard = ({ category, status, title }: Props) => {
             return <span className={`${categoryStyle.styles}`}>{categoryStyle.text}</span>;
         }
         return (
-            <span className={`chip ${mode === 'evaluated' ? evaluated.styles : inProgress.styles}`}>
+            <span className={`${mode === 'evaluated' ? evaluated.styles : inProgress.styles}`}>
                 {mode === 'evaluated' ? <IoMdCheckmarkCircleOutline /> : <CgDanger />}
                 {mode === 'evaluated' ? 'Evaluado' : 'En progreso'}
             </span>
