@@ -5,11 +5,7 @@ import DropDownActions from './DropDownActions';
 import { Decision } from '../../types/decision.types';
 import axios from 'axios';
 import { Chip } from './Chip';
-import { useRef, useState } from 'react';
-import DecisionFilters from './DecisionFilters';
-import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
-import DropDownActions from './DropDownActions';
-        
+
 function DecisionsTable() {
     const [data, setData] = useState<Decision[] | null>(null);
     const [showActions, setShowActions] = useState<number | null>(null);
@@ -36,7 +32,6 @@ function DecisionsTable() {
         }
     };
 
-
     useEffect(() => {
         axios
             .get<Decision[]>('http://localhost:5000/api/decision', {
@@ -47,40 +42,6 @@ function DecisionsTable() {
             })
             .catch((error) => console.log(error));
     }, []);
-
-    const decisions = [
-        {
-            title: 'Elegir carrera universitaria',
-            category: 'Educación',
-            date: '2025-05-01',
-            status: 'Pendiente',
-        },
-        {
-            title: 'Comprar coche nuevo',
-            category: 'Finanzas',
-            date: '2025-04-20',
-            status: 'Completada',
-        },
-        {
-            title: 'Iniciar proyecto personal',
-            category: 'Trabajo',
-            date: '2025-05-03',
-            status: 'En progreso',
-        },
-        {
-            title: 'Mudanza a otra ciudad',
-            category: 'Vida personal',
-            date: '2025-03-15',
-            status: 'Pendiente',
-        },
-        {
-            title: 'Contratar seguro de salud',
-            category: 'Salud',
-            date: '2025-04-10',
-            status: 'Completada',
-        },
-    ];
-
 
     return (
         <section className="px-8 pb-8">

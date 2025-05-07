@@ -1,9 +1,13 @@
 const Footer = () => {
     return (
-        <footer className="bg-black/90 text-gray-300 flex flex-col items-center justify-center gap-4 pt-16 pb-4">
-            <div className="flex gap-32">
-                <div className="text-xl font-semibold text-orange-400 mb-4">DECISIO</div>
-                <div className="flex flex-col gap-4 border-l-1 border-l-gray-500 pl-8">
+        <footer className="bg-black text-gray-300 flex flex-col items-center justify-center gap-4 pt-16 pb-4">
+            <div className="flex flex-col gap-8 md:flex-row md:gap-16">
+                <div className="text-xl font-semibold text-orange-400 mb-4 border-b-1 border-b-gray-500 pb-8">
+                    DECISIO
+                </div>
+                <div
+                    className="flex flex-col gap-4 border-b-1 border-b-gray-500 pb-8 md:border-l 
+                            md:border-l-gray-500 md:pl-8">
                     <h1 className="text-xl font-semibold text-orange-400 mb-4">CONTACTO</h1>
                     <p>
                         <span>
@@ -16,7 +20,9 @@ const Footer = () => {
                         </span>
                     </p>
                 </div>
-                <div className="border-l-1 border-gray-500 pl-8">
+                <div
+                    className="pb-8 md:border-l 
+                            md:border-l-gray-500 md:pl-8 md:border-b-none">
                     <h1 className="text-xl font-semibold text-orange-400 mb-8">REDES SOCIALES</h1>
                     <div className="flex gap-8">
                         <img
