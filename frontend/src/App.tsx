@@ -5,24 +5,27 @@ import Home from './pages/Home/Home';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import Dashboard from './components/Dashboard/Dashboard';
 import Overview from './components/Dashboard/Overview';
+import ErrorBoundary from './ErrorBoundary';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" index element={<Home />} />
-                <Route path="/register" element={<FormRegister />} />
-                <Route path="/login" element={<LoginForm />} />
+        <ErrorBoundary>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" index element={<Home />} />
+                    <Route path="/register" element={<FormRegister />} />
+                    <Route path="/login" element={<LoginForm />} />
 
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="/dashboard" element={<Dashboard />}>
-                        <Route index element={<Overview />} />
-                        <Route path="analytics" element={<h1>Analytics</h1>} />
-                        <Route path="settings" element={<h1>Settings</h1>} />
+                    <Route element={<ProtectedRoutes />}>
+                        <Route path="/dashboard" element={<Dashboard />}>
+                            <Route index element={<Overview />} />
+                            <Route path="analytics" element={<h1>Analytics</h1>} />
+                            <Route path="settings" element={<h1>Settings</h1>} />
+                        </Route>
                     </Route>
-                </Route>
-            </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
+        </ErrorBoundary>
     );
 }
 

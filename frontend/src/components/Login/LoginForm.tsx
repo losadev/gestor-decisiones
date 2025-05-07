@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Button from '../Button';
 import Input from '../Input';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const navigate = useNavigate();
