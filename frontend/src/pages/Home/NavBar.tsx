@@ -2,12 +2,12 @@ import { NavLink } from 'react-router';
 
 const NavBar = () => {
     return (
-        <nav className="flex border justify-between items-center border-b-gray-300 py-4 px-8 shadow-lg">
+        <nav className="sm:flex border-b justify-between hidden items-center w-full bg-orange-500 border-b-gray-300 py-4 px-8 shadow-lg">
             <NavLink to="/">[LOGO]</NavLink>
             <div className="flex gap-8 items-center">
                 <NavLink
                     to="/login"
-                    className="bg-orange-500 px-3 py-1 rounded font-medium hover:text-white">
+                    className="bg-orange-100 px-3 py-1 rounded font-medium hover:text-white">
                     Iniciar sesión
                 </NavLink>
                 <NavLink

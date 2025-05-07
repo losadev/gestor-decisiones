@@ -1,6 +1,6 @@
 import LoginForm from './components/Login/LoginForm';
 import FormRegister from './components/Register/FormRegister';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -10,7 +10,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route index element={<Home />} />
+                <Route path="/" index element={<Home />} />
                 <Route path="/register" element={<FormRegister />} />
                 <Route path="/login" element={<LoginForm />} />
 
