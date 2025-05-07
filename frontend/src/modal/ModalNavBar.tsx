@@ -1,5 +1,5 @@
 import { RxCross2 } from 'react-icons/rx';
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { HiBars3 } from 'react-icons/hi2';
 import { useState } from 'react';
 
@@ -27,8 +27,8 @@ function ModalNavBar() {
                 <button onClick={() => setOpen(false)} className="cursor-pointer">
                     <RxCross2 className=" text-gray-500 text-xl hover:text-gray-700" />
                 </button>
-                <NavLink to={'/login'}>Iniciar sesión</NavLink>
-                <NavLink to={'/register'}>Registrarme</NavLink>
+                <NavLink to="/login">Iniciar sesión</NavLink>
+                <NavLink to="/register">Registrarme</NavLink>
             </nav>
         </div>
     );
