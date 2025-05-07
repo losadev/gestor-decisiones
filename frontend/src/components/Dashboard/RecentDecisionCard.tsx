@@ -26,3 +26,4 @@ export const RecentDecisionCard = ({ category, status, title }: Props) => {
         </div>
     );
 };
+
