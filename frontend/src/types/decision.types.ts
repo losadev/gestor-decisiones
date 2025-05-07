@@ -6,3 +6,50 @@ export enum DecisionCategoryType {
     FAMILY = 'Familia',
     OTHER = 'Otro',
 }
+
+export type DecisionAttributes = {
+    id: string;
+    title: string;
+    category: DecisionCategoryType | string;
+    userId: string;
+};
+
+export type ProCon = {
+    description: string;
+    type: string;
+    weight: number;
+};
+
+export interface Evaluation {
+    id: string;
+    decisionId: string;
+}
+
+export interface Recommendation {
+    id: string;
+    decisionId: string;
+}
+
+export enum CategoryType {
+    WORK = 'Trabajo',
+    HEALTH = 'Salud',
+    FINANCE = 'Finanzas',
+    PERSONAL = 'Personal',
+    FAMILY = 'Familia',
+    OTHER = 'Otro',
+}
+
+type DecisionData = {
+    id: string;
+    title: string;
+    category: CategoryType;
+    status: 'progress' | 'evaluated';
+    userId: string;
+    proCons: ProCon[];
+    evaluation?: Evaluation;
+    recommendation?: Recommendation;
+};
+
+export interface Decision {
+    decisions: DecisionData[];
+}

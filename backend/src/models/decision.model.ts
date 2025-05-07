@@ -35,7 +35,7 @@ export class Decision extends Model<DecisionAttributes> {
   category!: CategoryType;
 
   @AllowNull(false)
-  @Default("En progreso")
+  @Default("progress")
   @Column(DataType.ENUM("progress", "evaluated"))
   status!: string;
 

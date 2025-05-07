@@ -48,15 +48,20 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
     });
 
     const onSubmit = async (data: FormData) => {
-        const token = localStorage.getItem('token');
+        //onst token = localStorage.getItem('token');
 
         try {
-            const res = await axios.post('http://localhost:5000/api/decision', data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const res = await axios.post(
+                'http://localhost:5000/api/decision',
+                data,
+                { withCredentials: true }
+                // {
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         Authorization: `Bearer ${token}`,
+                //     },
+                // }
+            );
 
             setMessage(res.data.message);
         } catch (error: any) {

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { proConService } from "../services/proCon.service";
 import { ProConReqBody } from "../types/proCon.type";
 import { decisionService } from "../services/decision.service";
+import { Decision } from "../models/decision.model";
 
 export const createDecision = async (req: Request, res: Response) => {
   try {
@@ -56,5 +57,18 @@ export const deleteDecision = async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ message: "Server Internal Error", error: error.message });
+  }
+};
+
+export const getAllDecisions = async (_req: Request, res: Response) => {
+  try {
+    const decisions = await Decision.findAll();
+    res.status(200).json({
+      message: "Se han recuperado todas las decisiones",
+      decisions,
+    });
+    return;
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 };

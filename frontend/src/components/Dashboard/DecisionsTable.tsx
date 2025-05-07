@@ -1,9 +1,17 @@
+import { useEffect, useRef, useState } from 'react';
+import DecisionFilters from './DecisionFilters';
+import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
+import DropDownActions from './DropDownActions';
+import { Decision } from '../../types/decision.types';
+import axios from 'axios';
+import { Chip } from './Chip';
 import { useRef, useState } from 'react';
 import DecisionFilters from './DecisionFilters';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
-
+        
 function DecisionsTable() {
+    const [data, setData] = useState<Decision[] | null>(null);
     const [showActions, setShowActions] = useState<number | null>(null);
     const [openUpwardIndex, setOpenUpwardIndex] = useState<number | null>(null);
 
@@ -27,6 +35,18 @@ function DecisionsTable() {
             setOpenUpwardIndex(shouldOpenUpward ? index : null);
         }
     };
+
+
+    useEffect(() => {
+        axios
+            .get<Decision[]>('http://localhost:5000/api/decision', {
+                withCredentials: true,
+            })
+            .then((response) => {
+                setData(response.data.decisions);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     const decisions = [
         {
@@ -61,6 +81,7 @@ function DecisionsTable() {
         },
     ];
 
+
     return (
         <section className="px-8 pb-8">
             <div className="bg-white shadow-md rounded-lg p-6">
@@ -88,32 +109,40 @@ function DecisionsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {decisions.map((decision, index) => (
-                                <tr
-                                    key={index}
-                                    className="border-t border-gray-300 hover:bg-gray-100 transition">
-                                    <td className="px-8 py-2">{decision.title}</td>
-                                    <td className="px-8 py-2">{decision.category}</td>
-                                    <td className="px-8 py-2">{decision.date}</td>
-                                    <td className="px-8 py-2">{decision.status}</td>
-                                    <td className="px-8 py-2 relative">
-                                        <button
-                                            type="button"
-                                            className="cursor-pointer hover:bg-gray-200 rounded-lg p-3"
-                                            onClick={() => handleActions(index)}>
-                                            <IoEllipsisHorizontalOutline />
-                                        </button>
-                                        <DropDownActions
-                                            ref={(el) => {
-                                                refs.current[index] = el;
-                                            }}
-                                            key={index}
-                                            open={showActions === index}
-                                            openUpward={openUpwardIndex === index}
-                                        />
-                                    </td>
+                            {Array.isArray(data) ? (
+                                data?.map((decision, index) => (
+                                    <tr
+                                        key={index}
+                                        className="border-t border-gray-300 hover:bg-gray-100 transition">
+                                        <td className="px-8 py-2">{decision.title}</td>
+                                        <td className="px-8 py-2">{decision.category}</td>
+                                        <td className="px-8 py-2">fecha</td>
+                                        <td className="px-8 py-2">
+                                            <Chip mode={decision.status} />
+                                        </td>
+                                        <td className="px-8 py-2 relative">
+                                            <button
+                                                type="button"
+                                                className="cursor-pointer hover:bg-gray-200 rounded-lg p-3"
+                                                onClick={() => handleActions(index)}>
+                                                <IoEllipsisHorizontalOutline />
+                                            </button>
+                                            <DropDownActions
+                                                ref={(el) => {
+                                                    refs.current[index] = el;
+                                                }}
+                                                key={index}
+                                                open={showActions === index}
+                                                openUpward={openUpwardIndex === index}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr className="text-center flex items-center flex-1">
+                                    No existen decisiones
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
