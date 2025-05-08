@@ -2,11 +2,12 @@ import { NavLink } from 'react-router-dom';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { IoMdAnalytics } from 'react-icons/io';
 import { IoMdSettings } from 'react-icons/io';
+import { FaLightbulb } from 'react-icons/fa';
 
 const SideNavBar = () => {
     return (
-        <nav className="w-60 min-h-screen  bg-orange-500 py-8 px-4 2xl:flex 2xl:flex-col hidden">
-            <NavLink to="/" className="text-2xl font-bold">
+        <nav className="w-60 min-h-screen  bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
+            <NavLink to="/" className="text-2xl font-bold bg-orange-600 py-8 px-4 rounded">
                 [LOGO]
             </NavLink>
 
@@ -33,7 +34,7 @@ const SideNavBar = () => {
                         className={({ isActive }) =>
                             `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
                         }>
-                        <IoMdAnalytics />
+                        <FaLightbulb />
                         <span>Recomendaciones</span>
                     </NavLink>
                 </div>
