@@ -1,18 +1,17 @@
-import { NavLink } from 'react-router-dom';
-import { MdSpaceDashboard } from 'react-icons/md';
+import { HiBars3 } from 'react-icons/hi2';
 import { IoMdAnalytics } from 'react-icons/io';
-import { IoMdSettings } from 'react-icons/io';
-import { FaPlusCircle } from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <nav className="w-60 min-h-screen  bg-orange-500 py-8 px-4 flex flex-col">
-            <NavLink to="/" className="text-2xl font-bold">
-                [LOGO]
-            </NavLink>
-
-            <div className="text-xl mt-16 flex flex-col gap-4 flex-1 font-medium">
-                <div className="flex flex-col gap-4 flex-1">
+        <nav className="bg-orange-500 2xl:hidden">
+            <div className="flex items-center justify-between p-4">
+                <h1 className="text-2xl font-bold">[LOGO]</h1>
+                <div>
+                    <HiBars3 className="font-medium text-xl cursor-pointer" />
+                </div>
+                <div className=" gap-4 hidden">
                     <NavLink
                         to="/dashboard"
                         className={({ isActive }) =>
@@ -30,14 +29,6 @@ const NavBar = () => {
                         <span>Análisis</span>
                     </NavLink>
                 </div>
-                <NavLink
-                    to="settings"
-                    className={({ isActive }) =>
-                        `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
-                    }>
-                    <IoMdSettings />
-                    <span>Configuración</span>
-                </NavLink>
             </div>
         </nav>
     );

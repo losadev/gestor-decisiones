@@ -16,7 +16,14 @@ const DropDownActions = forwardRef(function DropDownActions(
     return (
         <div
             ref={ref}
-            className={`border absolute right-42 ${openUpward ? 'bottom-13' : 'top-13'} w-30 z-10 border-gray-200 bg-white rounded-lg ${open ? 'block' : 'hidden'}`}>
+            className={`border absolute z-10 border-gray-200 bg-white rounded-lg ${open ? 'block' : 'hidden'}`}
+            style={{
+                // Establece la posición dinámica del dropdown
+                top: openUpward ? 'auto' : '100%',
+                bottom: openUpward ? '100%' : 'auto',
+                left: -36, // Asegúrate de que se alinee con el botón de acción
+                width: 'fit-content', // Asegúrate de que el ancho se ajuste al contenido
+            }}>
             <ul className="flex flex-col gap-2 px-4 py-2 font-medium text-sm">
                 <li>
                     <Link to={''} className="hover:underline">

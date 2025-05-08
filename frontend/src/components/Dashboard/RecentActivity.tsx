@@ -33,14 +33,14 @@ export const recentDecisions = [
 
 const RecentActivity = () => {
     return (
-        <div className="rounded-lg bg-white shadow-md p-8 inline-flex flex-col gap-1">
+        <div className="rounded-lg bg-white shadow-md py-8 px-4 inline-flex flex-col gap-1 flex-1 lg:px-8">
             <h1 className="text-3xl font-semibold">Actividad reciente</h1>
             <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
             <div>
                 {recentDecisions.map((decision) => (
                     <div
                         key={decision.id}
-                        className="flex flex-col gap-2 p-4 border-b border-b-gray-300">
+                        className="flex flex-col gap-2 py-4 px-1 border-b border-b-gray-300">
                         <h3 className="font-semibold text-lg">{decision.title}</h3>
                         <div className="flex gap-2">
                             <span className="rounded-xl border text-blue-200 bg-blue-800 px-2">

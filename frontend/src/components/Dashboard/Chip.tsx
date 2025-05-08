@@ -15,7 +15,7 @@ export const Chip = ({ mode, category }: { mode: string; category?: string }) =>
     }
     return (
         <span
-            className={`inline-flex items-center gap-2 ${mode === 'evaluated' ? evaluated.styles : inProgress.styles}`}>
+            className={`flex items-center gap-2 text-sm ${mode === 'evaluated' ? evaluated.styles : inProgress.styles}`}>
             {mode === 'evaluated' ? <IoMdCheckmarkCircleOutline /> : <CgDanger />}
             {mode === 'evaluated' ? 'Evaluado' : 'En progreso'}
         </span>
