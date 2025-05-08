@@ -1,7 +1,9 @@
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const Dashboard = () => {
+    console.log('DASHBOARD SE MONTA');
+
     return (
         <div className="flex flex-row flex-1">
             <NavBar />
