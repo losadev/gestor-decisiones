@@ -1,9 +1,15 @@
-import React from 'react';
+import NavBar from './components/Dashboard/NavBar';
+import SideNavBar from './components/Dashboard/SideNavBar';
+import { Outlet } from 'react-router-dom';
 
-type Props = {};
-
-const Layout = (props: Props) => {
-    return <div>Layout</div>;
+const Layout = () => {
+    return (
+        <div className="flex flex-col 2xl:flex-row">
+            <NavBar />
+            <SideNavBar />
+            <Outlet />
+        </div>
+    );
 };
 
 export default Layout;
