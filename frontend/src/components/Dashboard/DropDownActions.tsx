@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FaRegEdit } from 'react-icons/fa';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const DropDownActions = forwardRef(function DropDownActions(
     {

@@ -1,5 +1,5 @@
 import { PiArrowLineRightBold } from 'react-icons/pi';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Chip } from './Chip';
 
 type Props = {
@@ -26,4 +26,3 @@ export const RecentDecisionCard = ({ category, status, title }: Props) => {
         </div>
     );
 };
-

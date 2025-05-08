@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { IoMdAnalytics } from 'react-icons/io';
 import { IoMdSettings } from 'react-icons/io';
