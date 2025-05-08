@@ -19,9 +19,10 @@ function App() {
                     <Route element={<ProtectedRoutes />}>
                         <Route path="/dashboard" element={<Dashboard />}>
                             <Route index element={<Overview />} />
-                            <Route path="analytics" element={<h1>Analytics</h1>} />
-                            <Route path="settings" element={<h1>Settings</h1>} />
                         </Route>
+                        <Route path="analytics" element={<h1>Analytics</h1>} />
+                        <Route path="settings" element={<h1>Settings</h1>} />
+                        <Route path="recommendations" element={<h1>Recommendations</h1>} />
                     </Route>
                 </Routes>
             </BrowserRouter>

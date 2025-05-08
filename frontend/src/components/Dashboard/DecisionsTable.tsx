@@ -25,9 +25,12 @@ function DecisionsTable() {
             const tableRect = tableEl.getBoundingClientRect();
 
             const distanceToBottom = tableRect.bottom - actionRect.bottom;
+            const distanceToTop = actionRect.top - tableRect.top;
             const dropdownHeight = 150;
 
-            const shouldOpenUpward = distanceToBottom < dropdownHeight;
+            // Si el dropdown no cabe abajo, abre hacia arriba
+            const shouldOpenUpward =
+                distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight;
             setOpenUpwardIndex(shouldOpenUpward ? index : null);
         }
     };
@@ -44,8 +47,8 @@ function DecisionsTable() {
     }, []);
 
     return (
-        <section className="px-8 pb-8">
-            <div className="bg-white shadow-md rounded-lg p-6">
+        <section className="px-4 pb-8 overflow-hidden">
+            <div className="bg-white shadow-md rounded-lg p-6 lg:px-8">
                 <h1 className="text-3xl font-semibold">Tus decisiones</h1>
                 <p className="mt-1 text-gray-600">
                     Gestiona y haz seguimiento todas tus decisiones
@@ -58,8 +61,8 @@ function DecisionsTable() {
                     />
                 </div>
                 <DecisionFilters />
-                <div className="rounded-lg  border border-gray-200 w-full shadow-sm">
-                    <table className="w-full custom-table" ref={tableRef}>
+                <div className="rounded-lg  border border-gray-200 w-full shadow-sm overflow-scroll">
+                    <table className="w-full custom-table overflow-scroll" ref={tableRef}>
                         <thead className="bg-gray-100 h-12">
                             <tr className="text-left">
                                 <th className="px-8 py-2">Título</th>
