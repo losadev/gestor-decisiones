@@ -4,6 +4,7 @@ import NewDecisionButton from './NewDecisionButton';
 import QuickStatsCard from './QuickStatsCard';
 import RecentActivity from './RecentActivity';
 import DecisionsTable from './DecisionsTable';
+import AnalyticsResumeCard from './AnalyticsResumeCard';
 
 const Overview = () => {
     const [modal, setModal] = useState<boolean>(false);
@@ -24,9 +25,9 @@ const Overview = () => {
                     </h1>
                     <NewDecisionButton onClick={openModal} />
                 </header>
-                <hr className="mt-4 border-1 border-gray-300 w-[96%] mx-auto" />
+                <hr className="mt-4 border-1 border-gray-300" />
                 <section className="grid grid-cols-1 items-center sm:flex sm:flex-wrap justify-center gap-4 mt-2 p-4 xl:grid-cols-3 xl:grid">
-                    <RecentActivity />
+                    <AnalyticsResumeCard />
                     <RecentActivity />
                     <QuickStatsCard />
                 </section>
