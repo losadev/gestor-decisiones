@@ -1,4 +1,12 @@
+import { useEffect, useState } from 'react';
+import { useAnimation } from '../../hooks/useAnimtation';
+
 const QuickStatsCard = () => {
+    const [goodDecisions, setGoodDecisions] = useState<number>(0);
+    const [badDecisions, setBadDecisions] = useState<number>(0);
+    useAnimation(setGoodDecisions, 68);
+    useAnimation(setBadDecisions, 32);
+
     return (
         <div className="rounded-lg bg-white shadow-md py-4 px-2 inline-flex flex-col gap-1 sm:w-full lg:px-8 xl:h-full">
             <div className="flex flex-col gap-2 p-4 border-b-amber-100">
@@ -16,11 +24,11 @@ const QuickStatsCard = () => {
                     </div>
                     <div className="flex flex-col justify-between gap-4 border border-gray-300 shadow-md rounded-lg py-6 px-2 text-center">
                         <span>Buenas decisiones</span>
-                        <span className="text-3xl font-bold text-green-700">68%</span>
+                        <span className="text-3xl font-bold text-green-700">{goodDecisions}%</span>
                     </div>
                     <div className="flex justify-between flex-col gap-4 border border-gray-300 shadow-md rounded-lg py-6 px-2 text-center">
                         <span>Malas decisiones</span>
-                        <span className="text-3xl font-bold text-red-700">32%</span>
+                        <span className="text-3xl font-bold text-red-700">{badDecisions}%</span>
                     </div>
                 </div>
             </div>
