@@ -1,5 +1,6 @@
 import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { Chip } from './Chip';
 
 export const recentDecisions = [
     {
@@ -48,20 +49,9 @@ const RecentActivity = () => {
                         <div className="flex gap-2 items-center">
                             <div className="grow gap-2">
                                 <h3 className="font-semibold text-lg">{decision.title}</h3>
-                                <div className="flex gap-2">
-                                    <span className="rounded-xl border text-blue-200 bg-blue-800 px-2">
-                                        {decision.category}
-                                    </span>
-                                    <span
-                                        className={`rounded-xl border ${
-                                            decision.status === 'evaluated'
-                                                ? 'text-green-200 bg-green-800'
-                                                : 'text-orange-500'
-                                        } px-2`}>
-                                        {decision.status === 'evaluated'
-                                            ? 'Evaluado'
-                                            : 'En progreso'}
-                                    </span>
+                                <div className="flex gap-2 mt-2">
+                                    <Chip category={decision.category} mode="category" />
+                                    <Chip mode={decision.status} />
                                 </div>
                             </div>
                             <button
