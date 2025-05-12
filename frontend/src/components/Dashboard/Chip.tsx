@@ -6,7 +6,7 @@ const evaluated = {
     text: 'Evaluado',
 };
 const inProgress = { styles: 'rounded-xl border text-orange-500 px-2', text: 'En progreso' };
-const categoryStyle = { styles: 'rounded-xl border text-blue-200 bg-blue-800 px-2', text: '' };
+const categoryStyle = { styles: 'rounded-xl border text-gray-500 px-2', text: '' };
 
 export const Chip = ({ mode, category }: { mode: string; category?: string }) => {
     if (mode === 'category') {
