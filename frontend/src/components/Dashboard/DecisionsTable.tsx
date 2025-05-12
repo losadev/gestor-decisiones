@@ -47,8 +47,8 @@ function DecisionsTable() {
     }, []);
 
     return (
-        <section className="px-4 pb-8 overflow-hidden">
-            <div className="bg-white shadow-md rounded-lg p-6 lg:px-8">
+        <section className="px-4 pb-8">
+            <div className="bg-white shadow-md rounded-lg p-6 lg:px-8 w-full h-full">
                 <h1 className="text-3xl font-semibold">Tus decisiones</h1>
                 <p className="mt-1 text-gray-600">
                     Gestiona y haz seguimiento todas tus decisiones
