@@ -9,6 +9,7 @@ import ErrorBoundary from './ErrorBoundary';
 import Layout from './Layout';
 import Decisions from './components/Dashboard/Decisions';
 import DecisionDetails from './pages/DecisionDetails/DecisionDetails';
+import Analytics from './pages/Analytics/Analytics';
 
 function App() {
     return (
@@ -26,7 +27,7 @@ function App() {
                                 <Route path="decisions" element={<Decisions />} />
                                 <Route path="decisions/:id" element={<DecisionDetails />} />
                             </Route>
-                            <Route path="analytics" element={<h1>Analytics</h1>} />
+                            <Route path="analytics" element={<Analytics />} />
                             <Route path="settings" element={<h1>Settings</h1>} />
                             <Route path="recommendations" element={<h1>Recommendations</h1>} />
                         </Route>
