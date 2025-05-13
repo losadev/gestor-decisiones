@@ -72,3 +72,23 @@ export const getAllDecisions = async (_req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getDecisionById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const decision = await decisionService.getById(id);
+
+    if (!decision) {
+      res.status(404).json({ message: "No se ha encontrado la decisión" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Se ha recuperado la decisión",
+      decision,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};

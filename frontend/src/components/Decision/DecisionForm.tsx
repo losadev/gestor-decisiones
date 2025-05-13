@@ -18,6 +18,7 @@ type Props = {
 };
 
 const DecisionForm = ({ isOpen, onClose }: Props) => {
+    const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string>('');
     let categoryDecision = [];
     for (const category of Object.values(DecisionCategoryType)) {
@@ -51,22 +52,16 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
         //onst token = localStorage.getItem('token');
 
         try {
-            const res = await axios.post(
-                'http://localhost:5000/api/decision',
-                data,
-                { withCredentials: true }
-                // {
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // }
-            );
+            const res = await axios.post('http://localhost:5000/api/decision', data, {
+                withCredentials: true,
+            });
 
             setMessage(res.data.message);
         } catch (error: any) {
             console.log(data);
             setMessage(error.response.data.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,6 +72,7 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                 onSubmit={handleSubmit(onSubmit)}
                 className=" h-[70%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4">
                 <button
+                    type="button"
                     onClick={onClose}
                     className="bg-black/50 py-3 px-4 rounded-lg transition duration-200 inline-flex hover:bg-black/40 cursor-pointer self-start">
                     <ImCross size={16} color="white" />
@@ -193,7 +189,7 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                     <button
                         className="bg-black/90 hover:bg-black/80 active:bg-amber-600 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100 px-2"
                         type="submit">
-                        Crear decisión
+                        {loading ? 'Creando...' : 'Crear decisión'}
                     </button>
                 </div>
             </form>

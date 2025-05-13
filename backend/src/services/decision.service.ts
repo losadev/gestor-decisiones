@@ -25,4 +25,11 @@ export const decisionService = {
     const deletedDecision = await deleteDecisionById(decisionId);
     return deletedDecision;
   },
+  getById: async (decisionId: string) => {
+    const decision = await Decision.findOne({
+      where: { id: decisionId },
+    });
+
+    return decision;
+  },
 };
