@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import decisionRouter from "./routes/decision.routes";
 import evaluationRouter from "./routes/evaluation.routes";
 import recommendationRouter from "./routes/recommendation.routes";
+import prosConsRouter from "./routes/proCon.routes";
 
 const app = express();
 app.use(express.json());
@@ -40,6 +41,7 @@ app.get("/api/me", verifyUser, (req, res) => {
 app.use("/api/decision", verifyUser, decisionRouter);
 app.use("/api/evaluation", verifyUser, evaluationRouter);
 app.use("/api/recommendation", verifyUser, recommendationRouter);
+app.use("/api/proscons", verifyUser, prosConsRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");

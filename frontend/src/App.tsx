@@ -8,6 +8,7 @@ import Overview from './components/Dashboard/Overview';
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './Layout';
 import Decisions from './components/Dashboard/Decisions';
+import DecisionDetails from './pages/DecisionDetails/DecisionDetails';
 
 function App() {
     return (
@@ -22,7 +23,8 @@ function App() {
                         <Route element={<Layout />}>
                             <Route path="/dashboard" element={<Dashboard />}>
                                 <Route index element={<Overview />} />
-                                <Route path="/dashboard/decisions" element={<Decisions />} />
+                                <Route path="decisions" element={<Decisions />} />
+                                <Route path="decisions/:id" element={<DecisionDetails />} />
                             </Route>
                             <Route path="analytics" element={<h1>Analytics</h1>} />
                             <Route path="settings" element={<h1>Settings</h1>} />

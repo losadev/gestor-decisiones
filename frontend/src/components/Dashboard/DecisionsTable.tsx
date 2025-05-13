@@ -104,7 +104,7 @@ function DecisionsTable() {
                                 ))
                             ) : (
                                 <tr className="text-center flex items-center flex-1">
-                                    No existen decisiones
+                                    <td>No existen decisiones</td>
                                 </tr>
                             )}
                         </tbody>

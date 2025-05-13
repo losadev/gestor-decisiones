@@ -39,7 +39,7 @@ export enum CategoryType {
     OTHER = 'Otro',
 }
 
-type DecisionData = {
+export type DecisionData = {
     id: string;
     title: string;
     category: CategoryType;
@@ -48,6 +48,7 @@ type DecisionData = {
     proCons: ProCon[];
     evaluation?: Evaluation;
     recommendation?: Recommendation;
+    createdAt: string;
 };
 
 export interface Decision {
