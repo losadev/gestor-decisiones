@@ -7,6 +7,7 @@ import Filters from './Filters';
 import AnalyticsResumeCard from '../../components/Dashboard/AnalyticsResumeCard';
 import TinyBarChart from './TinyBarChart';
 import LineChartDecisionStats from './LineChartDecisionStats';
+import { CategoryType } from '../../types/decision.types';
 
 interface Props {
     title: string;
@@ -33,9 +34,9 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
 
 const Analytics = () => {
     return (
-        <main className="w-full h-screen scrollbar-custom bg-gray-100 overflow-y-auto">
-            <div className="p-8 w-full ">
-                <h1 className="text-4xl font-semibold">Panel de Análisis de Datos</h1>
+        <main className="w-full scrollbar-custom bg-gray-100">
+            <div className="w-full p-8">
+                <h1 className="text-3xl font-bold">Panel de Análisis de Datos</h1>
                 <p className="text-gray-600 font-medium mt-2">
                     Obtén información sobre tus patrones y resultados en la toma de decisiones
                 </p>

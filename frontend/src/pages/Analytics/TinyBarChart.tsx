@@ -49,8 +49,8 @@ const data = [
 const TinyBarChart = () => {
     return (
         <div className="flex flex-col gap-4 w-full bg-white p-8">
-            <h1 className="">Categorías</h1>
-            <BarChart width={100} height={100} data={data}>
+            <h1 className="text-3xl font-semibold">Categorías</h1>
+            <BarChart width={700} height={500} data={data}>
                 <Bar dataKey="uv" fill="#8884d8" />
             </BarChart>
         </div>
