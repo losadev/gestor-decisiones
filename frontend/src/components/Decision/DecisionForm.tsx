@@ -67,10 +67,10 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
 
     return (
         <div
-            className={`${isOpen ? 'block' : 'hidden'} absolute z-1000 bg-black/30 w-full h-full flex justify-center items-center p-16`}>
+            className={`${isOpen ? 'block' : 'hidden'} absolute z-1000 bg-black/30 w-full h-screen flex justify-center items-center`}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" h-[70%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4">
+                className=" h-[80%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4">
                 <button
                     type="button"
                     onClick={onClose}
