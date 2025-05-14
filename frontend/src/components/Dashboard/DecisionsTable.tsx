@@ -1,11 +1,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import DecisionFilters from './DecisionFilters';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
 import { Chip } from './Chip';
-import { set } from 'zod';
 
 function DecisionsTable() {
     const [data, setData] = useState<DecisionData[]>([]);
@@ -13,6 +11,7 @@ function DecisionsTable() {
     const [openUpwardIndex, setOpenUpwardIndex] = useState<number | null>(null);
     const [searchDecision, setSearchDecision] = useState<string>('');
     const [searchFilterItems, setSearchFilterItems] = useState<DecisionData[]>(data);
+    const [active, setActive] = useState<number>(1);
 
     const refs = useRef<(HTMLDivElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
@@ -49,27 +48,32 @@ function DecisionsTable() {
             .catch((error) => console.log(error));
     }, []);
 
-    const handleFilter = (q: string) => {
-        if (q.trim() === '') {
-            setSearchFilterItems(data);
-        } else {
-            const filtered = data.filter((item) =>
-                item.title.toLowerCase().includes(q.toLowerCase())
-            );
-            setSearchFilterItems(filtered);
-        }
-    };
-
     useEffect(() => {
-        handleFilter(searchDecision);
-    }, [searchDecision]);
+        let filtered = [...data];
+
+        // Filtrar por texto
+        if (searchDecision.trim() !== '') {
+            filtered = filtered.filter((item) =>
+                item.title.toLowerCase().includes(searchDecision.toLowerCase())
+            );
+        }
+
+        // Filtrar por estado
+        if (active === 2) {
+            filtered = filtered.filter((d) => d.status === 'progress');
+        } else if (active === 3) {
+            filtered = filtered.filter((d) => d.status === 'evaluated');
+        }
+
+        setSearchFilterItems(filtered);
+    }, [searchDecision, active, data]);
 
     useEffect(() => {
         setSearchFilterItems(data);
     }, [data]);
 
     return (
-        <section className="px-4 pb-8">
+        <section className="px-4 pb-8 h-full ">
             <div className="bg-white shadow-md rounded-lg p-6 lg:px-8 w-full h-full">
                 <h1 className="text-3xl font-semibold">Tus decisiones</h1>
                 <p className="mt-1 text-gray-600">
@@ -85,12 +89,30 @@ function DecisionsTable() {
                             setSearchDecision(e.target.value)
                         }
                     />
-                    {searchDecision}
                 </div>
-                <DecisionFilters />
-                <div className="rounded-lg  border border-gray-200 w-full shadow-sm overflow-auto">
+                {/*<DecisionFilters active={} setActive={}/>*/}
+                <div className="inline-flex bg-gray-100 my-4 p-2 text-sm sm:text-lg items-center justify- rounded-lg">
+                    <ul className="flex flex-row font-medium items-center text-gray-800">
+                        <li
+                            className={`${active === 1 ? 'bg-orange-500' : 'hover:bg-gray-200'} px-3 py-1 rounded cursor-pointer  transition`}
+                            onClick={() => setActive(1)}>
+                            Todas
+                        </li>
+                        <li
+                            className={`${active === 2 ? 'bg-orange-500' : 'hover:bg-gray-200'} px-3 py-1 rounded cursor-pointer  transition`}
+                            onClick={() => setActive(2)}>
+                            Pendientes
+                        </li>
+                        <li
+                            className={`${active === 3 ? 'bg-orange-500' : 'hover:bg-gray-200'} px-3 py-1 rounded cursor-pointer  transition`}
+                            onClick={() => setActive(3)}>
+                            Evaluadas
+                        </li>
+                    </ul>
+                </div>
+                <div className="rounded-lg  w-full overflow-auto shadow-sm">
                     <table className="w-full min-h-20 custom-table" ref={tableRef}>
-                        <thead className="bg-gray-100 h-12">
+                        <thead className=" text-white h-12">
                             <tr className="text-left">
                                 <th className="px-8 py-2">Título</th>
                                 <th className="px-8 py-2">Categoría</th>
@@ -101,12 +123,12 @@ function DecisionsTable() {
                         </thead>
                         <tbody>
                             {searchFilterItems?.map((decision, index) => (
-                                <tr
-                                    key={index}
-                                    className="border-t border-gray-300 hover:bg-gray-100 transition">
+                                <tr key={index} className="hover:bg-gray-200 transition">
                                     <td className="px-8 py-2">{decision.title}</td>
                                     <td className="px-8 py-2">{decision.category}</td>
-                                    <td className="px-8 py-2">fecha</td>
+                                    <td className="px-8 py-2">
+                                        {decision.createdAt.split('T')[0]}
+                                    </td>
                                     <td className="px-8 py-2">
                                         <Chip mode={decision.status} />
                                     </td>
@@ -118,6 +140,7 @@ function DecisionsTable() {
                                             <IoEllipsisHorizontalOutline />
                                         </button>
                                         <DropDownActions
+                                            id={decision.id}
                                             ref={(el) => {
                                                 refs.current[index] = el;
                                             }}

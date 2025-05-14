@@ -1,50 +1,17 @@
 import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Chip } from './Chip';
-import { Decision, DecisionData } from '../../types/decision.types';
+import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const recentDecisions = [
-    {
-        id: '1',
-        title: 'Cambiar de trabajo',
-        category: 'Carrera',
-        status: 'evaluated',
-    },
-    {
-        id: '2',
-        title: 'Mudarse a otra ciudad',
-        category: 'Vida personal',
-        status: 'progress',
-    },
-    {
-        id: '3',
-        title: 'Comprar un coche eléctrico',
-        category: 'Finanzas',
-        status: 'evaluated',
-    },
-    {
-        id: '4',
-        title: 'Empezar un máster',
-        category: 'Educación',
-        status: 'progress',
-    },
-    {
-        id: '5',
-        title: 'Invertir en bolsa',
-        category: 'Finanzas',
-        status: 'evaluated',
-    },
-];
-
 const RecentActivity = () => {
-    const [decisions, setDecisions] = useState<Decision[]>([]);
+    const [decisions, setDecisions] = useState<DecisionData[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         axios
-            .get<Decision[]>('http://localhost:5000/api/decision', {
+            .get('http://localhost:5000/api/decision', {
                 withCredentials: true,
             })
             .then((response) => {
