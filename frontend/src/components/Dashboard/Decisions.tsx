@@ -10,7 +10,7 @@ const Decisions = () => {
                 </h1>
                 <NewDecisionButton />
             </header>
-            <main>
+            <main className="h-full ">
                 <DecisionsTable />
             </main>
         </div>

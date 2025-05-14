@@ -1,18 +1,21 @@
 import { forwardRef } from 'react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FaRegEdit } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const DropDownActions = forwardRef(function DropDownActions(
     {
         open,
         openUpward,
+        id,
     }: {
         open: boolean;
         openUpward: boolean;
+        id: string;
     },
     ref: React.Ref<HTMLDivElement>
 ) {
+    const navigate = useNavigate();
     return (
         <div
             ref={ref}
@@ -26,9 +29,9 @@ const DropDownActions = forwardRef(function DropDownActions(
             }}>
             <ul className="flex flex-col gap-2 px-4 py-2 font-medium text-sm">
                 <li>
-                    <Link to={''} className="hover:underline">
+                    <button onClick={() => navigate(`${id}`)} className="hover:underline">
                         Ver detalles
-                    </Link>
+                    </button>
                 </li>
                 <li>
                     <button className="flex items-center gap-2 w-full rounded group cursor-pointer">

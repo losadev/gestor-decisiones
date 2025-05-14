@@ -35,8 +35,6 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .custom-table {
-    @apply w-full border-[1px] border-gray-200;
-
     & thead th {
         @apply px-8 py-2 text-left;
     }
@@ -49,11 +47,14 @@ input[type='date']::-webkit-calendar-picker-indicator {
         @apply h-12;
     }
 
-    & tbody tr + tr {
-        @apply border-t border-gray-200;
+    & tbody tr:nth-child(odd) {
+        @apply bg-gray-100 hover:bg-gray-200;
+    }
+    & tbody tr:nth-child(even) {
+        @apply bg-white hover:bg-gray-200;
     }
 
     & thead {
-        @apply bg-gray-100;
+        @apply bg-black/90;
     }
 }
