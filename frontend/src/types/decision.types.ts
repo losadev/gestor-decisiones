@@ -50,7 +50,3 @@ export type DecisionData = {
     recommendation?: Recommendation;
     createdAt: string;
 };
-
-export interface Decision {
-    decisions: DecisionData[];
-}
