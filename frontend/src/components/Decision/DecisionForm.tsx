@@ -67,23 +67,24 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
 
     return (
         <div
-            className={`${isOpen ? 'block' : 'hidden'} absolute z-1000 bg-black/30 w-full h-screen flex justify-center items-center`}>
+            className={`${isOpen ? 'block' : 'hidden'} fixed top-0 left-0 z-1000 bg-black/30 w-full h-screen flex justify-center items-center`}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" h-[80%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4">
+                className=" h-[80%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4 ">
                 <button
                     type="button"
                     onClick={onClose}
                     className="bg-black/50 py-3 px-4 rounded-lg transition duration-200 inline-flex hover:bg-black/40 cursor-pointer self-start">
                     <ImCross size={16} color="white" />
                 </button>
-                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll scroll-custom h-full text-[15px] rounded-lg  flex flex-col py-10 px-8 gap-4">
+                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll scroll-custom h-full text-[15px] rounded-lg  flex flex-col py-10 px-8 gap-4 2xl:px-32">
                     <h1 className="mx-auto text-4xl mb-4 font-semibold">Decisión</h1>
+                    <hr className="my-2 border-2 border-gray-200 w-full" />
                     <Controller
                         name="title"
                         render={({ field }) => (
                             <div className="flex flex-col gap-2">
-                                <label className="font-medium">Título</label>
+                                <label className="font-bold text-xl">Título</label>
                                 <input
                                     type="text"
                                     placeholder="Ej. Comprar coche eléctrico"
@@ -95,12 +96,11 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                         )}
                         control={control}
                     />
-
                     <Controller
                         name="category"
                         render={({ field }) => (
                             <div className="flex flex-col gap-2">
-                                <label className="font-medium">Categoría</label>
+                                <label className="font-bold text-xl">Categoría</label>
                                 <select
                                     {...field}
                                     className="border h-[40px] border-gray-300 rounded">
@@ -112,9 +112,9 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                         )}
                         control={control}
                     />
-
                     <ul className="flex flex-col mt-4">
                         <h1 className="mx-auto text-4xl font-semibold">Pros / Contras</h1>
+                        <hr className="my-2! border-2 border-gray-200 w-full" />
 
                         {fields.map((field, index) => (
                             <li key={field.id}>
@@ -123,7 +123,9 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                                         name={`prosCons.${index}.description`}
                                         render={({ field }) => (
                                             <div className="flex flex-col gap-2">
-                                                <label className="font-medium">Descripción</label>
+                                                <label className="font-bold text-xl">
+                                                    Descripción
+                                                </label>
                                                 <input
                                                     type="text"
                                                     placeholder="Ej. Menor consumo de gasolina"
@@ -139,7 +141,7 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                                         name={`prosCons.${index}.type`}
                                         render={({ field }) => (
                                             <div className="flex flex-col gap-2">
-                                                <label className="font-medium">Tipo</label>
+                                                <label className="font-bold text-xl">Tipo</label>
                                                 <select
                                                     {...field}
                                                     className="border h-[40px] rounded border-gray-300">
@@ -154,7 +156,9 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                                         name={`prosCons.${index}.weight`}
                                         render={({ field }) => (
                                             <div className="flex flex-col gap-2">
-                                                <label className="font-medium">Importancia</label>
+                                                <label className="font-bold text-xl">
+                                                    Importancia
+                                                </label>
                                                 <input
                                                     min={1}
                                                     max={10}
@@ -178,14 +182,12 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                             </li>
                         ))}
                     </ul>
-
                     <button
                         className="bg-orange-500 hover:bg-orange-400 active:bg-amber-600 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100 px-2"
                         type="button"
                         onClick={() => append({ description: '', type: 'Pro', weight: 1 })}>
                         Añadir más pro/contra +
                     </button>
-
                     <button
                         className="bg-black/90 hover:bg-black/80 active:bg-amber-600 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100 px-2"
                         type="submit">
