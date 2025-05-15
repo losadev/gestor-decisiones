@@ -111,7 +111,7 @@ function DecisionsTable() {
                     </ul>
                 </div>
                 <div className="rounded-lg  w-full overflow-auto shadow-sm">
-                    <table className="w-full min-h-20 custom-table" ref={tableRef}>
+                    <table className="w-full min-h-20 custom-table text-xl" ref={tableRef}>
                         <thead className=" text-white h-12">
                             <tr className="text-left">
                                 <th className="px-8 py-2">Título</th>
@@ -135,7 +135,7 @@ function DecisionsTable() {
                                     <td className="px-8 py-2 relative">
                                         <button
                                             type="button"
-                                            className="cursor-pointer hover:bg-gray-200 rounded-lg p-3"
+                                            className="cursor-pointer hover:bg-orange-200 rounded-lg p-3"
                                             onClick={() => handleActions(index)}>
                                             <IoEllipsisHorizontalOutline />
                                         </button>

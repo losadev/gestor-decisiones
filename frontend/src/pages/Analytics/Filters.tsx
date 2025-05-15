@@ -5,8 +5,13 @@ const Filters = () => {
     const categories: string[] = Object.values(CategoryType);
 
     return (
-        <div className="flex justify-between mt-8 ">
-            <div className="flex gap-2">
+        <div className="flex items-center mt-8 pb-2 gap-2 justify-end md:justify-between">
+            <button className="border flex gap-2 items-center bg-white border-gray-300 px-4 py-2 rounded md:hidden">
+                <LiaFilterSolid size={20} />
+                <span className="font-medium">Filtros</span>
+            </button>
+
+            <div className="hidden md:flex">
                 <div className="flex gap-2 items-center">
                     <LiaFilterSolid size={20} />
                     <span className="font-medium">Filtros: </span>

@@ -47,11 +47,11 @@ const AnalyticsResumeCard = () => {
     };
 
     return (
-        <div className="rounded-lg bg-white shadow-md py-8 px-8 flex flex-col md:h-full md:flex-1">
+        <div className="rounded-lg bg-white shadow-md p-8 flex flex-col md:h-full md:flex-1">
             <h1 className="text-3xl font-semibold">Resumen análisis</h1>
             <p className="text-gray-500">Ratio de evaluaciones</p>
             <div className="flex justify-center items-center grow">
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={400}>
                     <PieChart>
                         <Pie
                             data={data}
