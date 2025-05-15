@@ -29,7 +29,7 @@ const RecentActivity = () => {
             };
         }) || [];
     return (
-        <div className="rounded-lg bg-white shadow-md py-8 px-4 inline-flex flex-col gap-1 flex-1 grow h-full lg:px-8">
+        <div className="rounded-lg bg-white shadow-md py-8 px-4 inline-flex flex-col gap-1 md:h-full md:flex-1 lg:px-8">
             <h1 className="text-3xl font-semibold">Actividad reciente</h1>
             <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
             <div>

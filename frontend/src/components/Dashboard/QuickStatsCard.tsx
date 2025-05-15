@@ -8,7 +8,7 @@ const QuickStatsCard = () => {
     useAnimation(setBadDecisions, 32);
 
     return (
-        <div className="rounded-lg bg-white shadow-md py-4 px-2 inline-flex flex-col gap-1 sm:w-full lg:px-8 xl:h-full">
+        <div className="rounded-lg bg-white shadow-md py-4 px-2 inline-flex flex-col gap-1 sm:w-full md:col-span-2 xl:col-span-1 lg:px-8 xl:h-full">
             <div className="flex flex-col gap-2 p-4 border-b-amber-100">
                 <h1 className="text-2xl font-semibold sm:text-3xl">Estadísticas rápidas</h1>
                 <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
