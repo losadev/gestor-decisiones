@@ -25,7 +25,7 @@ const RecentActivity = () => {
                 id: decision.id,
                 title: decision.title,
                 category: decision.category,
-                status: decision.evaluation ? 'evaluated' : 'progress',
+                status: decision.status,
             };
         }) || [];
     return (
