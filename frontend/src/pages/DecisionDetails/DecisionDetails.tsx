@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -15,6 +15,7 @@ const DecisionDetails = () => {
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
+    const navigate = useNavigate();
 
     useEffect(() => {
         const res = axios.get(`http://localhost:5000/api/proscons/${id}`, {
@@ -127,7 +128,8 @@ const DecisionDetails = () => {
                             </p>
                             <button
                                 type="button"
-                                className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out">
+                                className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
                                 <IoMdCheckmarkCircleOutline />
                                 <span>Evalúa ahora</span>
                             </button>
