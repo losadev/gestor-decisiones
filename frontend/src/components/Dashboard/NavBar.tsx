@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <nav className="bg-orange-500 2xl:hidden">
+        <nav className="bg-orange-500 2xl:hidden w-full">
             <div className="flex items-center justify-between p-4">
-                <h1 className="text-2xl font-bold">[LOGO]</h1>
+                <h1 className="text-xl font-bold">[LOGO]</h1>
                 <div>
                     <HiBars3 className="font-medium text-xl cursor-pointer" />
                 </div>

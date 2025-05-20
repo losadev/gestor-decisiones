@@ -13,7 +13,7 @@ type Props = {
 
 const Input = ({ name, type, label, placeholder, control, error }: Props) => {
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 flex-1">
             <label htmlFor={name} className="font-medium">
                 {label}
             </label>
