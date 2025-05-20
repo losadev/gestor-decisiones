@@ -15,7 +15,7 @@ const SideNavBar = () => {
         setDropDownMenu((prev) => !prev);
     };
     return (
-        <nav className="w-60 min-h-screen  bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
+        <nav className="w-65 min-h-screen  bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
             <NavLink to="/" className="text-2xl font-bold bg-orange-600 py-8 px-4 rounded">
                 [LOGO]
             </NavLink>

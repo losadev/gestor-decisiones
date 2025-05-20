@@ -77,3 +77,38 @@ input[type='date']::-webkit-calendar-picker-indicator {
         @apply bg-black/90;
     }
 }
+
+input[type='range'] {
+    -webkit-appearance: none;
+    height: 8px;
+    background: #ccc;
+    border-radius: 5px;
+}
+
+/* Thumb (el círculo) */
+.green-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: green;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.red-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.neutral-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: yellow;
+    border-radius: 50%;
+    cursor: pointer;
+}
