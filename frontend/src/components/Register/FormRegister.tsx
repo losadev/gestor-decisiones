@@ -51,75 +51,81 @@ const FormRegister = () => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
-            <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold">Registro</h1>
-                <p className="text-gray-600">
-                    Crea una nueva cuenta para acceder a nuestra plataforma
-                </p>
+        <>
+            <div className="flex justify-center items-center ">
+                <img src="/logo.svg" alt="logo" className="h-[200px] " />
             </div>
-            <div className="flex flex-col gap-1 mt-8 ">
-                <div className="flex flex-col ">
-                    <Input
-                        control={control}
-                        name="name"
-                        label="Nombre"
-                        type="text"
-                        placeholder="John"
-                        error={errors.name}
-                    />
-                    <Input
-                        control={control}
-                        label="Apellido"
-                        name="lastName"
-                        type="text"
-                        placeholder="Doe"
-                        error={errors.lastName}
-                    />
+
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-3xl font-bold">Registro</h1>
+                    <p className="text-gray-600">
+                        Crea una nueva cuenta para acceder a nuestra plataforma
+                    </p>
                 </div>
+                <div className="flex flex-col gap-1 mt-8 ">
+                    <div className="flex flex-col ">
+                        <Input
+                            control={control}
+                            name="name"
+                            label="Nombre"
+                            type="text"
+                            placeholder="John"
+                            error={errors.name}
+                        />
+                        <Input
+                            control={control}
+                            label="Apellido"
+                            name="lastName"
+                            type="text"
+                            placeholder="Doe"
+                            error={errors.lastName}
+                        />
+                    </div>
 
-                <div className="flex flex-col">
-                    <Input
-                        control={control}
-                        label="Correo electrónico"
-                        name="email"
-                        type="email"
-                        placeholder="john.doe@gmail.com"
-                        error={errors.email}
-                    />
+                    <div className="flex flex-col">
+                        <Input
+                            control={control}
+                            label="Correo electrónico"
+                            name="email"
+                            type="email"
+                            placeholder="john.doe@gmail.com"
+                            error={errors.email}
+                        />
+
+                        <Input
+                            control={control}
+                            label="Contraseña"
+                            name="password"
+                            type="password"
+                            error={errors.password}
+                        />
+                        <Input
+                            control={control}
+                            label="Confirma la contraseña"
+                            name="confirmPassword"
+                            type="password"
+                            error={errors.confirmPassword}
+                        />
+                    </div>
 
                     <Input
                         control={control}
-                        label="Contraseña"
-                        name="password"
-                        type="password"
-                        error={errors.password}
+                        label="Fecha de nacimiento"
+                        name="birthDate"
+                        placeholder="Selecciona una fecha"
+                        type="date"
+                        error={errors.birthDate}
                     />
-                    <Input
-                        control={control}
-                        label="Confirma la contraseña"
-                        name="confirmPassword"
-                        type="password"
-                        error={errors.confirmPassword}
-                    />
+                    <InputFile label="Avatar" name="avatar" />
+                    <Button text="Registarse" type="submit" />
+                    <LoginLink />
                 </div>
-
-                <Input
-                    control={control}
-                    label="Fecha de nacimiento"
-                    name="birthDate"
-                    placeholder="Selecciona una fecha"
-                    type="date"
-                    error={errors.birthDate}
-                />
-                <InputFile label="Avatar" name="avatar" />
-                <Button text="Registarse" type="submit" />
-                <LoginLink />
-            </div>
-            {message && <p>{message}</p>}
-        </form>
+                {message && <p>{message}</p>}
+            </form>
+        </>
     );
 };
 

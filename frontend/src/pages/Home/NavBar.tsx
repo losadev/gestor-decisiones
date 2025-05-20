@@ -1,8 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
-
-
 const NavBar = () => {
     const { user } = useAuth();
 
@@ -15,7 +13,7 @@ const NavBar = () => {
                         <NavLink
                             to="/dashboard"
                             className="bg-black text-white px-3 py-1 rounded font-medium">
-                            Ir al dashboard
+                            Ir al panel
                         </NavLink>
                         <NavLink
                             to="/logout"
