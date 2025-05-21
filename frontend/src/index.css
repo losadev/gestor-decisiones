@@ -55,7 +55,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .custom-table {
     & thead th {
-        @apply px-8 py-2 text-left;
+        @apply px-4 py-0 text-left;
     }
 
     & tbody td {

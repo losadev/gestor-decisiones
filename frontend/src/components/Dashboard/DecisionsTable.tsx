@@ -47,7 +47,7 @@ function DecisionsTable() {
                 setData(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [data]);
 
     useEffect(() => {
         let filtered = [...data];
@@ -68,10 +68,6 @@ function DecisionsTable() {
 
         setSearchFilterItems(filtered);
     }, [searchDecision, active, data]);
-
-    useEffect(() => {
-        setSearchFilterItems(data);
-    }, [data]);
 
     const deleteDecision = (id: string) => {
         const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
