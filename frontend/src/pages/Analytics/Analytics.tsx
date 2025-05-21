@@ -7,6 +7,7 @@ import Filters from './Filters';
 import AnalyticsResumeCard from '../../components/Dashboard/AnalyticsResumeCard';
 import TinyBarChart from './TinyBarChart';
 import LineChartDecisionStats from './LineChartDecisionStats';
+import { LuCircleAlert } from 'react-icons/lu';
 
 interface Props {
     title: string;
@@ -22,7 +23,9 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
             <div className="flex  w-full">
                 <div className="flex flex-col gap-2 flex-1 ">
                     <span className="font-medium text-gray-600">{title}</span>
-                    <span className="text-4xl font-semibold lg:text-3xl flex-1">{content}</span>
+                    <span className={`text-4xl font-semibold lg:text-3xl flex-1 ${className}`}>
+                        {content}
+                    </span>
                 </div>
                 <span className={`${className} `}>{icon}</span>
             </div>
@@ -67,7 +70,7 @@ const Analytics = () => {
                 <AnalyticsCard
                     content="12%"
                     description="Improvement in decision outcomes over tim"
-                    icon={<FiAlertCircle className="bg-red-400 rounded-full text-red-200 p-2" />}
+                    icon={<LuCircleAlert className=" rounded-full text-red-600 bg-red-200 p-2" />}
                     title="Tendencia de Mejora"
                 />
             </div>

@@ -121,14 +121,6 @@ const FormRegister = () => {
                         />
                     </div>
 
-                    <Input
-                        control={control}
-                        label="Fecha de nacimiento"
-                        name="birthDate"
-                        placeholder="Selecciona una fecha"
-                        type="date"
-                        error={errors.birthDate}
-                    />
                     <InputFile label="Avatar" name="avatar" />
                     <Button text="Registarse" type="submit" />
                     <LoginLink />
