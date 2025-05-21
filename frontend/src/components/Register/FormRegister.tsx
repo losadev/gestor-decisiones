@@ -51,14 +51,14 @@ const FormRegister = () => {
     };
 
     return (
-        <>
-            <div className="flex justify-center items-center ">
+        <div className="flex flex-col sm:px-16 sm:pb-16 pt-0">
+            <div className="hidden sm:flex justify-center items-center ">
                 <img src="/logo.svg" alt="logo" className="h-[200px] " />
             </div>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
+                className="sm:border h-full flex flex-col bg-white border-gray-300 sm:shadow-2xl text-[15px] sm:rounded-lg p-4 sm:mx-auto">
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-bold">Registro</h1>
                     <p className="text-gray-600">
@@ -66,7 +66,7 @@ const FormRegister = () => {
                     </p>
                 </div>
                 <div className="flex flex-col gap-1 mt-8 ">
-                    <div className="flex flex-col ">
+                    <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                             control={control}
                             name="name"
@@ -85,7 +85,7 @@ const FormRegister = () => {
                         />
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                             control={control}
                             label="Correo electrónico"
@@ -94,7 +94,17 @@ const FormRegister = () => {
                             placeholder="john.doe@gmail.com"
                             error={errors.email}
                         />
+                        <Input
+                            control={control}
+                            label="Fecha de nacimiento"
+                            name="birthDate"
+                            placeholder="Selecciona una fecha"
+                            type="date"
+                            error={errors.birthDate}
+                        />
+                    </div>
 
+                    <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                             control={control}
                             label="Contraseña"
@@ -111,21 +121,13 @@ const FormRegister = () => {
                         />
                     </div>
 
-                    <Input
-                        control={control}
-                        label="Fecha de nacimiento"
-                        name="birthDate"
-                        placeholder="Selecciona una fecha"
-                        type="date"
-                        error={errors.birthDate}
-                    />
                     <InputFile label="Avatar" name="avatar" />
                     <Button text="Registarse" type="submit" />
                     <LoginLink />
                 </div>
                 {message && <p>{message}</p>}
             </form>
-        </>
+        </div>
     );
 };
 

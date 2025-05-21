@@ -6,6 +6,8 @@ import axios from 'axios';
 import Button from '../Button';
 import Input from '../Input';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../Dashboard/NavBar';
+import ModalNavBar from '../../modal/ModalNavBar';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -37,10 +39,14 @@ const LoginForm = () => {
         }
     };
     return (
-        <div>
+        <div className="h-screen flex flex-col items-center w-full">
+            <ModalNavBar />
+            <div className="hidden sm:flex justify-center items-center ">
+                <img src="/logo.svg" alt="logo" className="h-[200px] " />
+            </div>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="border border-gray-300 shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
+                className="w-full sm:border sm:border-gray-300 bg-white sm:shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
                 <Input
                     control={control}
                     label="Correo electrónico"
