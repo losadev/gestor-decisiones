@@ -18,7 +18,7 @@ const RecentActivity = () => {
                 setDecisions(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [decisions]);
     const recentDecisions =
         decisions?.slice(0, 5).map((decision) => {
             return {
