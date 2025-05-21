@@ -7,10 +7,12 @@ const DropDownActions = forwardRef(function DropDownActions(
     {
         open,
         openUpward,
+        onDelete,
         id,
     }: {
         open: boolean;
         openUpward: boolean;
+        onDelete: (id: string) => void;
         id: string;
     },
     ref: React.Ref<HTMLDivElement>
@@ -41,7 +43,9 @@ const DropDownActions = forwardRef(function DropDownActions(
                     </button>
                 </li>
                 <li>
-                    <button className="text-red-600 flex gap-2 items-center group cursor-pointer">
+                    <button
+                        className="text-red-600 flex gap-2 items-center group cursor-pointer"
+                        onClick={() => onDelete(id)}>
                         <RiDeleteBin6Line />
                         <span className="group-hover:underline">Delete</span>
                     </button>

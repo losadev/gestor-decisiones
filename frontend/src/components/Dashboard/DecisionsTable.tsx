@@ -12,6 +12,7 @@ function DecisionsTable() {
     const [searchDecision, setSearchDecision] = useState<string>('');
     const [searchFilterItems, setSearchFilterItems] = useState<DecisionData[]>(data);
     const [active, setActive] = useState<number>(1);
+    const [message, setMessage] = useState<string>('');
 
     const refs = useRef<(HTMLDivElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
@@ -71,6 +72,17 @@ function DecisionsTable() {
     useEffect(() => {
         setSearchFilterItems(data);
     }, [data]);
+
+    const deleteDecision = (id: string) => {
+        const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
+            withCredentials: true,
+        });
+        res.then((response) => {
+            setMessage(response.data.message);
+        }).catch((error) => {
+            setMessage(error);
+        });
+    };
 
     return (
         <section className="px-4 pb-8 h-full ">
@@ -147,6 +159,7 @@ function DecisionsTable() {
                                             key={index}
                                             open={showActions === index}
                                             openUpward={openUpwardIndex === index}
+                                            onDelete={deleteDecision}
                                         />
                                     </td>
                                 </tr>

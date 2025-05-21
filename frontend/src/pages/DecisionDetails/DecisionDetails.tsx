@@ -9,10 +9,12 @@ import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
+import { response } from 'express';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
+    const [message, setMessage] = useState<string>('');
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
     const navigate = useNavigate();
@@ -40,6 +42,17 @@ const DecisionDetails = () => {
             console.error('Error fetching decision details:', error);
         });
     }, [id]);
+
+    const deleteDecision = () => {
+        const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
+            withCredentials: true,
+        });
+        res.then((response) => {
+            setMessage(response.data.message);
+        }).catch((error) => {
+            setMessage(error);
+        });
+    };
 
     // Pros
     const pros = prosCons?.filter((item) => item.type === 'Pro') || [];
@@ -79,7 +92,11 @@ const DecisionDetails = () => {
                         </button>
                         <button
                             type="button"
-                            className=" font-medium rounded px-4 py-2 flex border border-red-600 items-center gap-2 hover:bg-red-100 cursor-pointer transition duration-200 ease-in-out">
+                            className=" font-medium rounded px-4 py-2 flex border border-red-600 items-center gap-2 hover:bg-red-100 cursor-pointer transition duration-200 ease-in-out"
+                            onClick={() => {
+                                deleteDecision();
+                                navigate('/dashboard');
+                            }}>
                             <MdDelete className="text-red-600" />
                             <span className="text-red-600">Eliminar</span>
                         </button>
