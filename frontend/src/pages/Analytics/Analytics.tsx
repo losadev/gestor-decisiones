@@ -36,11 +36,13 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
 
 const Analytics = () => {
     return (
-        <div className="w-full p-4">
-            <h1 className="text-3xl font-bold">Panel de Análisis de Datos</h1>
-            <p className="text-gray-600 font-medium mt-2">
-                Obtén información sobre tus patrones y resultados en la toma de decisiones
-            </p>
+        <div className="w-full p-4 h-full ">
+            <header className="flex flex-col px-0 py-4 gap-2 ">
+                <h1 className="text-3xl font-bold">Panel de Análisis de Datos</h1>
+                <p className="text-gray-600 font-medium mt-2">
+                    Obtén información sobre tus patrones y resultados en la toma de decisiones
+                </p>
+            </header>
             <div className="flex flex-col my-8 gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
                 <AnalyticsCard
                     content="8"
@@ -75,7 +77,7 @@ const Analytics = () => {
                 />
             </div>
             <Filters />
-            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:grid-rows-2">
+            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 pb-4">
                 <AnalyticsResumeCard />
                 <TinyBarChart />
                 <LineChartDecisionStats />

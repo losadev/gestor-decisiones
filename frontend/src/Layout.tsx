@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
     return (
-        <div className="flex flex-col 2xl:flex-row font-inter">
+        <div className="flex flex-col 2xl:flex-row font-inter h-full ">
             <NavBar />
             <SideNavBar />
             <main
                 id="main-scroll"
-                className="flex flex-1 h-screen w-full bg-gray-100 overflow-y-auto scroll-custom ">
+                className="flex flex-1 h-screen w-full overflow-y-auto scroll-custom ">
                 <Outlet />
             </main>
         </div>

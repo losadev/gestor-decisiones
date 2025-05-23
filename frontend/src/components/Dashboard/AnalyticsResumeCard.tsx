@@ -47,7 +47,7 @@ const AnalyticsResumeCard = () => {
     };
 
     return (
-        <div className="rounded-lg bg-white shadow-md p-8 flex flex-col md:h-full md:flex-1">
+        <div className="rounded-lg bg-white shadow-md p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
             <h1 className="text-3xl font-semibold">Resumen análisis</h1>
             <p className="text-gray-500">Ratio de evaluaciones</p>
             <div className="flex justify-center items-center grow">

@@ -18,7 +18,7 @@ const data = [
 ];
 const LineChartDecisionStats = () => {
     return (
-        <div className="w-full flex flex-col justify-center gap-4 bg-white rounded p-8 2xl:col-span-2 shadow-sm h-[300px]">
+        <div className="w-full flex flex-col justify-center gap-4 bg-white rounded p-8 lg:col-span-2 shadow-sm h-[300px] border border-gray-300">
             <h1 className="text-3xl font-semibold">Tendencia de Decisiones Buenas vs Malas</h1>
             <div className="w-full h-full">
                 <ResponsiveContainer width="100%" height="100%">
