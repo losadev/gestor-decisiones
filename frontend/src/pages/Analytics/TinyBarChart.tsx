@@ -12,7 +12,7 @@ const data = [
 
 const TinyBarChart = () => {
     return (
-        <div className="flex flex-col h-full gap-4 w-full bg-white p-8 shadow-sm">
+        <div className="flex flex-col h-full gap-4 w-full bg-white p-8 shadow-sm border border-gray-300">
             <h1 className="text-3xl font-semibold">Categorías</h1>
             <div className="w-full h-full">
                 <ResponsiveContainer width="100%" height="100%">
