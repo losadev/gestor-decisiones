@@ -25,16 +25,16 @@ const Overview = () => {
     }, [modal]);
 
     return (
-        <div className="w-full min-h-screen relative">
-            <div className="w-full flex flex-col py-8 2xl:px-8">
-                <div className="flex flex-col w-full">
-                    <header className="flex flex-col justify-between items-center px-4 py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
+        <div className="w-full min-h-screen relative ">
+            <div className="w-full flex flex-col py-4 2xl:px-4 ">
+                <div className="flex flex-col w-full ">
+                    <header className="flex flex-col justify-between items-center px-0 py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
                         <h1 className="text-2xl font-bold text-center sm:text-3xl">
                             Gestor de decisiones personales
                         </h1>
                         <NewDecisionButton onClick={openModal} />
                     </header>
-                    <section className="grid grid-cols-1 gap-4 mt-2 p-4 md:grid-cols-2 md:grid-rows-1 md:items-stretch xl:grid-cols-3 xl:grid-rows-1 min-h-[300px]">
+                    <section className="grid grid-cols-1 gap-4 my-4 p-0 md:grid-cols-2 md:grid-rows-1 md:items-stretch xl:grid-cols-3 xl:grid-rows-1 min-h-[300px] ">
                         <AnalyticsResumeCard />
                         <RecentActivity />
                         <QuickStatsCard />
