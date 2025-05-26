@@ -15,9 +15,9 @@ const SideNavBar = () => {
         setDropDownMenu((prev) => !prev);
     };
     return (
-        <nav className="w-65 min-h-screen  bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
+        <nav className=" min-h-screen  bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
             <NavLink to="/" className=" bg-orange-600 rounded">
-                <img src={'/logo.svg'} alt="logo" height={200} />
+                <img src={'/favicon.ico'} alt="logo" height={800} />
             </NavLink>
 
             <div className="text-xl mt-8 flex flex-col gap-4 flex-1 font-medium">
