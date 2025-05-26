@@ -7,15 +7,18 @@ import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import { MdDelete } from 'react-icons/md';
+import { MdDelete, MdMoreVert } from 'react-icons/md';
 import ProsConsTable from './ProsConsTable';
 import DecisionForm from '../../components/Decision/DecisionForm';
+import { LiaFilterSolid } from 'react-icons/lia';
+import { IoFilterSharp } from 'react-icons/io5';
 
 const DecisionDetails = ({ color }: { color: string }) => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
     const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
@@ -105,7 +108,7 @@ const DecisionDetails = ({ color }: { color: string }) => {
                             {createdAt ? 'Creado el ' + createdAt : 'Fecha no disponible'}
                         </span>
                     </div>
-                    <div className="2xl:flex items-end gap-2 hidden">
+                    <div className="sm:flex justify-end gap-2 hidden">
                         <button
                             type="button"
                             className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
@@ -131,6 +134,52 @@ const DecisionDetails = ({ color }: { color: string }) => {
                             <span className="text-red-600">Eliminar</span>
                         </button>
                     </div>
+                    <div className="relative sm:hidden inline-block text-right">
+                        <div>
+                            <button
+                                type="button"
+                                className="inline-flex justify gap-2 items-center  rounded-md px-4 py-2 font-medium text-black border border-gray-300  hover:bg-gray-800 hover:bg-gray-100"
+                                onClick={() => setShowMobileMenu(!showMobileMenu)}>
+                                <span>Acciones</span>{' '}
+                                <IoFilterSharp className="text-xl font-medium" />
+                            </button>
+                        </div>
+
+                        {showMobileMenu && (
+                            <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5 focus:outline-none font-medium">
+                                <div className="py-1">
+                                    <button
+                                        onClick={() => {
+                                            setShowMobileMenu(false);
+                                            navigate(`/dashboard/evaluation/${id}`);
+                                        }}
+                                        className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                                        <IoMdCheckmarkCircleOutline className="inline mr-2" />
+                                        Evaluar
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setShowMobileMenu(false);
+                                            openModal();
+                                        }}
+                                        className="w-full px-4 py-2 text-left  hover:bg-gray-100">
+                                        <BsPencilSquare className="inline mr-2" />
+                                        Editar
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setShowMobileMenu(false);
+                                            deleteDecision();
+                                            navigate('/dashboard');
+                                        }}
+                                        className="w-full px-4 py-2 text-left  text-red-600 hover:bg-red-100">
+                                        <MdDelete className="inline mr-2" />
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <hr className="border-none h-[1px] bg-gray-300 my-4" />
                 <div className="flex flex-col gap-4 2xl:flex-row  h-full">
@@ -142,13 +191,15 @@ const DecisionDetails = ({ color }: { color: string }) => {
                     </div>
                     <hr className="border-none h-[1px] bg-gray-300 my-4" />
                     <div className="border flex justify-center rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
-                        <div className="inline-flex flex-col items-center">
-                            <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
-                            <p className="text-gray-600 font-medium mt-2">
-                                Esta decisión no ha sido evaluada todavía
-                            </p>
-                            <div className="flex flex-col items-center justify-center mt-4">
-                                <span className="my-4">
+                        <div className="inline-flex flex-col items-center gap-8">
+                            <div className=" flex flex-col gap-0 justify-center text-center">
+                                <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
+                                <p className="text-gray-600 font-medium mt-2">
+                                    Esta decisión no ha sido evaluada todavía
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <span className="my-4 flex  items-center">
                                     <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
                                 </span>
                                 <p className="text-gray-600 font-medium mt-2 text-center">
@@ -173,4 +224,3 @@ const DecisionDetails = ({ color }: { color: string }) => {
 };
 
 export default DecisionDetails;
-
