@@ -6,12 +6,12 @@ import Chip from '../../components/Dashboard/Chip';
 import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
-import { BsPencilSquare } from 'react-icons/bs';
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import ProsConsTable from './ProsConsTable';
 import DecisionForm from '../../components/Decision/DecisionForm';
 
-const DecisionDetails = () => {
+const DecisionDetails = ({ color }: { color: string }) => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
@@ -47,7 +47,7 @@ const DecisionDetails = () => {
         }).catch((error) => {
             console.error('Error fetching pros and cons:', error);
         });
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         const res = axios.get(`http://localhost:5000/api/decision/${id}`, {
@@ -59,7 +59,7 @@ const DecisionDetails = () => {
         }).catch((error) => {
             console.error('Error fetching decision details:', error);
         });
-    }, [id, decision]);
+    }, []);
 
     const deleteDecision = () => {
         const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
@@ -133,12 +133,20 @@ const DecisionDetails = () => {
                 </div>
                 <hr className="border-none h-[1px] bg-gray-300 my-4" />
                 <div className="flex flex-col gap-4 2xl:flex-row  h-full">
-                    <div className="flex gap-4  flex-col items-center text-center 2xl:flex-2 h-full ">
-                        <div className="grid grid-cols-1 md:grid-cols-2  h-full w-full gap-4 2xl:border rounded-lg border-gray-300 2xl:p-8">
+                    <div className="flex gap-4 flex-col items-center text-center 2xl:flex-2 h-full 2xl:border rounded-lg 2xl:border-gray-300 2xl:p-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2  h-full w-full gap-4 ">
                             <ProsConsTable items={pros} title="Pros" color="green" />
                             <ProsConsTable items={cons} title="Contras" color="red" />
                         </div>
+                        <button
+                            className={`ml-auto 2xl:p-8 px-4 flex gap-2 items-center  cursor-pointer py-2 rounded-lg text-white font-semibold shadow transition 
+              ${color === 'green' ? 'bg-green-700 hover:bg-green-800' : 'bg-red-700 hover:bg-red-800'}`}
+                            disabled={true}>
+                            <BsTrash />
+                            <span>Eliminar</span>
+                        </button>
                     </div>
+                    <hr className="border-none h-[1px] bg-gray-300 my-4" />
                     <div className="border rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
                         <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
                         <p className="text-gray-600 font-medium mt-2">

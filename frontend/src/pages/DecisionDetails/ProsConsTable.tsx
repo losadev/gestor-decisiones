@@ -1,4 +1,5 @@
 import { ProCon } from '../../types/proCon.types';
+import { useState } from 'react';
 
 type Props = {
     items: ProCon[];
@@ -7,18 +8,21 @@ type Props = {
 };
 
 const ProsConsTable = ({ items, title, color }: Props) => {
+    const [selectedItems, setSelectedItems] = useState<ProCon[]>([]);
     const bgColor = color === 'green' ? 'bg-green-50' : 'bg-red-50';
 
+    console.log('Items:', selectedItems);
+
     return (
-        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow`}>
+        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow `}>
             <h2
                 className={`text-xl font-semibold mb-2 ${color === 'green' ? 'text-green-800' : 'text-red-800'}`}>
                 {title}
             </h2>
             {items.length > 0 ? (
-                <div className=" h-full flex flex-col justify-between">
+                <div className=" h-full flex flex-col justify-between overflow-x-auto">
                     <table
-                        className={`w-full table-fixed ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
+                        className={`w-full  ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
                         <thead>
                             <tr className={color === 'green' ? '!bg-green-800' : '!bg-red-800'}>
                                 <th className="w-1/6 p-2 text-white text-center">
@@ -33,17 +37,29 @@ const ProsConsTable = ({ items, title, color }: Props) => {
                             {items.map((item) => (
                                 <tr key={item.id} className="text-center align-middle">
                                     <td className="p-2">
-                                        <input type="checkbox" />
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => {
+                                                if (selectedItems.includes(item)) {
+                                                    setSelectedItems(
+                                                        selectedItems.filter(
+                                                            (i) => i.id !== item.id
+                                                        )
+                                                    );
+                                                } else {
+                                                    setSelectedItems([...selectedItems, item]);
+                                                }
+                                            }}
+                                        />
                                     </td>
-                                    <td className="p-2 ">{item.description}</td>
+                                    <td className="p-2 truncate overflow-hidden whitespace-nowrap max-w-[200px]">
+                                        {item.description}
+                                    </td>
                                     <td className="p-2">{item.weight}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <div className=" flex p-2">
-                        <button className="border rounded-lg py-1 px-2">Acciones</button>
-                    </div>
                 </div>
             ) : (
                 <p className="text-gray-600">No hay ningún {title.toLowerCase()}</p>
