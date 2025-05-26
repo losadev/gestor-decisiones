@@ -2,9 +2,10 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FaTrash } from 'react-icons/fa';
 import { ProCon } from '../../types/proCon.types';
 import axios from 'axios';
-import { useState } from 'react';
-import { DecisionCategoryType } from '../../types/decision.types';
+import { useEffect, useState } from 'react';
+import { DecisionCategoryType, DecisionData } from '../../types/decision.types';
 import { ImCross } from 'react-icons/im';
+import { set } from 'zod';
 
 type FormData = {
     title: string;
@@ -15,24 +16,23 @@ type FormData = {
 type Props = {
     isOpen?: boolean;
     onClose: () => void;
+    decisionId?: string;
 };
 
-const DecisionForm = ({ isOpen, onClose }: Props) => {
+const DecisionForm = ({ isOpen, onClose, decisionId }: Props) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string>('');
-    let categoryDecision = [];
-    for (const category of Object.values(DecisionCategoryType)) {
-        categoryDecision.push(category);
-    }
-
+    const [decision, setDecision] = useState<DecisionData | null>(null);
+    const [prosCons, setProsCons] = useState<ProCon[]>([]);
     const {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<FormData>({
         defaultValues: {
-            title: '',
-            category: 'Trabajo', // valor por defecto
+            title: decision ? decision.title : '', // Si hay una decisión, se usa su título, si no, se deja vacío
+            category: decision ? decision.category : 'Trabajo',
             prosCons: [
                 {
                     description: '',
@@ -42,24 +42,82 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
             ],
         },
     });
-
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'prosCons',
     });
 
-    const onSubmit = async (data: FormData) => {
-        //onst token = localStorage.getItem('token');
+    let categoryDecision = [];
+    for (const category of Object.values(DecisionCategoryType)) {
+        categoryDecision.push(category);
+    }
 
-        try {
-            const res = await axios.post('http://localhost:5000/api/decision', data, {
-                withCredentials: true,
+    useEffect(() => {
+        if (decision) {
+            reset({
+                title: decision.title,
+                category: decision.category,
+                prosCons: prosCons.length
+                    ? prosCons
+                    : [
+                          {
+                              description: '',
+                              type: 'Pro',
+                              weight: 1,
+                          },
+                      ],
             });
+        }
+    }, [decision, prosCons, reset]);
+
+    useEffect(() => {
+        if (!decisionId) return;
+
+        // Carga la decisión
+        axios
+            .get(`http://localhost:5000/api/decision/${decisionId}`, {
+                withCredentials: true,
+            })
+            .then((response) => {
+                setDecision(response.data.decision);
+            })
+            .catch((error) => {
+                console.error('Error fetching decision:', error);
+            });
+
+        // Carga los pros y contras
+        axios
+            .get(`http://localhost:5000/api/proscons/${decisionId}`, {
+                withCredentials: true,
+            })
+            .then((response) => {
+                setProsCons(response.data.prosCons);
+            })
+            .catch((error) => {
+                console.error('Error fetching pros and cons:', error);
+            });
+    }, [decisionId]);
+
+    const onSubmit = async (data: FormData) => {
+        setLoading(true);
+        try {
+            let res;
+
+            if (decisionId) {
+                // editando una decisión existente
+                res = await axios.put(`http://localhost:5000/api/decision/${decisionId}`, data, {
+                    withCredentials: true,
+                });
+            } else {
+                // creando una nueva
+                res = await axios.post('http://localhost:5000/api/decision', data, {
+                    withCredentials: true,
+                });
+            }
 
             setMessage(res.data.message);
         } catch (error: any) {
-            console.log(data);
-            setMessage(error.response.data.message);
+            setMessage(error.response?.data?.message || 'Error al enviar el formulario');
         } finally {
             setLoading(false);
         }
@@ -191,7 +249,11 @@ const DecisionForm = ({ isOpen, onClose }: Props) => {
                     <button
                         className="bg-black/90 hover:bg-black/80 active:bg-amber-600 text-white rounded-lg flex grow justify-center py-2 mt-4 font-semibold cursor-pointer duration-100 hover:duration-100 px-2"
                         type="submit">
-                        {loading ? 'Creando...' : 'Crear decisión'}
+                        {loading
+                            ? 'Guardando...'
+                            : decisionId
+                              ? 'Actualizar decisión'
+                              : 'Crear decisión'}
                     </button>
                 </div>
             </form>

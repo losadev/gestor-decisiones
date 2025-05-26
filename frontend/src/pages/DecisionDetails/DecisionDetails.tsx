@@ -9,14 +9,33 @@ import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import ProsConsTable from './ProsConsTable';
+import DecisionForm from '../../components/Decision/DecisionForm';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
+
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
     const navigate = useNavigate();
+
+    const [modal, setModal] = useState<boolean>(false);
+
+    const openModal = () => {
+        setModal(true);
+    };
+
+    const closeModal = () => {
+        setModal(false);
+    };
+
+    useEffect(() => {
+        const main = document.getElementById('main-scroll');
+        if (main) {
+            main.style.overflow = modal ? 'hidden' : 'auto';
+        }
+    }, [modal]);
 
     useEffect(() => {
         const res = axios.get(`http://localhost:5000/api/proscons/${id}`, {
@@ -40,7 +59,7 @@ const DecisionDetails = () => {
         }).catch((error) => {
             console.error('Error fetching decision details:', error);
         });
-    }, [id]);
+    }, [id, decision]);
 
     const deleteDecision = () => {
         const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
@@ -88,13 +107,15 @@ const DecisionDetails = () => {
                     <div className="2xl:flex items-end gap-2 hidden">
                         <button
                             type="button"
-                            className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out">
+                            className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
+                            onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
                             <IoMdCheckmarkCircleOutline />
                             <span>Evaluar</span>
                         </button>
                         <button
                             type="button"
-                            className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out">
+                            className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                            onClick={openModal}>
                             <BsPencilSquare />
                             <span>Editar</span>
                         </button>
@@ -112,7 +133,7 @@ const DecisionDetails = () => {
                 </div>
                 <hr className="border-none h-[1px] bg-gray-300 my-4" />
                 <div className="flex flex-col gap-4 2xl:flex-row  h-full">
-                    <div className="flex gap-4  flex-col items-center text-center 2xl:flex-1 h-full ">
+                    <div className="flex gap-4  flex-col items-center text-center 2xl:flex-2 h-full ">
                         <div className="grid grid-cols-1 md:grid-cols-2  h-full w-full gap-4 2xl:border rounded-lg border-gray-300 2xl:p-8">
                             <ProsConsTable items={pros} title="Pros" color="green" />
                             <ProsConsTable items={cons} title="Contras" color="red" />
@@ -139,6 +160,7 @@ const DecisionDetails = () => {
                                 <span>Evalúa ahora</span>
                             </button>
                         </div>
+                        <DecisionForm isOpen={modal} onClose={closeModal} decisionId={id} />
                     </div>
                 </div>
             </div>

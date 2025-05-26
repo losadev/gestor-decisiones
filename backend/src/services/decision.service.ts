@@ -32,4 +32,20 @@ export const decisionService = {
 
     return decision;
   },
+  update: async (
+    decisionId: string,
+    updateData: {
+      title?: string;
+      category?: CategoryType;
+    }
+  ) => {
+    const decision = await Decision.findOne({ where: { id: decisionId } });
+    if (!decision) {
+      throw new Error("La decisión no existe");
+    }
+
+    await decision.update(updateData);
+
+    return decision;
+  },
 };

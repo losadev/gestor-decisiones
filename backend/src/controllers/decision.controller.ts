@@ -92,3 +92,59 @@ export const getDecisionById = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateDecision = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user as { id: string };
+    const decisionId = req.params.id;
+
+    // verifica que la decisión existe y pertenece al usuario
+    const existingDecision = await decisionService.getById(decisionId);
+
+    if (!existingDecision || existingDecision.userId !== userId.id) {
+      res.status(404).json({ message: "Decisión no encontrada" });
+      return;
+    }
+
+    const updatedDecision = await decisionService.update(decisionId, {
+      ...req.body,
+    });
+
+    // elimina pros y contras actuales
+    await proConService.deleteAllByDecisionId(decisionId);
+
+    // crea los nuevos pros y contras
+    const proConsArray: ProConReqBody[] = req.body.prosCons;
+
+    if (!proConsArray || proConsArray.length === 0) {
+      res.status(400).json({ message: "Debe incluir al menos un Pro/Con" });
+      return;
+    }
+
+    let prosCons = [];
+
+    for (const proCon of proConsArray) {
+      const { description, type, weight } = proCon;
+      prosCons.push(
+        await proConService.create({
+          description,
+          type,
+          weight,
+          decisionId,
+        })
+      );
+    }
+
+    res.status(200).json({
+      message: "Decisión actualizada con éxito",
+      data: updatedDecision,
+      prosCons,
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server Internal Error",
+      error: error.message,
+    });
+  }
+};
