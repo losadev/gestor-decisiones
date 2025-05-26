@@ -14,16 +14,29 @@ const categoryStyle = {
     text: '',
 };
 
-export const Chip = ({ mode, category }: { mode: string; category?: string }) => {
+const Chip = ({
+    mode,
+    category,
+    className = '',
+}: {
+    mode: string;
+    category?: string;
+    className?: string;
+}) => {
     if (mode === 'category') {
         categoryStyle.text = category || '';
-        return <span className={`${categoryStyle.styles}`}>{categoryStyle.text}</span>;
+        return <span className={`${categoryStyle.styles} ${className}`}>{categoryStyle.text}</span>;
     }
+
+    const baseStyle = mode === 'evaluated' ? evaluated.styles : inProgress.styles;
+    const text = mode === 'evaluated' ? 'Evaluado' : 'En progreso';
+    const Icon = mode === 'evaluated' ? TiInputChecked : CgDanger;
+
     return (
-        <span
-            className={`inline-flex items-center gap-2 font-medium ${mode === 'evaluated' ? evaluated.styles : inProgress.styles}`}>
-            {mode === 'evaluated' ? <TiInputChecked /> : <CgDanger />}
-            {mode === 'evaluated' ? 'Evaluado' : 'En progreso'}
+        <span className={`inline-flex items-center gap-2 ${baseStyle} ${className}`}>
+            <Icon />
+            {text}
         </span>
     );
 };
+export default Chip;

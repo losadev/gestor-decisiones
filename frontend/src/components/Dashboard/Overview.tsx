@@ -25,7 +25,7 @@ const Overview = () => {
     }, [modal]);
 
     return (
-        <div className="w-full min-h-screen relative ">
+        <main className="w-full min-h-screen relative ">
             <div className="w-full flex flex-col py-4 2xl:px-4 ">
                 <div className="flex flex-col w-full ">
                     <header className="flex flex-col justify-between items-center px-0 py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
@@ -44,7 +44,7 @@ const Overview = () => {
                 </div>
                 <DecisionsTable />
             </div>
-        </div>
+        </main>
     );
 };
 

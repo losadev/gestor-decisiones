@@ -2,14 +2,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Chip } from '../../components/Dashboard/Chip';
-import Button from '../../components/Button';
+import Chip from '../../components/Dashboard/Chip';
 import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
-import { response } from 'express';
+import ProsConsTable from './ProsConsTable';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
@@ -60,24 +59,33 @@ const DecisionDetails = () => {
     const cons = prosCons?.filter((item) => item.type === 'Contra') || [];
 
     return (
-        <main className="px-4 pb-8 flex w-full  flex-col gap-4 m-8">
-            <h1 className="text-4xl font-semibold">{decision?.title}</h1>
-            <div className="bg-white border border-gray-300 shadow-sm h-full flex flex-col w-full rounded-lg p-8 gap-4">
+        <div className="px-2 pb-4 2xl:px-4 flex w-full h-full flex-col gap-4 ">
+            <header className="pt-4 pb-2">
+                <h1 className="text-2xl font-semibold">Detalles de la decisión</h1>
+                <p className="text-gray-600">Mira y gestiona esta decisión</p>
+            </header>
+            <div className="bg-white border h-full border-gray-300 shadow-sm  flex flex-col w-full rounded-lg p-4 2xl:p-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-semibold">Detalles de la decisión</h1>
-                    <p className="text-gray-600">Mira y gestiona esta decisión</p>
+                    <h1 className="text-xl 2xl:text-4xl font-semibold">{decision?.title}</h1>
                 </div>
-                <div className="flex justify-between ">
+                <div className="flex flex-col gap-8">
                     <div className="mt-4 flex flex-col gap-2">
                         <span className="flex gap-2">
-                            <Chip category={decision?.category} mode="category" />
-                            <Chip mode={decision?.evaluation ? 'evaluated' : 'progress'} />
+                            <Chip
+                                className="text-sm"
+                                category={decision?.category}
+                                mode="category"
+                            />
+                            <Chip
+                                className="text-sm"
+                                mode={decision?.evaluation ? 'evaluated' : 'progress'}
+                            />
                         </span>
-                        <span className="font-medium text-gray-600">
+                        <span className="text-sm font-medium text-gray-600">
                             {createdAt ? 'Creado el ' + createdAt : 'Fecha no disponible'}
                         </span>
                     </div>
-                    <div className="flex items-end gap-2">
+                    <div className="2xl:flex items-end gap-2 hidden">
                         <button
                             type="button"
                             className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out">
@@ -102,35 +110,15 @@ const DecisionDetails = () => {
                         </button>
                     </div>
                 </div>
-                <hr className="my-2 border-none h-[1px] bg-gray-300" />
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="flex gap-4 justify-evenly ">
-                        <div className="flex flex-col gap-2">
-                            <h1 className="text-xl font-semibold">Pros</h1>
-                            <ul className="text-gray-600">
-                                {pros.map((pro) =>
-                                    pro.type === 'Pro' ? (
-                                        <li key={pro.id}>{pro.description}</li>
-                                    ) : (
-                                        <li>No hay ningún pro</li>
-                                    )
-                                )}
-                            </ul>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <h1 className="text-xl font-semibold">Contras</h1>
-                            <ul className="text-gray-600">
-                                {cons.map((con) =>
-                                    con.type === 'Contra' ? (
-                                        <li key={con.id}>{con.description}</li>
-                                    ) : (
-                                        <li>No hay ningún contra</li>
-                                    )
-                                )}
-                            </ul>
+                <hr className="border-none h-[1px] bg-gray-300 my-4" />
+                <div className="flex flex-col gap-4 2xl:flex-row  h-full">
+                    <div className="flex gap-4  flex-col items-center text-center 2xl:flex-1 h-full ">
+                        <div className="grid grid-cols-1 md:grid-cols-2  h-full w-full gap-4 2xl:border rounded-lg border-gray-300 2xl:p-8">
+                            <ProsConsTable items={pros} title="Pros" color="green" />
+                            <ProsConsTable items={cons} title="Contras" color="red" />
                         </div>
                     </div>
-                    <div className="border rounded-lg border-gray-300 p-8">
+                    <div className="border rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
                         <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
                         <p className="text-gray-600 font-medium mt-2">
                             Esta decisión no ha sido evaluada todavía
@@ -154,7 +142,7 @@ const DecisionDetails = () => {
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     );
 };
 
