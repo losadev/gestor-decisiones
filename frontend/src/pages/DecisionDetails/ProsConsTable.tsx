@@ -1,4 +1,5 @@
 import { ProCon } from '../../types/proCon.types';
+import { useState } from 'react';
 
 type Props = {
     items: ProCon[];
@@ -7,33 +8,59 @@ type Props = {
 };
 
 const ProsConsTable = ({ items, title, color }: Props) => {
+    const [selectedItems, setSelectedItems] = useState<ProCon[]>([]);
     const bgColor = color === 'green' ? 'bg-green-50' : 'bg-red-50';
 
+    console.log('Items:', selectedItems);
+
     return (
-        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow`}>
+        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow `}>
             <h2
                 className={`text-xl font-semibold mb-2 ${color === 'green' ? 'text-green-800' : 'text-red-800'}`}>
                 {title}
             </h2>
             {items.length > 0 ? (
-                <table
-                    className={`w-full text-left border-collapse flex flex-col ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
-                    <thead>
-                        <tr
-                            className={`flex ${color === 'green' ? '!bg-green-800' : '!bg-red-800'} rounded-t text-white w-full`}>
-                            <th className="p-2 text-left flex-2">Nombre</th>
-                            <th className="p-2 text-left flex-1">Importancia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item) => (
-                            <tr className="flex flex-1" key={item.id}>
-                                <td className="p-2 text-left flex-2 ">{item.description}</td>
-                                <td className="p-2 flex-1 text-center">{item.weight}</td>
+                <div className=" h-full flex flex-col justify-between overflow-x-auto">
+                    <table
+                        className={`w-full  ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
+                        <thead>
+                            <tr className={color === 'green' ? '!bg-green-800' : '!bg-red-800'}>
+                                <th className="w-1/6 p-2 text-white text-center">
+                                    {' '}
+                                    {/* checkbox */}
+                                </th>
+                                <th className="w-4/6 p-2 text-white text-center ">Nombre</th>
+                                <th className="w-2/6 p-2 text-white text-center">Importancia</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <tr key={item.id} className="text-center align-middle">
+                                    <td className="p-2">
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => {
+                                                if (selectedItems.includes(item)) {
+                                                    setSelectedItems(
+                                                        selectedItems.filter(
+                                                            (i) => i.id !== item.id
+                                                        )
+                                                    );
+                                                } else {
+                                                    setSelectedItems([...selectedItems, item]);
+                                                }
+                                            }}
+                                        />
+                                    </td>
+                                    <td className="p-2 truncate overflow-hidden whitespace-nowrap max-w-[200px]">
+                                        {item.description}
+                                    </td>
+                                    <td className="p-2">{item.weight}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <p className="text-gray-600">No hay ningún {title.toLowerCase()}</p>
             )}

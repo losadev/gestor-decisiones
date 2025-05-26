@@ -27,7 +27,7 @@ const SideNavBar = () => {
                         onClick={handleDropDownMenu}
                         className={`${dropDownMenu ? 'bg-orange-300 rounded-b-none' : ''} flex gap-2 items-center hover:bg-orange-300 rounded p-2 cursor-pointer`}>
                         <MdSpaceDashboard />
-                        <span>Dashboard</span>
+                        <span>Panel</span>
                         <HiChevronDown
                             className={`text-3xl grow self-end transition duration-200 ${dropDownMenu ? 'rotate-180 transition duration-200' : ''}`}
                         />
