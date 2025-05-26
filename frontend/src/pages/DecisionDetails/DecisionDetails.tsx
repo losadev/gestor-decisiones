@@ -173,3 +173,4 @@ const DecisionDetails = ({ color }: { color: string }) => {
 };
 
 export default DecisionDetails;
+

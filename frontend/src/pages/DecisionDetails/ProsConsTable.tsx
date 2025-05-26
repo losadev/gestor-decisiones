@@ -49,3 +49,4 @@ const ProsConsTable = ({ items, title, color }: Props) => {
 };
 
 export default ProsConsTable;
+
