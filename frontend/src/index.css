@@ -112,3 +112,14 @@ input[type='range'] {
     border-radius: 50%;
     cursor: pointer;
 }
+
+.pros_table {
+    tr:nth-child(odd) {
+        @apply bg-green-100;
+    }
+}
+.contras_table {
+    tr:nth-child(odd) {
+        @apply bg-red-100;
+    }
+}
