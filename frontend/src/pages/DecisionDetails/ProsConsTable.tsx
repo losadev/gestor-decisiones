@@ -21,15 +21,15 @@ const ProsConsTable = ({ items, title, color }: Props) => {
                     <thead>
                         <tr
                             className={`flex ${color === 'green' ? '!bg-green-800' : '!bg-red-800'} rounded-t text-white w-full`}>
-                            <th className="p-2 flex-1">Nombre</th>
-                            <th className="p-2">Importancia</th>
+                            <th className="p-2 text-left flex-2">Nombre</th>
+                            <th className="p-2 text-left flex-1">Importancia</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.map((item) => (
                             <tr className="flex flex-1" key={item.id}>
-                                <td className="p-2 flex-1 ">{item.description}</td>
-                                <td className="p-2">{item.weight}</td>
+                                <td className="p-2 text-left flex-2 ">{item.description}</td>
+                                <td className="p-2 flex-1 text-center">{item.weight}</td>
                             </tr>
                         ))}
                     </tbody>

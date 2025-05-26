@@ -3,8 +3,7 @@ import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
-import { Chip } from './Chip';
-
+import Chip from '../../components/Dashboard/Chip';
 function DecisionsTable() {
     const [data, setData] = useState<DecisionData[]>([]);
     const [showActions, setShowActions] = useState<number | null>(null);
