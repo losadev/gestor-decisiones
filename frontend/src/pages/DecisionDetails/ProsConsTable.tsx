@@ -25,10 +25,6 @@ const ProsConsTable = ({ items, title, color }: Props) => {
                         className={`w-full  ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
                         <thead>
                             <tr className={color === 'green' ? '!bg-green-800' : '!bg-red-800'}>
-                                <th className="w-1/6 p-2 text-white text-center">
-                                    {' '}
-                                    {/* checkbox */}
-                                </th>
                                 <th className="w-4/6 p-2 text-white text-center ">Nombre</th>
                                 <th className="w-2/6 p-2 text-white text-center">Importancia</th>
                             </tr>
@@ -36,22 +32,6 @@ const ProsConsTable = ({ items, title, color }: Props) => {
                         <tbody>
                             {items.map((item) => (
                                 <tr key={item.id} className="text-center align-middle">
-                                    <td className="p-2">
-                                        <input
-                                            type="checkbox"
-                                            onChange={() => {
-                                                if (selectedItems.includes(item)) {
-                                                    setSelectedItems(
-                                                        selectedItems.filter(
-                                                            (i) => i.id !== item.id
-                                                        )
-                                                    );
-                                                } else {
-                                                    setSelectedItems([...selectedItems, item]);
-                                                }
-                                            }}
-                                        />
-                                    </td>
                                     <td className="p-2 truncate overflow-hidden whitespace-nowrap max-w-[200px]">
                                         {item.description}
                                     </td>

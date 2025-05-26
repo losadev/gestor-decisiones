@@ -15,6 +15,7 @@ const DecisionDetails = ({ color }: { color: string }) => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
+    const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
 
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
@@ -138,35 +139,30 @@ const DecisionDetails = ({ color }: { color: string }) => {
                             <ProsConsTable items={pros} title="Pros" color="green" />
                             <ProsConsTable items={cons} title="Contras" color="red" />
                         </div>
-                        <button
-                            className={`ml-auto 2xl:p-8 px-4 flex gap-2 items-center  cursor-pointer py-2 rounded-lg text-white font-semibold shadow transition 
-              ${color === 'green' ? 'bg-green-700 hover:bg-green-800' : 'bg-red-700 hover:bg-red-800'}`}
-                            disabled={true}>
-                            <BsTrash />
-                            <span>Eliminar</span>
-                        </button>
                     </div>
                     <hr className="border-none h-[1px] bg-gray-300 my-4" />
-                    <div className="border rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
-                        <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
-                        <p className="text-gray-600 font-medium mt-2">
-                            Esta decisión no ha sido evaluada todavía
-                        </p>
-                        <div className="flex flex-col items-center justify-center mt-4">
-                            <span className="my-4">
-                                <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
-                            </span>
-                            <p className="text-gray-600 font-medium mt-2 text-center">
-                                Evalúa esta decisión para hacer seguimiento de sus resultados y
-                                obtener recomendaciones personalizadas.
+                    <div className="border flex justify-center rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
+                        <div className="inline-flex flex-col items-center">
+                            <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
+                            <p className="text-gray-600 font-medium mt-2">
+                                Esta decisión no ha sido evaluada todavía
                             </p>
-                            <button
-                                type="button"
-                                className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
-                                onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
-                                <IoMdCheckmarkCircleOutline />
-                                <span>Evalúa ahora</span>
-                            </button>
+                            <div className="flex flex-col items-center justify-center mt-4">
+                                <span className="my-4">
+                                    <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
+                                </span>
+                                <p className="text-gray-600 font-medium mt-2 text-center">
+                                    Evalúa esta decisión para hacer seguimiento de sus resultados y
+                                    obtener recomendaciones personalizadas.
+                                </p>
+                                <button
+                                    type="button"
+                                    className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                    onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
+                                    <IoMdCheckmarkCircleOutline />
+                                    <span>Evalúa ahora</span>
+                                </button>
+                            </div>
                         </div>
                         <DecisionForm isOpen={modal} onClose={closeModal} decisionId={id} />
                     </div>
