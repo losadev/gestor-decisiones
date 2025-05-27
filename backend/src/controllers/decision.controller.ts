@@ -148,3 +148,31 @@ export const updateDecision = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateState = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user as { id: string };
+
+    const decision = await decisionService.getById(id);
+
+    if (!decision || decision.userId !== userId.id) {
+      res.status(404).json({ message: "Decisión no encontrada" });
+      return;
+    }
+
+    const updatedDecision = await decisionService.update(id, {
+      status: "evaluated",
+    });
+
+    res.status(200).json({
+      message: "Estado de la decisión actualizado a 'evaluated'",
+      data: updatedDecision,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Server Internal Error",
+      error: error.message,
+    });
+  }
+};

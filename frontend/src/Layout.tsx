@@ -9,7 +9,7 @@ const Layout = () => {
             <SideNavBar />
             <main
                 id="main-scroll"
-                className="flex flex-1 min-h-screen w-full overflow-y-auto scroll-custom ">
+                className="flex flex-1 min-h-screen w-full overflow-y-auto scroll-custom bg-gray-100">
                 <Outlet />
             </main>
         </div>

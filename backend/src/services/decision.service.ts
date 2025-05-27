@@ -37,6 +37,7 @@ export const decisionService = {
     updateData: {
       title?: string;
       category?: CategoryType;
+      status?: string;
     }
   ) => {
     const decision = await Decision.findOne({ where: { id: decisionId } });
