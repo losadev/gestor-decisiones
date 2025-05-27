@@ -28,3 +28,19 @@ export const createEvaluation = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getAllEvaluations = async (_req: Request, res: Response) => {
+  try {
+    const evaluations = await evaluationService.getAll();
+    res.status(200).json({
+      message: "Evaluaciones obtenidas con éxito",
+      data: evaluations,
+    });
+  } catch (error: any) {
+    console.error("Error al obtener las evaluaciones:", error); // Agregar log para el error
+    res.status(500).json({
+      message: "Server Internal Error",
+      error: error.message || error, // Mostrar el mensaje del error
+    });
+  }
+};

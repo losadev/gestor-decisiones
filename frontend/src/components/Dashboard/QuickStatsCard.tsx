@@ -1,64 +1,75 @@
 import { useEffect, useState } from 'react';
 import { useAnimation } from '../../hooks/useAnimtation';
-import { DecisionData } from '../../types/decision.types';
+import { DecisionData, Evaluation } from '../../types/decision.types';
 import axios from 'axios';
 
 const QuickStatsCard = () => {
     const [data, setData] = useState<DecisionData[] | []>([]);
-    const [evaluation, setEvaluation] = useState<any[] | []>([]);
+    const [evaluations, setEvaluation] = useState<Evaluation[] | []>([]);
+
+    const [numberOfDecisions, setNumberOfDecisions] = useState<number>(0);
+    const [pendingDecisions, setPendingDecisions] = useState<DecisionData[]>([]);
+
     const [goodDecisions, setGoodDecisions] = useState<number>(0);
     const [badDecisions, setBadDecisions] = useState<number>(0);
-    const [numberOfDecisions, setNumberOfDecisions] = useState<number>(0);
-    const [pendingDecisions, setPendingDecisions] = useState<DecisionData[] | []>([]);
-    useAnimation(setGoodDecisions, 68);
-    useAnimation(setBadDecisions, 32);
+
+    const [targetGood, setTargetGood] = useState<number>(0);
+    const [targetBad, setTargetBad] = useState<number>(0);
+
+    // Animación de los porcentajes
+    useAnimation(targetGood, setGoodDecisions);
+    useAnimation(targetBad, setBadDecisions);
+
+    console.log(targetBad, targetGood);
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/decision', {
-                withCredentials: true,
-            })
+            .get('http://localhost:5000/api/decision', { withCredentials: true })
             .then((response) => {
                 const decisions = response.data.decisions;
                 setData(decisions);
-                setNumberOfDecisions(decisions.length); // <- Aquí se actualiza correctamente
-                const pending = decisions.filter(
-                    (decision: DecisionData) => decision.status === 'progress'
-                );
+                setNumberOfDecisions(decisions.length);
+                const pending = decisions.filter((d: DecisionData) => d.status === 'progress');
                 setPendingDecisions(pending);
             })
-            .catch((error) => console.log(error));
+            .catch(console.log);
     }, []);
-
+    console.log('Evaluations: ', evaluations);
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/evaluation', {
-                withCredentials: true,
-            })
+            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
             .then((response) => {
-                setEvaluation(response.data.decisions);
+                setEvaluation(response.data.data);
             })
-            .catch((error) => console.log(error));
+            .catch(console.log);
     }, []);
 
-    const getPendingDecision = () => {
-        const pending = data.filter((decision) => decision.status === 'progress');
-        setPendingDecisions(pending);
-    };
-
     useEffect(() => {
-        getPendingDecision();
-        setNumberOfDecisions(data.length);
-    }, [data]);
+        console.log('Evaluations changed: ', evaluations);
+        if (evaluations && evaluations.length === 0) {
+            setTargetGood(0);
+            setTargetBad(0);
+            return;
+        }
+
+        const good = evaluations?.filter((evalItem) => Number(evalItem.score) >= 6);
+        const bad = evaluations?.filter((evalItem) => Number(evalItem.score) < 6);
+
+        const goodPct = Math.round((good.length / evaluations.length) * 100);
+        const badPct = Math.round((bad.length / evaluations.length) * 100);
+
+        setTargetGood(goodPct);
+        setTargetBad(badPct);
+    }, [evaluations]);
 
     return (
-        <div className="rounded-lg bg-white shadow-md py-4 px-2 inline-flex flex-col gap-1 sm:w-full md:col-span-2 xl:col-span-1 lg:px-8 xl:h-full">
+        <div className="rounded-lg bg-white border border-gray-300 shadow-md py-4 px-2 inline-flex flex-col gap-1 sm:w-full md:col-span-2 xl:col-span-1 lg:px-8 xl:h-full">
             <div className="flex flex-col gap-2 p-4 border-b-amber-100">
                 <h1 className="text-2xl font-semibold sm:text-3xl">Estadísticas rápidas</h1>
                 <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
 
-                <div className="grid grid-cols-2 grid-rows-[1fr 1fr] gap-4 mt-4 font-medium ">
-                    <div className="flex flex-col justify-between text-center gap-4 border border-gray-300 shadow-md  rounded-lg py-6 px-2">
+                <div className="grid grid-cols-2 grid-rows-[1fr 1fr] gap-4 mt-4 font-medium">
+                    <div className="flex flex-col justify-between text-center gap-4 border border-gray-300 shadow-md rounded-lg py-6 px-2">
                         <span>Total de decisiones</span>
                         <span className="text-3xl font-bold">{numberOfDecisions}</span>
                     </div>

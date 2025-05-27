@@ -18,18 +18,21 @@ const RecentActivity = () => {
                 setDecisions(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, [decisions]);
+    }, []);
+
     const recentDecisions =
-        decisions?.slice(0, 5).map((decision) => {
-            return {
+        decisions
+            ?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .slice(0, 5)
+            .map((decision) => ({
                 id: decision.id,
                 title: decision.title,
                 category: decision.category,
                 status: decision.status,
-            };
-        }) || [];
+            })) || [];
+
     return (
-        <div className="rounded-lg bg-white shadow-md py-8 px-4 inline-flex flex-col gap-1 md:h-full md:flex-1 lg:px-8">
+        <div className="rounded-lg border border-gray-300 bg-white shadow-md py-8 px-4 inline-flex flex-col gap-1 md:h-full md:flex-1 lg:px-8">
             <h1 className="text-3xl font-semibold">Actividad reciente</h1>
             <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
             <div>
