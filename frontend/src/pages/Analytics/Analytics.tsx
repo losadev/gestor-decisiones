@@ -41,6 +41,13 @@ const Analytics = () => {
     const [numberOfDecisions, setNumberOfDecisions] = useState<number>(0);
     const [pending, setPending] = useState<DecisionData[]>([]);
     const [improvement, setImprovement] = useState<number>(0);
+    const [averageDecisionTime, setAverageDecisionTime] = useState<number>(0);
+    const [categoryData, setCategoryData] = useState<
+        { name: string; buenas: number; malas: number }[]
+    >([]);
+    const totalEvaluations = evaluations.length;
+    const successfulEvaluations = evaluations.filter((e) => e.score > 6).length;
+    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
 
     useEffect(() => {
         axios
@@ -52,7 +59,7 @@ const Analytics = () => {
                 // Agrupar por mes
                 const evaluationsByMonth = evals.reduce(
                     (acc, evaluation) => {
-                        const month = new Date(evaluation.createdAt).toISOString().slice(0, 7); // "YYYY-MM"
+                        const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
                         if (!acc[month]) acc[month] = [];
                         acc[month].push(evaluation);
                         return acc;
@@ -93,14 +100,78 @@ const Analytics = () => {
         axios
             .get('http://localhost:5000/api/decision', { withCredentials: true })
             .then((response) => {
-                const decisions = response.data.decisions;
+                const decisions: DecisionData[] = response.data.decisions;
                 setDecisions(decisions);
                 setNumberOfDecisions(decisions.length);
-                const pending = decisions.filter((d: DecisionData) => d.status === 'progress');
-                setPending(pending);
+                setPending(decisions.filter((d) => d.status === 'progress'));
+
+                // Calcular tiempo medio desde que se crea una decisión hasta que se evalúa
+                if (evaluations.length > 0) {
+                    const timeDiffs: number[] = evaluations
+                        .map((evaluation) => {
+                            const decision = decisions.find((d) => d._id === evaluation.decisionId);
+                            if (!decision) return null;
+                            const createdDecision = new Date(decision.createdAt);
+                            const createdEvaluation = new Date(evaluation.createdAt);
+                            const diffInDays =
+                                (createdEvaluation.getTime() - createdDecision.getTime()) /
+                                (1000 * 60 * 60 * 24);
+                            return diffInDays >= 0 ? diffInDays : null;
+                        })
+                        .filter((d): d is number => d !== null);
+
+                    if (timeDiffs.length > 0) {
+                        const avg =
+                            timeDiffs.reduce((acc, curr) => acc + curr, 0) / timeDiffs.length;
+                        setAverageDecisionTime(avg);
+                    }
+                }
             })
             .catch(console.log);
-    }, []);
+    }, [evaluations]);
+
+    useEffect(() => {
+        if (evaluations.length === 0 || decisions.length === 0) return;
+
+        const allCategories = ['Trabajo', 'Salud', 'Finanzas', 'Personal', 'Familia', 'Otros'];
+
+        const categoriesMap: Record<string, { buenas: number; malas: number }> = {};
+        allCategories.forEach((cat) => {
+            categoriesMap[cat] = { buenas: 0, malas: 0 };
+        });
+
+        evaluations.forEach((evaluation) => {
+            const decision = decisions.find((d) => d.id === evaluation.decisionId);
+            if (!decision) {
+                console.log('Decision no encontrada para evaluación:', evaluation);
+                return;
+            }
+
+            // Para evitar problemas por mayúsculas/minúsculas y espacios:
+            const category = decision.category.trim();
+
+            if (!categoriesMap[category]) {
+                console.log('Categoría no reconocida:', category);
+                return;
+            }
+
+            const isGood = evaluation.score > 6;
+            if (isGood) {
+                categoriesMap[category].buenas += 1;
+            } else {
+                categoriesMap[category].malas += 1;
+            }
+        });
+
+        const formattedData = allCategories.map((name) => ({
+            name,
+            buenas: categoriesMap[name].buenas,
+            malas: categoriesMap[name].malas,
+        }));
+
+        console.log('Datos formateados para gráfico:', formattedData);
+        setCategoryData(formattedData);
+    }, [evaluations, decisions]);
 
     return (
         <div className="w-full p-4 pr-8 h-full">
@@ -121,8 +192,8 @@ const Analytics = () => {
                 />
 
                 <AnalyticsCard
-                    content="61%"
-                    description="Basado en 4 decisiones evaluadas"
+                    content={`${successRate.toFixed(0)}%`}
+                    description={`Basado en ${totalEvaluations} decisiones evaluadas`}
                     icon={
                         <HiOutlineTrendingUp className="bg-green-400 rounded-full text-green-200 p-2" />
                     }
@@ -131,7 +202,7 @@ const Analytics = () => {
                 />
 
                 <AnalyticsCard
-                    content="5.2 días"
+                    content={`${averageDecisionTime.toFixed(1)} días`}
                     description="Tiempo medio desde la consideración hasta la decisión"
                     icon={
                         <MdOutlineWatchLater className="bg-green-200 rounded-full text-green-400 p-2" />
@@ -152,7 +223,7 @@ const Analytics = () => {
 
             <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 pb-4">
                 <AnalyticsResumeCard />
-                <TinyBarChart />
+                <TinyBarChart data={categoryData} />
                 <LineChartDecisionStats />
             </div>
         </div>

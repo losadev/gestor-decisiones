@@ -9,16 +9,17 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-const data = [
-    { name: 'Trabajo', buenas: 4, malas: 2 },
-    { name: 'Salud', buenas: 3, malas: 1 },
-    { name: 'Finanzas', buenas: 5, malas: 0 },
-    { name: 'Personal', buenas: 2, malas: 3 },
-    { name: 'Familia', buenas: 4, malas: 2 },
-    { name: 'Otros', buenas: 1, malas: 4 },
-];
+interface CategoryData {
+    name: string;
+    buenas: number;
+    malas: number;
+}
 
-const TinyBarChart = () => {
+interface Props {
+    data: CategoryData[];
+}
+
+const TinyBarChart = ({ data }: Props) => {
     return (
         <div className="flex flex-col h-full gap-4 w-full 2xl:p-8 bg-white shadow-sm border border-gray-300 p-4">
             <h1 className="text-xl lg:text-3xl font-semibold">Decisiones por categoría</h1>
