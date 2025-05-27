@@ -29,7 +29,7 @@ const Decisions = () => {
                 <NewDecisionButton onClick={openModal} />
             </header>
             <main className="flex-1 w-full ">
-                <DecisionsTable tableClasses="flex-1 overflow-y-auto" />
+                <DecisionsTable />
             </main>
             <DecisionForm isOpen={modal} onClose={closeModal} />
         </div>
