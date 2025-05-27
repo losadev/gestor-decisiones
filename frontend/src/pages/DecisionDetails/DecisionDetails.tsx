@@ -13,7 +13,7 @@ import DecisionForm from '../../components/Decision/DecisionForm';
 import { LiaFilterSolid } from 'react-icons/lia';
 import { IoFilterSharp } from 'react-icons/io5';
 
-const DecisionDetails = ({ color }: { color: string }) => {
+const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
