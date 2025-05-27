@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Evaluation } from '../../types/decision.types';
 
 const EvaluationType = ({ color, text }: { color: string; text: string }) => {
@@ -17,34 +17,6 @@ const AnalyticsResumeCard = () => {
     const [chartData, setChartData] = useState<{ name: string; value: number }[]>([]);
 
     const COLORS = ['#0088FE', '#FFBB28', '#FF4C4C']; // Positivas, Neutras, Negativas
-
-    const RADIAN = Math.PI / 180;
-
-    const renderCustomizedLabel = ({
-        cx,
-        cy,
-        midAngle,
-        innerRadius,
-        outerRadius,
-        percent,
-        index,
-    }: any) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-        return (
-            <text
-                x={x}
-                y={y}
-                fill="white"
-                className="font-bold text-xl p-4"
-                textAnchor={x > cx ? 'start' : 'end'}
-                dominantBaseline="central">
-                {`${(percent * 100).toFixed(0)}%`}
-            </text>
-        );
-    };
 
     useEffect(() => {
         axios
@@ -69,28 +41,36 @@ const AnalyticsResumeCard = () => {
         ]);
     }, [evaluations]);
 
+    const total = chartData.reduce((acc, item) => acc + item.value, 0);
+
     return (
         <div className="rounded-lg bg-white shadow-md p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
             <h1 className="text-3xl font-semibold">Resumen análisis</h1>
             <p className="text-gray-500">Ratio de evaluaciones</p>
-            <div className="flex justify-center items-center grow">
-                <ResponsiveContainer width="100%" height={400}>
-                    <PieChart>
-                        <Pie
-                            data={chartData}
-                            cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            //label={renderCustomizedLabel}
-                            outerRadius={110}
-                            fill="#8884d8"
-                            dataKey="value">
-                            {chartData.map((_entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Pie>
-                    </PieChart>
-                </ResponsiveContainer>
+            <div className="flex justify-center items-center grow min-h-[400px]">
+                {total > 0 ? (
+                    <ResponsiveContainer width="100%" height={400}>
+                        <PieChart>
+                            <Pie
+                                data={chartData}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                outerRadius={150}
+                                fill="#8884d8"
+                                dataKey="value">
+                                {chartData.map((_entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length]}
+                                    />
+                                ))}
+                            </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                ) : (
+                    <p className="text-gray-400 text-lg">Aún no hay evaluaciones disponibles.</p>
+                )}
             </div>
             <div>
                 <EvaluationType color={COLORS[0]} text="Evaluaciones positivas" />
