@@ -23,6 +23,7 @@ export type ProCon = {
 export interface Evaluation {
     id: string;
     decisionId: string;
+    score: number;
 }
 
 export interface Recommendation {

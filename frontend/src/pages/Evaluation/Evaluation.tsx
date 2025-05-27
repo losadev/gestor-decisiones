@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProCon } from '../../types/proCon.types';
 import { DecisionData } from '../../types/decision.types';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,6 +23,7 @@ const Evaluation = () => {
     const [neutralBar, setNeutralBar] = useState<number>(0);
     const [totalPercentage, setTotalPercentage] = useState<number>(0);
     const isDisabled = totalPercentage === 100;
+    const navigate = useNavigate();
 
     const {
         control,
@@ -38,8 +39,11 @@ const Evaluation = () => {
         },
     });
 
-    const rawScore = (greenBar * 1 + neutralBar * 0.5 + redBar * 0) / 10;
-    const finalScore = Math.max(1, Math.min(10, Math.round(rawScore)));
+    const total = greenBar + neutralBar + redBar;
+
+    const weighted = total === 0 ? 0 : (greenBar * 10 + neutralBar * 5 + redBar * 0) / total;
+
+    const finalScore = Math.max(1, Math.round(weighted));
 
     useEffect(() => {
         axios
@@ -103,6 +107,8 @@ const Evaluation = () => {
             setRedBar(0);
             setNeutralBar(0);
             setTotalPercentage(0);
+
+            navigate(`/dashboard/decisions/${decision.id}`);
         } catch (error) {
             setMessage('Error al crear evaluación');
         }
@@ -118,7 +124,7 @@ const Evaluation = () => {
             <section className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 sm:p-6 flex flex-col gap-6">
                 <div className="space-y-4 flex flex-col flex-1">
                     <h2 className="text-2xl font-semibold text-center">Resumen de la decisión</h2>
-                    <div className="inline-flex w-[50%] mx-auto gap-4">
+                    <div className="inline-flex flex-col 2xl:w-[50%] mx-auto gap-4">
                         <div className="border border-gray-300 rounded p-4 shadow-md sm:p-6 flex flex-col gap-4 flex-1 hover:shadow-xl transition hover:scale-105 bg-white">
                             <ul className="text-base sm:text-lg space-y-2">
                                 <li>

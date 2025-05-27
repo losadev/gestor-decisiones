@@ -21,15 +21,15 @@ const Decisions = () => {
         }
     }, [modal]);
     return (
-        <div className="flex flex-col gap-4 p-4 w-full mx-auto">
+        <div className="flex flex-col gap-4 py-4 w-full mx-auto">
             <header className="flex flex-col justify-between items-center px-0 py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
                 <h1 className="text-2xl font-bold text-center sm:text-3xl">
                     Gestor de decisiones personales
                 </h1>
                 <NewDecisionButton onClick={openModal} />
             </header>
-            <main className="flex-1 w-full">
-                <DecisionsTable />
+            <main className="flex-1 w-full ">
+                <DecisionsTable tableClasses="flex-1 overflow-y-auto" />
             </main>
             <DecisionForm isOpen={modal} onClose={closeModal} />
         </div>

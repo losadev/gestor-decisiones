@@ -43,7 +43,7 @@ function DecisionsTable() {
                 setData(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, [data]);
+    }, []);
 
     useEffect(() => {
         let filtered = [...data];
@@ -78,7 +78,7 @@ function DecisionsTable() {
 
     return (
         <section className="w-full h-full min-h-20 0">
-            <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 w-full min-h-20 h-full">
+            <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 w-full min-h-20 h-full border border-gray-300">
                 <h2 className="text-2xl font-semibold">Tus decisiones</h2>
                 <p className="mt-1 text-gray-600">
                     Gestiona y haz seguimiento de todas tus decisiones
@@ -116,7 +116,7 @@ function DecisionsTable() {
                     </ul>
                 </div>
 
-                <div className="rounded-lg w-full overflow-x-auto shadow-sm !min-h-20">
+                <div className={`rounded-lg w-full overflow-x-auto shadow-sm !min-h-20`}>
                     <table className="min-w-max w-full text-sm sm:text-base " ref={tableRef}>
                         <thead className="bg-orange-500 text-black h-12">
                             <tr className="text-left">
