@@ -24,6 +24,7 @@ export interface Evaluation {
     id: string;
     decisionId: string;
     score: number;
+    createdAt: string;
 }
 
 export interface Recommendation {
