@@ -7,6 +7,7 @@ import { HiChevronDown } from 'react-icons/hi';
 import { useState } from 'react';
 import { FaGitAlt } from 'react-icons/fa';
 import { HiMiniSquares2X2 } from 'react-icons/hi2';
+import { GoHomeFill } from 'react-icons/go';
 
 const SideNavBar = () => {
     const [dropDownMenu, setDropDownMenu] = useState<boolean>(true);
@@ -22,26 +23,36 @@ const SideNavBar = () => {
 
             <div className="text-xl mt-8 flex flex-col gap-4 flex-1 font-medium">
                 <hr className="bg-orange-300 border-none h-[2px]" />
-                <div className="flex flex-col  flex-1">
+                <div className="flex flex-col  flex-1 gap-2">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
+                        }>
+                        <GoHomeFill />
+                        <span>Inicio</span>
+                    </NavLink>
                     <button
                         onClick={handleDropDownMenu}
-                        className={`${dropDownMenu ? 'bg-orange-300 rounded-b-none' : ''} flex gap-2 items-center hover:bg-orange-300 rounded p-2 cursor-pointer`}>
-                        <MdSpaceDashboard />
-                        <span>Panel</span>
+                        className={` flex gap-2 items-center hover:bg-orange-300 rounded p-2 cursor-pointer`}>
+                        <div className="flex-1 gap-2 flex items-center ">
+                            <MdSpaceDashboard />
+                            <span>Panel</span>
+                        </div>
                         <HiChevronDown
-                            className={`text-3xl grow self-end transition duration-200 ${dropDownMenu ? 'rotate-180 transition duration-200' : ''}`}
+                            className={`text-3xl self-end transition duration-200 ${dropDownMenu ? 'rotate-180 transition duration-200' : ''}`}
                         />
                     </button>
                     <div
                         className={`origin-top transition-all duration-300 ease-out bg-orange-400 ${
                             dropDownMenu
-                                ? 'opacity-100 scale-y-100 max-h-40 pl-4'
+                                ? 'opacity-100 scale-y-100 max-h-40'
                                 : 'opacity-0 scale-y-0 max-h-0'
                         }`}>
                         <NavLink
                             to="/dashboard"
                             className={({ isActive }) =>
-                                `p-2 text-black flex gap-2 items-center ${isActive ? ' underline' : ''}`
+                                `p-2 pl-2 text-black flex gap-2 items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
                             }>
                             <HiMiniSquares2X2 />
                             <span>Resumen</span>
@@ -49,12 +60,13 @@ const SideNavBar = () => {
                         <NavLink
                             to="/dashboard/decisions"
                             className={({ isActive }) =>
-                                `p-2 text-black flex gap-2 items-center ${isActive ? ' underline' : ''}`
+                                `p-2 text-black flex gap-2 items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
                             }>
                             <FaGitAlt />
                             <span>Decisiones</span>
                         </NavLink>
                     </div>
+
                     <NavLink
                         to="analytics"
                         className={({ isActive }) =>
