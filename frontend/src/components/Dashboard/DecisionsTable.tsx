@@ -12,11 +12,48 @@ function DecisionsTable() {
     const [searchFilterItems, setSearchFilterItems] = useState<DecisionData[]>(data);
     const [active, setActive] = useState<number>(1);
     const [message, setMessage] = useState<string>('');
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const refs = useRef<(HTMLDivElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
 
+    const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(
+        null
+    );
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            const target = event.target as Node;
+            const buttonElements = refs.current;
+            // Si no hay dropdown abierto, no hacer nada
+            if (showActions === null) return;
+
+            // Verificar si clic fue fuera del dropdown y fuera del botón
+            const clickedOutsideDropdown =
+                dropdownRef.current && !dropdownRef.current.contains(target);
+            const clickedOutsideButton = !buttonElements[showActions]?.contains(target);
+
+            if (clickedOutsideDropdown && clickedOutsideButton) {
+                setShowActions(null);
+                setOpenUpwardIndex(null);
+                setDropdownPosition(null);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showActions]);
+
     const handleActions = (index: number) => {
+        if (showActions === index) {
+            setShowActions(null);
+            setOpenUpwardIndex(null);
+            setDropdownPosition(null);
+            return;
+        }
+
         setShowActions(index);
 
         const actionEl = refs.current[index];
@@ -24,15 +61,24 @@ function DecisionsTable() {
 
         if (actionEl && tableEl) {
             const actionRect = actionEl.getBoundingClientRect();
-            const tableRect = tableEl.getBoundingClientRect();
 
-            const distanceToBottom = tableRect.bottom - actionRect.bottom;
-            const distanceToTop = actionRect.top - tableRect.top;
             const dropdownHeight = 150;
+
+            const distanceToBottom = window.innerHeight - actionRect.bottom;
+            const distanceToTop = actionRect.top;
 
             const shouldOpenUpward =
                 distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight;
             setOpenUpwardIndex(shouldOpenUpward ? index : null);
+
+            const dropdownMargin = 0; // espacio extra para no quedar pegado
+
+            const top = shouldOpenUpward
+                ? actionRect.top + window.scrollY - dropdownHeight - dropdownMargin
+                : actionRect.bottom + window.scrollY;
+
+            const left = actionRect.left + window.scrollX - 36;
+            setDropdownPosition({ top, left });
         }
     };
 
@@ -141,18 +187,20 @@ function DecisionsTable() {
                                     <td className="px-4 sm:px-6 py-3 relative">
                                         <button
                                             type="button"
+                                            ref={(el) => (refs.current[index] = el)}
                                             className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
                                             onClick={() => handleActions(index)}>
                                             <IoEllipsisHorizontalOutline />
                                         </button>
+
                                         <DropDownActions
+                                            ref={dropdownRef} // <-- Pasar ref al dropdown
                                             id={decision.id}
-                                            ref={(el) => {
-                                                refs.current[index] = el;
-                                            }}
-                                            key={index}
                                             open={showActions === index}
                                             openUpward={openUpwardIndex === index}
+                                            position={
+                                                showActions === index ? dropdownPosition : null
+                                            }
                                             onDelete={deleteDecision}
                                         />
                                     </td>
