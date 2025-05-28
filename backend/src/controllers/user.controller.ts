@@ -6,7 +6,11 @@ dotenv.config();
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const user = await userService.createUser(req.body);
+    const avatarUrl = req.file ? req.file.filename : "";
+    const user = await userService.createUser({
+      ...req.body,
+      avatar: avatarUrl,
+    });
     res.status(201).json({ message: "Usuario creado con éxito", data: user });
   } catch (error: any) {
     if (!res.headersSent) {
