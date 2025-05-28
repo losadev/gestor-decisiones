@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Evaluation } from '../../types/decision.types';
+
+interface Props {
+    evaluations: Evaluation[];
+}
 
 const EvaluationType = ({ color, text }: { color: string; text: string }) => {
     return (
@@ -12,23 +15,16 @@ const EvaluationType = ({ color, text }: { color: string; text: string }) => {
     );
 };
 
-const AnalyticsResumeCard = () => {
-    const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
+const AnalyticsResumeCard = ({ evaluations }: Props) => {
     const [chartData, setChartData] = useState<{ name: string; value: number }[]>([]);
 
     const COLORS = ['#0088FE', '#FFBB28', '#FF4C4C']; // Positivas, Neutras, Negativas
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
-            .then((response) => {
-                setEvaluations(response.data.data);
-            })
-            .catch(console.log);
-    }, []);
-
-    useEffect(() => {
-        if (!Array.isArray(evaluations)) return;
+        if (!Array.isArray(evaluations)) {
+            setChartData([]);
+            return;
+        }
 
         const good = evaluations.filter((e) => Number(e.score) >= 6);
         const neutral = evaluations.filter((e) => Number(e.score) === 5);
@@ -44,7 +40,7 @@ const AnalyticsResumeCard = () => {
     const total = chartData.reduce((acc, item) => acc + item.value, 0);
 
     return (
-        <div className="rounded-lg bg-white shadow-md p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
+        <div className="rounded-lg bg-white shadow-sm p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
             <h1 className="text-3xl font-semibold">Resumen análisis</h1>
             <p className="text-gray-500">Ratio de evaluaciones</p>
             <div className="flex justify-center items-center grow min-h-[400px]">

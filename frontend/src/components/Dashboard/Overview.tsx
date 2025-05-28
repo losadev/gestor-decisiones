@@ -5,8 +5,11 @@ import QuickStatsCard from './QuickStatsCard';
 import RecentActivity from './RecentActivity';
 import DecisionsTable from './DecisionsTable';
 import AnalyticsResumeCard from './AnalyticsResumeCard';
+import { Evaluation } from '../../types/decision.types';
+import axios from 'axios';
 
 const Overview = () => {
+    const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
     const [modal, setModal] = useState<boolean>(false);
 
     const openModal = () => {
@@ -24,6 +27,16 @@ const Overview = () => {
         }
     }, [modal]);
 
+    useEffect(() => {
+        axios
+            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+            .then((response) => {
+                const data = response.data.data as Evaluation[];
+                setEvaluations(data);
+            })
+            .catch(console.log);
+    }, []);
+
     return (
         <main className="w-full min-h-screen relative pr-4">
             <div className="w-full flex flex-col py-4 ">
@@ -35,7 +48,7 @@ const Overview = () => {
                         <NewDecisionButton onClick={openModal} />
                     </header>
                     <section className="grid grid-cols-1 gap-4 my-4 p-0 md:grid-cols-2 md:grid-rows-1 md:items-stretch xl:grid-cols-3 xl:grid-rows-1 min-h-[300px] ">
-                        <AnalyticsResumeCard />
+                        <AnalyticsResumeCard evaluations={evaluations} />
                         <RecentActivity />
                         <QuickStatsCard />
                     </section>
