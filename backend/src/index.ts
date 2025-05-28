@@ -11,6 +11,7 @@ import recommendationRouter from "./routes/recommendation.routes";
 import prosConsRouter from "./routes/proCon.routes";
 import fs from "fs";
 import path from "path";
+import { logout } from "./controllers/auth.controller";
 
 const uploadsDir = path.join(__dirname, "..", "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -50,6 +51,7 @@ app.use("/api/decision", verifyUser, decisionRouter);
 app.use("/api/evaluation", verifyUser, evaluationRouter);
 app.use("/api/recommendation", verifyUser, recommendationRouter);
 app.use("/api/proscons", verifyUser, prosConsRouter);
+app.post("/api/logout", logout);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");
