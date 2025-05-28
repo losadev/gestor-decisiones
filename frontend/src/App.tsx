@@ -24,7 +24,7 @@ function App() {
                     <Route element={<ProtectedRoutes />}>
                         <Route element={<Layout />}>
                             <Route path="/dashboard" element={<Dashboard />}>
-                                <Route path="overview" element={<Overview />} />
+                                <Route index path="overview" element={<Overview />} />
                                 <Route path="decisions" element={<Decisions />} />
                                 <Route path="decisions/:id" element={<DecisionDetails />} />
                                 <Route path="analytics" element={<Analytics />} />

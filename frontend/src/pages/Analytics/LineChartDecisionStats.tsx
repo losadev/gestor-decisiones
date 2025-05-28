@@ -43,25 +43,30 @@ const countEvaluationsPerMonth = (evaluations: Evaluation[], months: string[]) =
     }));
 };
 
-const LineChartDecisionStats = () => {
-    //const [evaluation, setEvaluation] = useState<Evaluation[]>([]);
+const LineChartDecisionStats = ({ evaluations }: { evaluations: Evaluation[] }) => {
     const [chartData, setChartData] = useState<{ month: string; buenas: number; malas: number }[]>(
         []
     );
 
-    useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
-            .then((response) => {
-                const data = response.data.data as Evaluation[];
-                // setEvaluation(data);
+    // useEffect(() => {
+    //     axios
+    //         .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+    //         .then((response) => {
+    //             const data = response.data.data as Evaluation[];
+    //             // setEvaluation(data);
 
-                const months = getLastNMonths(5);
-                const stats = countEvaluationsPerMonth(data, months);
-                setChartData(stats);
-            })
-            .catch(console.log);
-    }, []);
+    //             const months = getLastNMonths(5);
+    //             const stats = countEvaluationsPerMonth(data, months);
+    //             setChartData(stats);
+    //         })
+    //         .catch(console.log);
+    // }, []);
+
+    useEffect(() => {
+        const months = getLastNMonths(5);
+        const stats = countEvaluationsPerMonth(evaluations, months);
+        setChartData(stats);
+    }, [evaluations]);
 
     return (
         <div className="w-full flex flex-col justify-center gap-4 bg-white rounded p-8 lg:col-span-2 shadow-sm border border-gray-300">
