@@ -138,7 +138,7 @@ const DecisionDetails = () => {
                         <div>
                             <button
                                 type="button"
-                                className="inline-flex justify gap-2 items-center  rounded-md px-4 py-2 font-medium text-black border border-gray-300  hover:bg-gray-800 hover:bg-gray-100"
+                                className="inline-flex justify gap-2 items-center  rounded-md px-4 py-2 font-medium text-black border border-gray-300 hover:bg-gray-100"
                                 onClick={() => setShowMobileMenu(!showMobileMenu)}>
                                 <span>Acciones</span>{' '}
                                 <IoFilterSharp className="text-xl font-medium" />

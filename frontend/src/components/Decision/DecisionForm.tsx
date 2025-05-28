@@ -125,7 +125,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId }: Props) => {
 
     return (
         <div
-            className={`${isOpen ? 'block' : 'hidden'} fixed top-0 left-0 z-1000 bg-black/30 w-full h-screen flex justify-center items-center`}>
+            className={`${isOpen ? 'block' : 'hidden'} fixed top-0 left-0 z-1000 bg-black/10 w-full h-screen flex justify-center items-center`}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className=" h-[80%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4 ">

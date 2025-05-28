@@ -4,6 +4,7 @@ import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
+import DecisionForm from '../Decision/DecisionForm';
 function DecisionsTable() {
     const [data, setData] = useState<DecisionData[]>([]);
     const [showActions, setShowActions] = useState<number | null>(null);
@@ -13,13 +14,27 @@ function DecisionsTable() {
     const [active, setActive] = useState<number>(1);
     const [message, setMessage] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const [modal, setModal] = useState<boolean>(false);
 
     const refs = useRef<(HTMLDivElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
+    const [editDecisionId, setEditDecisionId] = useState<string | null>(null);
 
     const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(
         null
     );
+    const openModal = () => {
+        setModal(true);
+    };
+
+    const closeModal = () => {
+        setModal(false);
+    };
+
+    const handleEdit = (id: string) => {
+        setEditDecisionId(id);
+        openModal();
+    };
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -174,42 +189,56 @@ function DecisionsTable() {
                             </tr>
                         </thead>
                         <tbody>
+                            <></>
                             {searchFilterItems.map((decision, index) => (
-                                <tr key={index} className="hover:bg-gray-100 transition">
-                                    <td className="px-4 sm:px-6 py-3">{decision.title}</td>
-                                    <td className="px-4 sm:px-6 py-3">{decision.category}</td>
-                                    <td className="px-4 sm:px-6 py-3">
-                                        {decision.createdAt.split('T')[0]}
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-3">
-                                        <Chip mode={decision.status} />
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-3 relative">
-                                        <button
-                                            type="button"
-                                            ref={(el) => (refs.current[index] = el)}
-                                            className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
-                                            onClick={() => handleActions(index)}>
-                                            <IoEllipsisHorizontalOutline />
-                                        </button>
+                                <>
+                                    <tr key={index} className="hover:bg-gray-100 transition">
+                                        <td className="px-4 sm:px-6 py-3">{decision.title}</td>
+                                        <td className="px-4 sm:px-6 py-3">{decision.category}</td>
+                                        <td className="px-4 sm:px-6 py-3">
+                                            {decision.createdAt.split('T')[0]}
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-3">
+                                            <Chip mode={decision.status} />
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-3 relative">
+                                            <button
+                                                type="button"
+                                                ref={(el) => (refs.current[index] = el)}
+                                                className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
+                                                onClick={() => handleActions(index)}>
+                                                <IoEllipsisHorizontalOutline />
+                                            </button>
 
-                                        <DropDownActions
-                                            ref={dropdownRef} // <-- Pasar ref al dropdown
-                                            id={decision.id}
-                                            open={showActions === index}
-                                            openUpward={openUpwardIndex === index}
-                                            position={
-                                                showActions === index ? dropdownPosition : null
-                                            }
-                                            onDelete={deleteDecision}
-                                        />
-                                    </td>
-                                </tr>
+                                            <DropDownActions
+                                                ref={dropdownRef} // <-- Pasar ref al dropdown
+                                                id={decision.id}
+                                                open={showActions === index}
+                                                openUpward={openUpwardIndex === index}
+                                                position={
+                                                    showActions === index ? dropdownPosition : null
+                                                }
+                                                onDelete={deleteDecision}
+                                                onEdit={handleEdit}
+                                            />
+                                        </td>
+                                    </tr>
+                                </>
                             ))}
                         </tbody>
                     </table>
                 </div>
             </div>
+            {editDecisionId && (
+                <DecisionForm
+                    isOpen={modal}
+                    onClose={() => {
+                        closeModal();
+                        setEditDecisionId(null);
+                    }}
+                    decisionId={editDecisionId}
+                />
+            )}
         </section>
     );
 }
