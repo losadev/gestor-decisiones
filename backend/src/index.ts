@@ -9,6 +9,13 @@ import decisionRouter from "./routes/decision.routes";
 import evaluationRouter from "./routes/evaluation.routes";
 import recommendationRouter from "./routes/recommendation.routes";
 import prosConsRouter from "./routes/proCon.routes";
+import fs from "fs";
+import path from "path";
+
+const uploadsDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 const app = express();
 app.use(express.json());
@@ -23,6 +30,7 @@ app.use(cookieParser()); // cookie-parser para poder leer cookies
 
 const PORT = process.env.PORT || 3000;
 
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/register", userRouter);
 app.use("/api/login", login);
 // GET /api/me
