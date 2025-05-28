@@ -24,14 +24,14 @@ function App() {
                     <Route element={<ProtectedRoutes />}>
                         <Route element={<Layout />}>
                             <Route path="/dashboard" element={<Dashboard />}>
-                                <Route index element={<Overview />} />
+                                <Route path="overview" element={<Overview />} />
                                 <Route path="decisions" element={<Decisions />} />
                                 <Route path="decisions/:id" element={<DecisionDetails />} />
+                                <Route path="analytics" element={<Analytics />} />
+                                <Route path="evaluation/:id" element={<Evaluation />} />
+                                <Route path="recommendations" element={<h1>Recommendations</h1>} />
+                                <Route path="settings" element={<h1>Settings</h1>} />
                             </Route>
-                            <Route path="analytics" element={<Analytics />} />
-                            <Route path="/dashboard/evaluation/:id" element={<Evaluation />} />
-                            <Route path="settings" element={<h1>Settings</h1>} />
-                            <Route path="recommendations" element={<h1>Recommendations</h1>} />
                         </Route>
                     </Route>
                 </Routes>
