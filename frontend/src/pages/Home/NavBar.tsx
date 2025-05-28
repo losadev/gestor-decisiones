@@ -11,7 +11,7 @@ const NavBar = () => {
                 {user ? (
                     <>
                         <NavLink
-                            to="/dashboard"
+                            to="/dashboard/overview"
                             className="bg-black text-white px-3 py-1 rounded font-medium">
                             Ir al panel
                         </NavLink>

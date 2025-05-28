@@ -32,7 +32,7 @@ const SideNavBar = () => {
                         <GoHomeFill />
                         <span>Inicio</span>
                     </NavLink>
-                    <button
+                    {/* { <button
                         onClick={handleDropDownMenu}
                         className={` flex gap-2 items-center hover:bg-orange-300 rounded p-2 cursor-pointer`}>
                         <div className="flex-1 gap-2 flex items-center ">
@@ -42,33 +42,32 @@ const SideNavBar = () => {
                         <HiChevronDown
                             className={`text-3xl self-end transition duration-200 ${dropDownMenu ? 'rotate-180 transition duration-200' : ''}`}
                         />
-                    </button>
-                    <div
+                    </button>} */}
+                    {/* {<div
                         className={`origin-top transition-all duration-300 ease-out bg-orange-400 ${
                             dropDownMenu
                                 ? 'opacity-100 scale-y-100 max-h-40'
                                 : 'opacity-0 scale-y-0 max-h-0'
-                        }`}>
-                        <NavLink
-                            to="/dashboard"
-                            className={({ isActive }) =>
-                                `p-2 pl-2 text-black flex gap-2 items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
-                            }>
-                            <HiMiniSquares2X2 />
-                            <span>Resumen</span>
-                        </NavLink>
-                        <NavLink
-                            to="/dashboard/decisions"
-                            className={({ isActive }) =>
-                                `p-2 text-black flex gap-2 items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
-                            }>
-                            <FaGitAlt />
-                            <span>Decisiones</span>
-                        </NavLink>
-                    </div>
+                        }`}></div>} */}
+                    <NavLink
+                        to="/dashboard/overview"
+                        className={({ isActive }) =>
+                            `p-2 pl-2 text-black flex gap-2 hover:bg-orange-300 rounded items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
+                        }>
+                        <HiMiniSquares2X2 />
+                        <span>Resumen</span>
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/decisions"
+                        className={({ isActive }) =>
+                            `p-2 text-black flex gap-2 items-center ${isActive ? ' bg-orange-300 rounded' : ''}`
+                        }>
+                        <FaGitAlt />
+                        <span>Decisiones</span>
+                    </NavLink>
 
                     <NavLink
-                        to="analytics"
+                        to="/dashboard/analytics"
                         className={({ isActive }) =>
                             `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
                         }>
@@ -76,7 +75,7 @@ const SideNavBar = () => {
                         <span>Análisis</span>
                     </NavLink>
                     <NavLink
-                        to="recommendations"
+                        to="/dashboard/recommendations"
                         className={({ isActive }) =>
                             `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? ' bg-orange-300 rounded' : ''}`
                         }>

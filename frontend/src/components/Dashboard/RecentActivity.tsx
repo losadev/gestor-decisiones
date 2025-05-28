@@ -50,7 +50,7 @@ const RecentActivity = () => {
                                     </div>
                                 </div>
                                 <button
-                                    onClick={() => navigate(`decisions/${decision.id}`)}
+                                    onClick={() => navigate(`/dashboard/decisions/${decision.id}`)}
                                     className="p-2 hover:bg-gray-100 rounded hover:cursor-pointer">
                                     <FaArrowRight className="text-gray-500 text-xl" />
                                 </button>
