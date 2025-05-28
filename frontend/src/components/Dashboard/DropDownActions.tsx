@@ -7,12 +7,13 @@ interface DropDownActionsProps {
     open: boolean;
     position: { top: number; left: number } | null;
     onDelete: (id: string) => void;
+    onEdit: (id: string) => void;
     id: string;
     openUpward: boolean;
 }
 
 const DropDownActions = forwardRef<HTMLDivElement, DropDownActionsProps>(
-    ({ open, position, onDelete, id, openUpward }, ref) => {
+    ({ open, position, onDelete, id, openUpward, onEdit }, ref) => {
         const navigate = useNavigate();
 
         if (!open || !position) return null;
@@ -36,7 +37,9 @@ const DropDownActions = forwardRef<HTMLDivElement, DropDownActionsProps>(
                         </button>
                     </li>
                     <li>
-                        <button className="flex items-center gap-2 w-full rounded group cursor-pointer">
+                        <button
+                            className="flex items-center gap-2 w-full rounded group cursor-pointer"
+                            onClick={() => onEdit(id)}>
                             <FaRegEdit />
                             <span className="group-hover:underline">Edit</span>
                         </button>
