@@ -1,4 +1,3 @@
-// generateAccessJWT.ts
 import jwt from "jsonwebtoken";
 
 export const generateAccessJWT = (payload: object) => {

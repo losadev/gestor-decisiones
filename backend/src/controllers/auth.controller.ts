@@ -43,3 +43,12 @@ export const login = async (req: Request, res: Response) => {
     data: userWithoutPassword,
   });
 };
+
+export const logout = (_req: Request, res: Response) => {
+  res.clearCookie("access_token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+  res.status(200).json({ message: "Sesión cerrada correctamente" });
+};
