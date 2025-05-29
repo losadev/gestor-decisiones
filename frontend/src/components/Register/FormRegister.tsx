@@ -24,7 +24,7 @@ const FormRegister = () => {
         email: string;
         password: string;
         birthDate: Date;
-        avatar?: string;
+        avatar?: FileList;
     }) => {
         const formData = new FormData();
         formData.append('name', data.name);
@@ -39,11 +39,7 @@ const FormRegister = () => {
         }
 
         try {
-            const req = await axios.post('http://localhost:5000/api/register', formData, {
-                headers: {
-                    'Content-Type': 'application/json', // ! NO FUNCIONA CON MULTIPART
-                },
-            });
+            const req = await axios.post('http://localhost:5000/api/register', formData);
             setMessage(req.data.message);
         } catch (error: any) {
             setMessage(error.message);
@@ -121,7 +117,7 @@ const FormRegister = () => {
                         />
                     </div>
 
-                    <InputFile label="Avatar" name="avatar" />
+                    <InputFile label="Avatar" name="avatar" control={control} />
                     <Button text="Registarse" type="submit" />
                     <LoginLink />
                 </div>

@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
     const [user, setUser] = useState<null | any>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -15,5 +17,15 @@ export const useAuth = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    return { user, loading };
+    const logout = async () => {
+        try {
+            await axios.post('http://localhost:5000/api/logout', {}, { withCredentials: true });
+            setUser(null);
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    return { user, loading, logout };
 };

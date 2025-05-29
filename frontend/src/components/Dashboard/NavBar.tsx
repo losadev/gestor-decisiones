@@ -1,25 +1,27 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { HiBars3 } from 'react-icons/hi2';
-import { IoMdAnalytics, IoMdSettings } from 'react-icons/io';
+import { IoMdAnalytics } from 'react-icons/io';
 import { FaLightbulb, FaGitAlt } from 'react-icons/fa';
 import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import { GoHomeFill } from 'react-icons/go';
 import { RxCross1 } from 'react-icons/rx';
+import { IoIosLogOut } from 'react-icons/io';
+import { useUser } from '../../hooks/useUser';
+import { useAuth } from '../../hooks/useAuth';
 
-// Array con los links e íconos
 const links = [
     { to: '/', label: 'Inicio', icon: <GoHomeFill /> },
     { to: '/dashboard/overview', label: 'Resumen', icon: <HiMiniSquares2X2 /> },
     { to: '/dashboard/decisions', label: 'Decisiones', icon: <FaGitAlt /> },
     { to: '/dashboard/analytics', label: 'Análisis', icon: <IoMdAnalytics /> },
     { to: '/dashboard/recommendations', label: 'Recomendaciones', icon: <FaLightbulb /> },
-    { to: 'settings', label: 'Configuración', icon: <IoMdSettings /> },
 ];
 
-// NavBar móvil con menú desplegable
 const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { data: user, isLoading } = useUser();
+    const { logout } = useAuth();
 
     const toggleMenu = () => setMenuOpen((prev) => !prev);
     const closeMenu = () => setMenuOpen(false);
@@ -46,8 +48,8 @@ const NavBar = () => {
             {menuOpen && (
                 <div
                     className={`flex flex-col gap-2 p-4 bg-orange-400 border-t border-orange-300 absolute top-full left-0 w-full z-50
-            transition-opacity duration-200 ease-out transform
-            ${menuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+                    transition-opacity duration-200 ease-out transform
+                    ${menuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
                     {links.map(({ to, label, icon }) => (
                         <NavLink
                             key={to}
@@ -62,6 +64,24 @@ const NavBar = () => {
                             <span>{label}</span>
                         </NavLink>
                     ))}
+
+                    {!isLoading && user && (
+                        <div className="flex items-center gap-2 mt-4 bg-orange-300 p-2 rounded">
+                            <img
+                                src={
+                                    user.avatar && user.avatar.trim() !== ''
+                                        ? `http://localhost:5000/uploads/${user.avatar}`
+                                        : '/person.svg'
+                                }
+                                alt="Avatar"
+                                className="w-10 h-10 rounded-full object-cover"
+                            />
+                            <span className="text-black flex-1 ml-2">{user.name}</span>
+                            <button onClick={logout}>
+                                <IoIosLogOut size={26} className="hover:scale-125 transition" />
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </nav>
