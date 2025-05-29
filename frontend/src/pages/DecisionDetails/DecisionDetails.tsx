@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { DecisionData } from '../../types/decision.types';
+import { DecisionData, Evaluation } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
@@ -19,7 +19,8 @@ const DecisionDetails = () => {
     const [message, setMessage] = useState<string>('');
     const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-
+    const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
+    const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
     const navigate = useNavigate();
@@ -58,8 +59,13 @@ const DecisionDetails = () => {
             withCredentials: true,
         });
         res.then((response) => {
-            setDecision(response.data.decision);
-            console.log(response.data.decision);
+            const decision = response.data.decision;
+            setDecision(decision);
+            if (decision.status === 'evaluated') {
+                setIsEvaluated(true);
+            } else {
+                setIsEvaluated(false);
+            }
         }).catch((error) => {
             console.error('Error fetching decision details:', error);
         });
@@ -75,6 +81,19 @@ const DecisionDetails = () => {
             setMessage(error);
         });
     };
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5000/api/evaluation/${id}`, {
+                withCredentials: true,
+            })
+            .then((res) => {
+                setEvaluation(res.data);
+            })
+            .catch((err) => {
+                console.error('Error al obtener la evaluación:', err);
+            });
+    }, []);
 
     // Pros
     const pros = prosCons?.filter((item) => item.type === 'Pro') || [];
@@ -109,20 +128,26 @@ const DecisionDetails = () => {
                         </span>
                     </div>
                     <div className="sm:flex justify-end gap-2 hidden">
-                        <button
-                            type="button"
-                            className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
-                            onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
-                            <IoMdCheckmarkCircleOutline />
-                            <span>Evaluar</span>
-                        </button>
-                        <button
-                            type="button"
-                            className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
-                            onClick={openModal}>
-                            <BsPencilSquare />
-                            <span>Editar</span>
-                        </button>
+                        {isEvaluated ? (
+                            ''
+                        ) : (
+                            <>
+                                <button
+                                    type="button"
+                                    className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
+                                    onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
+                                    <IoMdCheckmarkCircleOutline />
+                                    <span>Evaluar</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                    onClick={openModal}>
+                                    <BsPencilSquare />
+                                    <span>Editar</span>
+                                </button>
+                            </>
+                        )}
                         <button
                             type="button"
                             className=" font-medium rounded px-4 py-2 flex border border-red-600 items-center gap-2 hover:bg-red-100 cursor-pointer transition duration-200 ease-in-out"
@@ -190,31 +215,38 @@ const DecisionDetails = () => {
                         </div>
                     </div>
                     <hr className="border-none h-[1px] bg-gray-300 my-4" />
+
                     <div className="border flex justify-center rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
-                        <div className="inline-flex flex-col items-center gap-8">
-                            <div className=" flex flex-col gap-0 justify-center text-center">
-                                <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
-                                <p className="text-gray-600 font-medium mt-2">
-                                    Esta decisión no ha sido evaluada todavía
-                                </p>
+                        {isEvaluated ? (
+                            <p>Ya ha sido evaluada</p>
+                        ) : (
+                            <div className="inline-flex flex-col items-center gap-8">
+                                <div className=" flex flex-col gap-0 justify-center text-center">
+                                    <h1 className="font-semibold  text-2xl">
+                                        Evaluación pendiente
+                                    </h1>
+                                    <p className="text-gray-600 font-medium mt-2">
+                                        Esta decisión no ha sido evaluada todavía
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center justify-center h-full">
+                                    <span className="my-4 flex  items-center">
+                                        <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
+                                    </span>
+                                    <p className="text-gray-600 font-medium mt-2 text-center">
+                                        Evalúa esta decisión para hacer seguimiento de sus
+                                        resultados y obtener recomendaciones personalizadas.
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                        onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
+                                        <IoMdCheckmarkCircleOutline />
+                                        <span>Evalúa ahora</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex flex-col items-center justify-center h-full">
-                                <span className="my-4 flex  items-center">
-                                    <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
-                                </span>
-                                <p className="text-gray-600 font-medium mt-2 text-center">
-                                    Evalúa esta decisión para hacer seguimiento de sus resultados y
-                                    obtener recomendaciones personalizadas.
-                                </p>
-                                <button
-                                    type="button"
-                                    className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
-                                    onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
-                                    <IoMdCheckmarkCircleOutline />
-                                    <span>Evalúa ahora</span>
-                                </button>
-                            </div>
-                        </div>
+                        )}
                         <DecisionForm isOpen={modal} onClose={closeModal} decisionId={id} />
                     </div>
                 </div>

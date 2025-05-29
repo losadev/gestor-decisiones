@@ -20,4 +20,11 @@ export const evaluationService = {
 
     return evaluations;
   },
+  getByDecisionId: async (decisionId: string) => {
+    const evaluation = await Evaluation.findOne({
+      where: { decisionId },
+    });
+
+    return evaluation;
+  },
 };
