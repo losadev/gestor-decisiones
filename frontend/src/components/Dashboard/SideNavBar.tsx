@@ -24,7 +24,7 @@ const SideNavBar = () => {
                     <NavLink
                         to="/"
                         className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? 'bg-orange-300' : ''}`
+                            `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${isActive ? 'bg-orange-400' : ''}`
                         }>
                         <GoHomeFill />
                         <span>Inicio</span>
@@ -33,7 +33,7 @@ const SideNavBar = () => {
                     <NavLink
                         to="/dashboard/overview"
                         className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 hover:bg-orange-300 rounded items-center ${isActive ? 'bg-orange-300' : ''}`
+                            `p-2 text-black flex gap-2 hover:bg-orange-400 rounded items-center ${isActive ? 'bg-orange-400' : ''}`
                         }>
                         <HiMiniSquares2X2 />
                         <span>Resumen</span>
@@ -42,7 +42,7 @@ const SideNavBar = () => {
                     <NavLink
                         to="/dashboard/decisions"
                         className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 items-center ${isActive ? 'bg-orange-300' : ''}`
+                            `p-2 text-black flex gap-2 hover:bg-orange-400 items-center ${isActive ? 'bg-orange-400' : ''}`
                         }>
                         <FaGitAlt />
                         <span>Decisiones</span>
@@ -51,7 +51,7 @@ const SideNavBar = () => {
                     <NavLink
                         to="/dashboard/analytics"
                         className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? 'bg-orange-300' : ''}`
+                            `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${isActive ? 'bg-orange-400' : ''}`
                         }>
                         <IoMdAnalytics />
                         <span>Análisis</span>
@@ -60,15 +60,15 @@ const SideNavBar = () => {
                     <NavLink
                         to="/dashboard/recommendations"
                         className={({ isActive }) =>
-                            `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${isActive ? 'bg-orange-300' : ''}`
+                            `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${isActive ? 'bg-orange-400' : ''}`
                         }>
                         <FaLightbulb />
                         <span>Recomendaciones</span>
                     </NavLink>
                 </div>
-
+                <hr className="bg-orange-300 border-none h-[2px]" />
                 {!isLoading && user && (
-                    <div className="flex items-center gap-2 mt-4 bg-orange-400 p-2 rounded">
+                    <div className="flex items-center gap-2 mt-4  p-2 rounded">
                         <img
                             src={
                                 user.avatar && user.avatar.trim() !== ''
