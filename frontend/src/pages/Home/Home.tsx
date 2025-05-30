@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <div className="min-h-screen w-screen">
             <NavBar />
-            <ModalNavBar />
+            {/* <ModalNavBar /> */}
             <main className="w-full bg-white">
                 <Hero />
                 <section className="flex flex-col items-center bg-gray-50 py-16 lg:px-32 lg:py-32 2xl:p-64">

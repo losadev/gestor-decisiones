@@ -57,8 +57,8 @@ const NavBar = () => {
                                 to={to}
                                 onClick={closeMenu}
                                 className={({ isActive }) =>
-                                    `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${
-                                        isActive ? 'bg-orange-300' : ''
+                                    `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${
+                                        isActive ? 'bg-orange-400' : ''
                                     }`
                                 }>
                                 {icon}
@@ -67,7 +67,7 @@ const NavBar = () => {
                         ))}
 
                         {!loading && user && (
-                            <div className="flex items-center gap-2 mt-4 bg-orange-300 p-2 rounded">
+                            <div className="flex items-center gap-2 mt-4 p-2 rounded">
                                 <img
                                     src={
                                         user.avatar && user.avatar.trim() !== ''
