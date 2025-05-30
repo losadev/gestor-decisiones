@@ -13,6 +13,7 @@ import DecisionForm from '../../components/Decision/DecisionForm';
 import { LiaFilterSolid } from 'react-icons/lia';
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaCheckCircle } from 'react-icons/fa';
+import Snackbar from '../../components/SnackBar';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
@@ -25,6 +26,8 @@ const DecisionDetails = () => {
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
     const navigate = useNavigate();
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSuccess, setSnackbarSuccess] = useState(true);
 
     const [modal, setModal] = useState<boolean>(false);
 
@@ -295,9 +298,24 @@ const DecisionDetails = () => {
                                 </div>
                             </div>
                         )}
-                        <DecisionForm isOpen={modal} onClose={closeModal} decisionId={id} />
+                        <DecisionForm
+                            isOpen={modal}
+                            onClose={closeModal}
+                            onMessage={(msg, success = true) => {
+                                setSnackbarMessage(msg);
+                                setSnackbarSuccess(success);
+                                closeModal();
+                            }}
+                            decisionId={id}
+                        />
                     </div>
                 </div>
+                <Snackbar
+                    message={snackbarMessage}
+                    onClose={() => setSnackbarMessage('')}
+                    open={!!snackbarMessage}
+                    success={snackbarSuccess}
+                />
             </div>
         </div>
     );

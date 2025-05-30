@@ -17,11 +17,11 @@ type Props = {
     isOpen?: boolean;
     onClose: () => void;
     decisionId?: string;
+    onMessage: (msg: string, success?: boolean) => void;
 };
 
-const DecisionForm = ({ isOpen, onClose, decisionId }: Props) => {
+const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<string>('');
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[]>([]);
     const {
@@ -114,10 +114,17 @@ const DecisionForm = ({ isOpen, onClose, decisionId }: Props) => {
                     withCredentials: true,
                 });
             }
-
-            setMessage(res.data.message);
+            onMessage(res.data.message, true);
+            if (!decisionId) {
+                reset({
+                    title: '',
+                    category: 'Trabajo',
+                    prosCons: [{ description: '', type: 'Pro', weight: 1 }],
+                });
+                setProsCons([{ description: '', type: 'Pro', weight: 1 }]);
+            }
         } catch (error: any) {
-            setMessage(error.response?.data?.message || 'Error al enviar el formulario');
+            onMessage('Error al guardar la decisión', false);
         } finally {
             setLoading(false);
         }
@@ -257,7 +264,6 @@ const DecisionForm = ({ isOpen, onClose, decisionId }: Props) => {
                     </button>
                 </div>
             </form>
-            {message && <p>{message}</p>}
         </div>
     );
 };
