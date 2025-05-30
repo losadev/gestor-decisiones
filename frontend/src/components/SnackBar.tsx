@@ -30,11 +30,12 @@ export default function Snackbar({ open, message, success, onClose }: Props) {
                 transform: 'translateX(-50%)',
                 backgroundColor: success ? '#4CAF50' : '#F44336',
                 color: '#fff',
-                padding: '12px 24px',
+                padding: '12px 12px',
                 borderRadius: '4px',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
                 zIndex: 9999,
                 transition: 'all',
+                display: 'inline-flex',
             }}>
             {message}
         </div>,

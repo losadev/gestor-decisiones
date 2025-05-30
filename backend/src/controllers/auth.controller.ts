@@ -11,7 +11,10 @@ export const login = async (req: Request, res: Response) => {
   if (!existingUser) {
     res
       .status(400)
-      .json({ message: "No existe ningun usuario con ese correo electrónico" });
+      .json({
+        message: "No existe ningun usuario con ese correo electrónico",
+        success: false,
+      });
     return;
   }
 
@@ -21,7 +24,9 @@ export const login = async (req: Request, res: Response) => {
   );
 
   if (!isPasswordValid) {
-    res.status(401).json({ message: "La contraseña es incorrecta" });
+    res
+      .status(401)
+      .json({ message: "La contraseña es incorrecta", success: false });
     return;
   }
   const { password, ...userWithoutPassword } = existingUser.get({
@@ -41,6 +46,7 @@ export const login = async (req: Request, res: Response) => {
     message: "Usuario loegueado con éxito",
     token,
     data: userWithoutPassword,
+    success: true,
   });
 };
 
@@ -50,5 +56,7 @@ export const logout = (_req: Request, res: Response) => {
     secure: false,
     sameSite: "lax",
   });
-  res.status(200).json({ message: "Sesión cerrada correctamente" });
+  res
+    .status(200)
+    .json({ message: "Sesión cerrada correctamente", success: true });
 };

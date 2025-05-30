@@ -11,12 +11,17 @@ export const createUser = async (req: Request, res: Response) => {
       ...req.body,
       avatar: avatarUrl,
     });
-    res.status(201).json({ message: "Usuario creado con éxito", data: user });
+    res
+      .status(201)
+      .json({ message: "Usuario creado con éxito", data: user, success: true });
   } catch (error: any) {
     if (!res.headersSent) {
       res
         .status(500)
-        .json({ message: "Server Internal Error", error: error.message });
+        .json({
+          message: "Ha ocurrido un error en el servidor",
+          success: false,
+        });
     }
   }
 };

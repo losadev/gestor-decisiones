@@ -115,6 +115,14 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                 });
             }
             onMessage(res.data.message, true);
+            if (!decisionId) {
+                reset({
+                    title: '',
+                    category: 'Trabajo',
+                    prosCons: [{ description: '', type: 'Pro', weight: 1 }],
+                });
+                setProsCons([{ description: '', type: 'Pro', weight: 1 }]);
+            }
         } catch (error: any) {
             onMessage('Error al guardar la decisión', false);
         } finally {

@@ -6,7 +6,9 @@ export const createEvaluation = async (req: Request, res: Response) => {
     const { result, score, decisionId } = req.body;
 
     if (!decisionId) {
-      res.status(404).json({ message: "No se encuentra la Decisión" });
+      res
+        .status(404)
+        .json({ message: "No se encuentra la Decisión", success: false });
       return;
     }
 
@@ -19,12 +21,12 @@ export const createEvaluation = async (req: Request, res: Response) => {
     res.status(201).json({
       message: "Evaluación creada con éxito",
       data: evaluation,
+      success: true,
     });
   } catch (error: any) {
-    console.error("Error al crear la evaluación:", error); // Agregar log para el error
     res.status(500).json({
-      message: "Server Internal Error",
-      error: error.message || error, // Mostrar el mensaje del error
+      message: "Ha ocurrido un error en el servidor",
+      success: false,
     });
   }
 };
@@ -35,12 +37,13 @@ export const getAllEvaluations = async (_req: Request, res: Response) => {
     res.status(200).json({
       message: "Evaluaciones obtenidas con éxito",
       data: evaluations,
+      success: true,
     });
   } catch (error: any) {
     console.error("Error al obtener las evaluaciones:", error);
     res.status(500).json({
-      message: "Server Internal Error",
-      error: error.message || error,
+      message: "Ha ocurrido un error en el servidor",
+      success: false,
     });
   }
 };
@@ -53,16 +56,19 @@ export const getEvaluationByDecisionId = async (
     const { decisionId } = req.params;
 
     if (!decisionId) {
-      res.status(400).json({ message: "Falta el ID de la decisión" });
+      res
+        .status(400)
+        .json({ message: "Falta el ID de la decisión", success: false });
       return;
     }
 
     const evaluation = await evaluationService.getByDecisionId(decisionId);
 
     if (!evaluation) {
-      res
-        .status(404)
-        .json({ message: "Evaluación no encontrada para esta decisión" });
+      res.status(404).json({
+        message: "Evaluación no encontrada para esta decisión",
+        success: false,
+      });
       return;
     }
 

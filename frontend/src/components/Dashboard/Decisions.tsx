@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import DecisionsTable from './DecisionsTable';
 import NewDecisionButton from './NewDecisionButton';
 import DecisionForm from '../Decision/DecisionForm';
+import Snackbar from '../SnackBar';
 
 const Decisions = () => {
     const [modal, setModal] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSuccess, setSnackbarSuccess] = useState(true);
 
     const openModal = () => {
         setModal(true);
@@ -31,7 +34,21 @@ const Decisions = () => {
             <main className="flex-1 w-full ">
                 <DecisionsTable />
             </main>
-            <DecisionForm isOpen={modal} onClose={closeModal} />
+            <DecisionForm
+                isOpen={modal}
+                onClose={closeModal}
+                onMessage={(msg, success = true) => {
+                    setSnackbarMessage(msg);
+                    setSnackbarSuccess(success);
+                    closeModal();
+                }}
+            />
+            <Snackbar
+                message={snackbarMessage}
+                onClose={() => setSnackbarMessage('')}
+                open={!!snackbarMessage}
+                success={snackbarSuccess}
+            />
         </div>
     );
 };
