@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { DecisionData } from '../../types/decision.types';
+import { DecisionData, Evaluation } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
@@ -12,6 +12,7 @@ import ProsConsTable from './ProsConsTable';
 import DecisionForm from '../../components/Decision/DecisionForm';
 import { LiaFilterSolid } from 'react-icons/lia';
 import { IoFilterSharp } from 'react-icons/io5';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
@@ -19,7 +20,8 @@ const DecisionDetails = () => {
     const [message, setMessage] = useState<string>('');
     const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-
+    const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
+    const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
     const { id } = useParams();
     const createdAt = decision?.createdAt.split('T')[0];
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ const DecisionDetails = () => {
     const closeModal = () => {
         setModal(false);
     };
-
+    console.log('EVALUATION', evaluation);
     useEffect(() => {
         const main = document.getElementById('main-scroll');
         if (main) {
@@ -58,8 +60,13 @@ const DecisionDetails = () => {
             withCredentials: true,
         });
         res.then((response) => {
-            setDecision(response.data.decision);
-            console.log(response.data.decision);
+            const decision = response.data.decision;
+            setDecision(decision);
+            if (decision.status === 'evaluated') {
+                setIsEvaluated(true);
+            } else {
+                setIsEvaluated(false);
+            }
         }).catch((error) => {
             console.error('Error fetching decision details:', error);
         });
@@ -75,6 +82,19 @@ const DecisionDetails = () => {
             setMessage(error);
         });
     };
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5000/api/evaluation/${id}`, {
+                withCredentials: true,
+            })
+            .then((res) => {
+                setEvaluation(res.data.data);
+            })
+            .catch((err) => {
+                console.error('Error al obtener la evaluación:', err);
+            });
+    }, []);
 
     // Pros
     const pros = prosCons?.filter((item) => item.type === 'Pro') || [];
@@ -109,20 +129,26 @@ const DecisionDetails = () => {
                         </span>
                     </div>
                     <div className="sm:flex justify-end gap-2 hidden">
-                        <button
-                            type="button"
-                            className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
-                            onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
-                            <IoMdCheckmarkCircleOutline />
-                            <span>Evaluar</span>
-                        </button>
-                        <button
-                            type="button"
-                            className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
-                            onClick={openModal}>
-                            <BsPencilSquare />
-                            <span>Editar</span>
-                        </button>
+                        {isEvaluated ? (
+                            ''
+                        ) : (
+                            <>
+                                <button
+                                    type="button"
+                                    className="bg-black text-white font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 cursor-pointer transition duration-200 ease-in-out"
+                                    onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
+                                    <IoMdCheckmarkCircleOutline />
+                                    <span>Evaluar</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    className=" font-medium rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-200 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                    onClick={openModal}>
+                                    <BsPencilSquare />
+                                    <span>Editar</span>
+                                </button>
+                            </>
+                        )}
                         <button
                             type="button"
                             className=" font-medium rounded px-4 py-2 flex border border-red-600 items-center gap-2 hover:bg-red-100 cursor-pointer transition duration-200 ease-in-out"
@@ -148,24 +174,30 @@ const DecisionDetails = () => {
                         {showMobileMenu && (
                             <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5 focus:outline-none font-medium">
                                 <div className="py-1">
-                                    <button
-                                        onClick={() => {
-                                            setShowMobileMenu(false);
-                                            navigate(`/dashboard/evaluation/${id}`);
-                                        }}
-                                        className="w-full px-4 py-2 text-left hover:bg-gray-100">
-                                        <IoMdCheckmarkCircleOutline className="inline mr-2" />
-                                        Evaluar
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowMobileMenu(false);
-                                            openModal();
-                                        }}
-                                        className="w-full px-4 py-2 text-left  hover:bg-gray-100">
-                                        <BsPencilSquare className="inline mr-2" />
-                                        Editar
-                                    </button>
+                                    {isEvaluated ? (
+                                        ''
+                                    ) : (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    setShowMobileMenu(false);
+                                                    navigate(`/dashboard/evaluation/${id}`);
+                                                }}
+                                                className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                                                <IoMdCheckmarkCircleOutline className="inline mr-2" />
+                                                Evaluar
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setShowMobileMenu(false);
+                                                    openModal();
+                                                }}
+                                                className="w-full px-4 py-2 text-left  hover:bg-gray-100">
+                                                <BsPencilSquare className="inline mr-2" />
+                                                Editar
+                                            </button>
+                                        </>
+                                    )}
                                     <button
                                         onClick={() => {
                                             setShowMobileMenu(false);
@@ -190,31 +222,79 @@ const DecisionDetails = () => {
                         </div>
                     </div>
                     <hr className="border-none h-[1px] bg-gray-300 my-4" />
+
                     <div className="border flex justify-center rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
-                        <div className="inline-flex flex-col items-center gap-8">
-                            <div className=" flex flex-col gap-0 justify-center text-center">
-                                <h1 className="font-semibold  text-2xl">Evaluación pendiente</h1>
-                                <p className="text-gray-600 font-medium mt-2">
-                                    Esta decisión no ha sido evaluada todavía
-                                </p>
+                        {isEvaluated ? (
+                            <div className="overflow-x-auto  flex flex-col w-full">
+                                <h2 className="text-2xl font-semibold text-center mb-4 flex justify-center gap-4">
+                                    <span className="text-center">Evaluación completada</span>
+                                    <FaCheckCircle className="text-green-600" size={28} />
+                                </h2>
+                                <table className="min-w-full border border-gray-200 !rounded-lg shadow-md my-auto">
+                                    <thead className="bg-gray-100 ">
+                                        <tr>
+                                            <th className="py-3 px-4 bg-black text-left text-gray-100 font-semibold">
+                                                Campo
+                                            </th>
+                                            <th className="py-3 px-4 bg-black text-left text-gray-100 font-semibold">
+                                                Valor
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td className="py-3 px-4 font-medium text-gray-700">
+                                                Resultado
+                                            </td>
+                                            <td className="py-3 px-4">{evaluation?.result}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="py-3 px-4 font-medium text-gray-700">
+                                                Puntuación
+                                            </td>
+                                            <td className="py-3 px-4">{evaluation?.score}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="py-3 px-4 font-medium text-gray-700">
+                                                Fecha
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                {evaluation?.date
+                                                    ? new Date(evaluation.date).toLocaleDateString()
+                                                    : 'No disponible'}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div className="flex flex-col items-center justify-center h-full">
-                                <span className="my-4 flex  items-center">
-                                    <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
-                                </span>
-                                <p className="text-gray-600 font-medium mt-2 text-center">
-                                    Evalúa esta decisión para hacer seguimiento de sus resultados y
-                                    obtener recomendaciones personalizadas.
-                                </p>
-                                <button
-                                    type="button"
-                                    className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
-                                    onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
-                                    <IoMdCheckmarkCircleOutline />
-                                    <span>Evalúa ahora</span>
-                                </button>
+                        ) : (
+                            <div className="inline-flex flex-col items-center gap-8">
+                                <div className=" flex flex-col gap-0 justify-center text-center">
+                                    <h1 className="font-semibold  text-2xl">
+                                        Evaluación pendiente
+                                    </h1>
+                                    <p className="text-gray-600 font-medium mt-2">
+                                        Esta decisión no ha sido evaluada todavía
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center justify-center h-full">
+                                    <span className="my-4 flex  items-center">
+                                        <HiOutlineMenuAlt3 className="rotate-90 text-7xl text-gray-400" />
+                                    </span>
+                                    <p className="text-gray-600 font-medium mt-2 text-center">
+                                        Evalúa esta decisión para hacer seguimiento de sus
+                                        resultados y obtener recomendaciones personalizadas.
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className="bg-black text-white font-medium mt-4 rounded px-4 py-2 flex items-center gap-2 hover:bg-gray-800 border border-gray-300 cursor-pointer transition duration-200 ease-in-out"
+                                        onClick={() => navigate(`/dashboard/evaluation/${id}`)}>
+                                        <IoMdCheckmarkCircleOutline />
+                                        <span>Evalúa ahora</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        )}
                         <DecisionForm isOpen={modal} onClose={closeModal} decisionId={id} />
                     </div>
                 </div>

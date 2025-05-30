@@ -37,10 +37,44 @@ export const getAllEvaluations = async (_req: Request, res: Response) => {
       data: evaluations,
     });
   } catch (error: any) {
-    console.error("Error al obtener las evaluaciones:", error); // Agregar log para el error
+    console.error("Error al obtener las evaluaciones:", error);
     res.status(500).json({
       message: "Server Internal Error",
-      error: error.message || error, // Mostrar el mensaje del error
+      error: error.message || error,
+    });
+  }
+};
+
+export const getEvaluationByDecisionId = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { decisionId } = req.params;
+
+    if (!decisionId) {
+      res.status(400).json({ message: "Falta el ID de la decisión" });
+      return;
+    }
+
+    const evaluation = await evaluationService.getByDecisionId(decisionId);
+
+    if (!evaluation) {
+      res
+        .status(404)
+        .json({ message: "Evaluación no encontrada para esta decisión" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Evaluación obtenida con éxito",
+      data: evaluation,
+    });
+  } catch (error: any) {
+    console.error("Error al obtener la evaluación:", error);
+    res.status(500).json({
+      message: "Server Internal Error",
+      error: error.message || error,
     });
   }
 };
