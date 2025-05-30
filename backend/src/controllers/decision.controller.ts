@@ -15,7 +15,10 @@ export const createDecision = async (req: Request, res: Response) => {
     const proConsArray: ProConReqBody[] = req.body.prosCons;
 
     if (!proConsArray || proConsArray.length === 0) {
-      res.status(404).json({ message: "No se encuentran los ProCons" });
+      res.status(404).json({
+        message: "No se encuentran los y pros y contras",
+        success: false,
+      });
       return;
     }
 
@@ -37,12 +40,14 @@ export const createDecision = async (req: Request, res: Response) => {
       message: "Decisión creada con éxito",
       data: decision,
       prosCons: prosCons,
+      success: true,
     });
   } catch (error: any) {
     console.log(req.body.prosCons);
-    res
-      .status(500)
-      .json({ message: "Server Internal Error", error: error.message });
+    res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      success: false,
+    });
   }
 };
 
@@ -52,11 +57,12 @@ export const deleteDecision = async (req: Request, res: Response) => {
 
     const deletedDecision = await decisionService.delete(id);
 
-    res.status(200).json({ message: deletedDecision.message });
+    res.status(200).json({ message: deletedDecision.message, success: true });
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: "Server Internal Error", error: error.message });
+    res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      success: false,
+    });
   }
 };
 
@@ -65,11 +71,14 @@ export const getAllDecisions = async (_req: Request, res: Response) => {
     const decisions = await Decision.findAll();
     res.status(200).json({
       message: "Se han recuperado todas las decisiones",
+      success: true,
       decisions,
     });
     return;
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ message: "Ha ocurrido un error en el servidor", success: false });
   }
 };
 
@@ -80,16 +89,21 @@ export const getDecisionById = async (req: Request, res: Response) => {
     const decision = await decisionService.getById(id);
 
     if (!decision) {
-      res.status(404).json({ message: "No se ha encontrado la decisión" });
+      res
+        .status(404)
+        .json({ message: "No se ha encontrado la decisión", success: false });
       return;
     }
 
     res.status(200).json({
       message: "Se ha recuperado la decisión",
       decision,
+      success: true,
     });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ message: "Ha ocurrido un error en el servidor", success: false });
   }
 };
 
@@ -102,7 +116,9 @@ export const updateDecision = async (req: Request, res: Response) => {
     const existingDecision = await decisionService.getById(decisionId);
 
     if (!existingDecision || existingDecision.userId !== userId.id) {
-      res.status(404).json({ message: "Decisión no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Decisión no encontrada", success: false });
       return;
     }
 
@@ -117,7 +133,9 @@ export const updateDecision = async (req: Request, res: Response) => {
     const proConsArray: ProConReqBody[] = req.body.prosCons;
 
     if (!proConsArray || proConsArray.length === 0) {
-      res.status(400).json({ message: "Debe incluir al menos un Pro/Con" });
+      res
+        .status(400)
+        .json({ message: "Debe incluir al menos un Pro/Con", success: false });
       return;
     }
 
@@ -138,12 +156,13 @@ export const updateDecision = async (req: Request, res: Response) => {
     res.status(200).json({
       message: "Decisión actualizada con éxito",
       data: updatedDecision,
+      success: true,
       prosCons,
     });
   } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      message: "Server Internal Error",
+      message: "Ha ocurrido un error en el servidor",
       error: error.message,
     });
   }
@@ -157,7 +176,9 @@ export const updateState = async (req: Request, res: Response) => {
     const decision = await decisionService.getById(id);
 
     if (!decision || decision.userId !== userId.id) {
-      res.status(404).json({ message: "Decisión no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Decisión no encontrada", success: false });
       return;
     }
 
@@ -166,13 +187,14 @@ export const updateState = async (req: Request, res: Response) => {
     });
 
     res.status(200).json({
-      message: "Estado de la decisión actualizado a 'evaluated'",
+      message: "La decisión ha sido evaluada",
       data: updatedDecision,
+      success: true,
     });
   } catch (error: any) {
     res.status(500).json({
-      message: "Server Internal Error",
-      error: error.message,
+      message: "Ha ocurrido un error en el servidor",
+      success: false,
     });
   }
 };

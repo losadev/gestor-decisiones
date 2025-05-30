@@ -7,10 +7,13 @@ import DecisionsTable from './DecisionsTable';
 import AnalyticsResumeCard from './AnalyticsResumeCard';
 import { Evaluation } from '../../types/decision.types';
 import axios from 'axios';
+import Snackbar from '../SnackBar';
 
 const Overview = () => {
     const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
     const [modal, setModal] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSuccess, setSnackbarSuccess] = useState(true);
 
     const openModal = () => {
         setModal(true);
@@ -53,9 +56,23 @@ const Overview = () => {
                         <QuickStatsCard />
                     </section>
 
-                    <DecisionForm isOpen={modal} onClose={closeModal} />
+                    <DecisionForm
+                        isOpen={modal}
+                        onClose={closeModal}
+                        onMessage={(msg, success = true) => {
+                            setSnackbarMessage(msg);
+                            setSnackbarSuccess(success);
+                            closeModal();
+                        }}
+                    />
                 </div>
                 <DecisionsTable />
+                <Snackbar
+                    message={snackbarMessage}
+                    onClose={() => setSnackbarMessage('')}
+                    open={!!snackbarMessage}
+                    success={snackbarSuccess}
+                />
             </div>
         </main>
     );
