@@ -175,8 +175,6 @@ const Analytics = () => {
         });
     }, [evaluations, decisions, selectedCategory, selectedTimeRange]);
 
-    console.log(filteredEvaluations);
-
     return (
         <div className="w-full pr-4 h-full pb-4">
             <header className="flex flex-col pt-8 pb-2 gap-2 sm:flex md:flex">

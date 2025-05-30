@@ -135,14 +135,20 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
             className={`${isOpen ? 'block' : 'hidden'} fixed top-0 left-0 z-1000 bg-black/10 w-full h-screen flex justify-center items-center`}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" h-[80%] shadow-2xl text-[15px] rounded-lg sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[50%] flex flex-col gap-4 ">
+                className=" sm:h-[80%] w-full h-full shadow-2xl text-[15px] md:rounded-lg sm:w-[80%] sm:mx-auto md:w-[70%] md:mx-auto lg:w-[60%] xl:w-[50%] 2xl:w-[50%] flex flex-col gap-4 ">
                 <button
                     type="button"
                     onClick={onClose}
-                    className="bg-black/50 py-3 px-4 rounded-lg transition duration-200 inline-flex hover:bg-black/40 cursor-pointer self-start">
+                    className="bg-black/50 py-3 hidden px-4 rounded-lg relative transition duration-200 sm:inline-flex hover:bg-black/40 cursor-pointer self-start">
                     <ImCross size={16} color="white" />
                 </button>
-                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll scroll-custom h-full text-[15px] rounded-lg  flex flex-col py-10 px-8 gap-4 2xl:px-32">
+                <div className="border border-gray-300 bg-white shadow-2xl overflow-y-scroll scroll-custom h-full text-[15px] md:rounded-lg  flex flex-col py-10 px-8 gap-4 2xl:px-32">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className=" py-3 absolute px-4 sm:hidden rounded-lg top-2 right-4 transition duration-200  hover:bg-black/10 cursor-pointer self-start">
+                        <ImCross size={20} color="black" />
+                    </button>
                     <h1 className="mx-auto text-4xl mb-4 font-semibold">Decisión</h1>
                     <hr className="my-2 border-2 border-gray-200 w-full" />
                     <Controller
