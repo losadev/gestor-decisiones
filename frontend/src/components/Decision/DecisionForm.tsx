@@ -150,7 +150,6 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                         <RxCross1 size={24} color="black" />
                     </button>
                     <h1 className="mx-auto text-4xl mb-4 font-semibold">Decisión</h1>
-                    <hr className="my-2 border-2 border-gray-200 w-full" />
                     <Controller
                         name="title"
                         render={({ field }) => (
@@ -183,10 +182,8 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                         )}
                         control={control}
                     />
-                    <ul className="flex flex-col mt-4">
-                        <h1 className="mx-auto text-4xl font-semibold">Pros / Contras</h1>
-                        <hr className="my-2! border-2 border-gray-200 w-full" />
-
+                    <ul className="flex flex-col mt-16">
+                        <h1 className="mx-auto text-4xl font-semibold mb-8">Pros / Contras</h1>
                         {fields.map((field, index) => (
                             <li key={field.id}>
                                 <div className="flex flex-col gap-4">
@@ -243,12 +240,14 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                                         )}
                                         control={control}
                                     />
-                                    <button
-                                        type="button"
-                                        onClick={() => remove(index)}
-                                        className="text-red-500 mx-auto border p-2 rounded border-red-300 hover:bg-red-500 hover:text-white cursor-pointer duration-200 hover:duration-200 hover:scale-125 ">
-                                        <FaTrash size={20} />
-                                    </button>
+                                    {fields.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => remove(index)}
+                                            className="text-red-500 mx-auto border p-2 rounded border-red-300 hover:bg-red-500 hover:text-white cursor-pointer duration-200 hover:duration-200 hover:scale-125 ">
+                                            <FaTrash size={20} />
+                                        </button>
+                                    )}
                                 </div>
                             </li>
                         ))}
