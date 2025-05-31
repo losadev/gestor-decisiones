@@ -54,27 +54,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .custom-table {
-    & thead th {
-        @apply px-4 py-0 text-left;
-    }
-
-    & tbody td {
-        @apply px-8 py-2;
-    }
-
-    & tbody tr {
-        @apply h-12;
-    }
-
     & tbody tr:nth-child(odd) {
-        @apply bg-gray-100 hover:bg-gray-200;
+        @apply !bg-gray-100 hover:bg-gray-200;
     }
     & tbody tr:nth-child(even) {
-        @apply bg-white hover:bg-gray-200;
-    }
-
-    & thead {
-        @apply bg-black/90;
+        @apply !bg-white hover:bg-gray-200;
     }
 }
 

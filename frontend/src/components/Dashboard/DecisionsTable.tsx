@@ -138,8 +138,8 @@ function DecisionsTable() {
     };
 
     return (
-        <section className="w-full h-full min-h-20 0">
-            <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 w-full min-h-20 h-full border border-gray-300">
+        <section className="flex flex-col flex-1 min-h-0 w-full h-full">
+            <div className="flex-1 flex flex-col overflow-hidden bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 border border-gray-300">
                 <h2 className="text-2xl font-semibold">Tus decisiones</h2>
                 <p className="mt-1 text-gray-600">
                     Gestiona y haz seguimiento de todas tus decisiones
@@ -177,9 +177,9 @@ function DecisionsTable() {
                     </ul>
                 </div>
 
-                <div className={`rounded-lg w-full overflow-x-auto shadow-sm !min-h-20`}>
-                    <table className="min-w-max w-full text-sm sm:text-base " ref={tableRef}>
-                        <thead className="bg-orange-500 text-black h-12">
+                <div className="flex-1 overflow-y-auto rounded-lg">
+                    <table className="w-full text-sm sm:text-base" ref={tableRef}>
+                        <thead className="bg-orange-500 text-black h-12 !rounded-lg">
                             <tr className="text-left">
                                 <th className="px-4 sm:px-6 py-3">Título</th>
                                 <th className="px-4 sm:px-6 py-3">Categoría</th>
@@ -188,7 +188,7 @@ function DecisionsTable() {
                                 <th className="px-4 sm:px-6 py-3">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="flex-1 border-x border-x-gray-300 border-b border-b-gray-300">
                             <></>
                             {searchFilterItems.map((decision, index) => (
                                 <>
