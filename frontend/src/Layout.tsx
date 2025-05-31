@@ -13,7 +13,7 @@ const Layout = () => {
             <SideNavBar />
             <main
                 id="main-scroll"
-                className="flex flex-1 min-h-screen w-full overflow-y-auto scroll-custom bg-gray-100">
+                className="flex flex-1 h-screen w-full overflow-y-auto bg-gray-100 scroll-custom p-4">
                 <Outlet />
             </main>
             <Snackbar open={open} message={message} onClose={closeSnackbar} />
