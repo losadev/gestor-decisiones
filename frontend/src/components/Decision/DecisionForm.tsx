@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { DecisionCategoryType, DecisionData } from '../../types/decision.types';
 import { ImCross } from 'react-icons/im';
-import { set } from 'zod';
+import { RxCross1 } from 'react-icons/rx';
 
 type FormData = {
     title: string;
@@ -147,7 +147,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                         type="button"
                         onClick={onClose}
                         className=" py-3 absolute px-4 sm:hidden rounded-lg top-2 right-4 transition duration-200  hover:bg-black/10 cursor-pointer self-start">
-                        <ImCross size={20} color="black" />
+                        <RxCross1 size={24} color="black" />
                     </button>
                     <h1 className="mx-auto text-4xl mb-4 font-semibold">Decisión</h1>
                     <hr className="my-2 border-2 border-gray-200 w-full" />
