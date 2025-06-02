@@ -37,10 +37,11 @@ export const updateUser = async (req: Request, res: Response) => {
     const updatedUser = await userService.updateUser(userId, updatedData);
 
     if (!updatedUser) {
-      return res.status(404).json({
+      res.status(404).json({
         message: "Usuario no encontrado",
         success: false,
       });
+      return;
     }
 
     res.status(200).json({

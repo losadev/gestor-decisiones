@@ -37,4 +37,28 @@ export const userService = {
 
     return user;
   },
+  updateUser: async (
+    userId: string,
+    updateData: {
+      name?: string;
+      lastName?: string;
+      email?: string;
+      password?: string;
+      birthDate?: Date;
+      avatar?: string;
+    }
+  ) => {
+    const user = await User.findByPk(userId);
+    if (!user) return null;
+
+    if (updateData.password) {
+      const SALT = Number(process.env.SALT) || 10;
+      const hashedPassword = await bcrypt.hash(updateData.password, SALT);
+      updateData.password = hashedPassword;
+    }
+
+    await user.update(updateData);
+
+    return user;
+  },
 };
