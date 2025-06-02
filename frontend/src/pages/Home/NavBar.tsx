@@ -33,7 +33,9 @@ const NavBar = () => {
             {/* Nav para móviles */}
             <nav className="bg-orange-500 2xl:hidden w-full relative">
                 <div className="flex items-center justify-between p-4">
-                    <h1 className="text-xl font-bold">[LOGO]</h1>
+                    <button onClick={() => navigate('/')}>
+                        <img src="/logo-good.png" alt="" className="h-10" />
+                    </button>
                     {menuOpen ? (
                         <RxCross1
                             onClick={toggleMenu}

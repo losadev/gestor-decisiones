@@ -13,7 +13,9 @@ function ModalNavBar() {
         <div
             className={`flex w-full items-center justify-end sm:hidden relative ${open ? 'bg-black/40' : ''}`}>
             <nav className="p-4  shadow-sm w-full flex justify-between border-b border-gray-300 bg-orange-500">
-                <NavLink to="/login">[LOGO]</NavLink>
+                <NavLink to="/login">
+                    <img src="/logo-good.png" alt="logo" className="h-10" />
+                </NavLink>
                 <button onClick={handleModal} className={`${open ? 'hidden' : 'block'}`}>
                     <HiBars3 className="font-medium text-xl cursor-pointer" />
                 </button>

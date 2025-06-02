@@ -7,6 +7,7 @@ import { FormRegisterValues, registerFormSchema } from '../../schemas/register.s
 import Button from '../Button';
 import axios from 'axios';
 import { useState } from 'react';
+import ModalNavBar from '../../modal/ModalNavBar';
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');
     const {
@@ -48,6 +49,8 @@ const FormRegister = () => {
 
     return (
         <div className="flex flex-col sm:px-16 sm:pb-16 pt-0">
+            <ModalNavBar />
+
             <div className="hidden sm:flex justify-center items-center ">
                 <img src="/logo.svg" alt="logo" className="h-[200px] " />
             </div>

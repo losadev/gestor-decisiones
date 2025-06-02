@@ -8,6 +8,7 @@ import Input from '../Input';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../Dashboard/NavBar';
 import ModalNavBar from '../../modal/ModalNavBar';
+import RegisterLink from './RegisterLink';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const LoginForm = () => {
                 withCredentials: true,
             });
 
-            navigate('/dashboard');
+            navigate('/dashboard/overview');
             setMessage(response.data.message);
         } catch (error: any) {
             setMessage(error.response.data.message);
@@ -44,6 +45,12 @@ const LoginForm = () => {
             <div className="hidden sm:flex justify-center items-center ">
                 <img src="/logo.svg" alt="logo" className="h-[200px] " />
             </div>
+            <h1 className="font-semibold text-2xl mt-4 mb-2 text-left flex w-full px-4">
+                Inicia sesión
+            </h1>
+            <p className="w-full text-left px-4 mb-4 text-gray-600">
+                Si ya tienes cuenta inicia sesión
+            </p>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full sm:border sm:border-gray-300 bg-white sm:shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
@@ -69,7 +76,7 @@ const LoginForm = () => {
                 <div className="flex justify-center">
                     <Button text="Iniciar sesión" type="submit" />
                 </div>
-                {message && <p>{message}</p>}
+                <RegisterLink />
             </form>
         </div>
     );
