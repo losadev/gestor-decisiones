@@ -29,6 +29,10 @@ const EditProfileForm = ({ user }: Props) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [failedAttempts, setFailedAttempts] = useState(0);
+    const [lockTime, setLockTime] = useState<number | null>(null);
+
+    const LOCK_DURATION = 10 * 60 * 1000;
 
     const {
         control,
@@ -89,20 +93,55 @@ const EditProfileForm = ({ user }: Props) => {
     };
 
     const verifyCurrentPassword = async () => {
+        // Si está bloqueado y no ha pasado el tiempo, mostrar mensaje y salir
+        if (lockTime) {
+            const now = Date.now();
+            if (now - lockTime < LOCK_DURATION) {
+                setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
+                return;
+            } else {
+                // Ya pasó el bloqueo, resetear todo
+                setFailedAttempts(0);
+                setLockTime(null);
+                setMessage('');
+            }
+        }
+
+        if (failedAttempts >= 5) {
+            // Aquí por si quedó algún estado raro, bloquear y guardar tiempo
+            setLockTime(Date.now());
+            setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
+            return;
+        }
+
         try {
             await axios.post(
                 `http://localhost:5000/api/users/${user.id}/password/verify`,
                 { password: currentPassword },
                 { withCredentials: true }
             );
-
             setShowCurrentPassModal(false);
             setShowNewPassModal(true);
             setMessage('');
+            setFailedAttempts(0);
+            setLockTime(null);
         } catch (err: any) {
-            setMessage(err.response?.data?.message || 'Contraseña incorrecta');
+            setFailedAttempts((prev) => {
+                const next = prev + 1;
+                if (next >= 5) {
+                    setLockTime(Date.now());
+                    setMessage(
+                        'Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.'
+                    );
+                } else {
+                    setMessage(err.response?.data?.message || 'Contraseña incorrecta');
+                }
+                return next;
+            });
         }
     };
+
+    const isLocked = lockTime !== null && Date.now() - lockTime < LOCK_DURATION;
 
     return (
         <>
@@ -159,22 +198,35 @@ const EditProfileForm = ({ user }: Props) => {
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             className="border p-2 w-full mb-4 rounded-lg"
+                            disabled={isLocked}
                         />
                         <div className="flex justify-end gap-2">
                             <button
                                 onClick={() => {
                                     setShowCurrentPassModal(false);
                                     setCurrentPassword('');
+                                    setMessage('');
+                                    setFailedAttempts(0);
                                 }}
                                 className="px-4 py-2 border rounded hover:bg-gray-100">
                                 Cancelar
                             </button>
                             <button
                                 onClick={verifyCurrentPassword}
-                                className="px-4 py-2 bg-orange-600 cursor-pointer text-white rounded hover:bg-orange-400">
+                                disabled={failedAttempts >= 5}
+                                className={`px-4 py-2 rounded cursor-pointer ${
+                                    failedAttempts >= 5
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-orange-600 text-white hover:bg-orange-400'
+                                }`}>
                                 Continuar
                             </button>
                         </div>
+                        {failedAttempts >= 5 && (
+                            <p className="text-red-600 mt-2 text-center text-sm">
+                                Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.
+                            </p>
+                        )}
                     </div>
                 </div>
             )}

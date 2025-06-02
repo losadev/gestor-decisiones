@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FormLoginValues, loginFormSchema } from '../../schemas/login.schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,9 +10,15 @@ import NavBar from '../Dashboard/NavBar';
 import ModalNavBar from '../../modal/ModalNavBar';
 import RegisterLink from './RegisterLink';
 
+const LOCK_DURATION = 10 * 60 * 1000; // 10 minutos
+const MAX_FAILED_ATTEMPTS = 5;
+
 const LoginForm = () => {
     const navigate = useNavigate();
     const [message, setMessage] = useState<string>('');
+    const [failedAttempts, setFailedAttempts] = useState(0);
+    const [lockTime, setLockTime] = useState<number | null>(null);
+    const [isLocked, setIsLocked] = useState(false);
 
     const {
         handleSubmit,
@@ -23,8 +29,28 @@ const LoginForm = () => {
         mode: 'onBlur',
     });
 
+    // Verificar si está bloqueado al montar y actualizar estado
+    useEffect(() => {
+        if (lockTime) {
+            const now = Date.now();
+            if (now - lockTime < LOCK_DURATION) {
+                setIsLocked(true);
+                setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
+            } else {
+                setIsLocked(false);
+                setFailedAttempts(0);
+                setLockTime(null);
+                setMessage('');
+            }
+        }
+    }, [lockTime]);
+
     const onSubmit = async (data: { email: string; password: string }) => {
-        console.log(data);
+        if (isLocked) {
+            setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:5000/api/login', data, {
                 headers: {
@@ -33,17 +59,32 @@ const LoginForm = () => {
                 withCredentials: true,
             });
 
+            setFailedAttempts(0);
+            setLockTime(null);
+            setMessage('');
             navigate('/dashboard/overview');
-            setMessage(response.data.message);
         } catch (error: any) {
-            setMessage(error.response.data.message);
+            setFailedAttempts((prev) => {
+                const next = prev + 1;
+                if (next >= MAX_FAILED_ATTEMPTS) {
+                    setLockTime(Date.now());
+                    setIsLocked(true);
+                    setMessage(
+                        'Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.'
+                    );
+                } else {
+                    setMessage(error.response?.data?.message || 'Credenciales incorrectas');
+                }
+                return next;
+            });
         }
     };
+
     return (
         <div className="h-screen flex flex-col items-center w-full">
             <ModalNavBar />
             <div className="hidden sm:flex justify-center items-center ">
-                <img src="/logo.svg" alt="logo" className="h-[200px] " />
+                <img src="/logo.svg" alt="logo" className="h-[200px]" />
             </div>
             <h1 className="font-semibold sm:hidden text-2xl mt-4 mb-2 text-left flex w-full px-4">
                 Inicia sesión
@@ -61,6 +102,7 @@ const LoginForm = () => {
                     error={errors.email}
                     placeholder="example@gmail.com"
                     type="email"
+                    disabled={isLocked}
                 />
                 <Input
                     control={control}
@@ -68,13 +110,18 @@ const LoginForm = () => {
                     name="password"
                     error={errors.password}
                     type="password"
+                    disabled={isLocked}
                 />
-                <div
-                    className={`min-h-[1.25rem] text-sm text-red-700 transition-opacity duration-200 ease-in-out ${
-                        errors ? 'opacity-100' : 'opacity-0'
-                    }`}></div>
+                {message && (
+                    <p
+                        className={`min-h-[1.25rem] text-sm ${
+                            isLocked ? 'text-red-700' : 'text-orange-700'
+                        } transition-opacity duration-200 ease-in-out`}>
+                        {message}
+                    </p>
+                )}
                 <div className="flex justify-center">
-                    <Button text="Iniciar sesión" type="submit" />
+                    <Button text="Iniciar sesión" type="submit" isDisabled={isLocked} />
                 </div>
                 <RegisterLink />
             </form>
