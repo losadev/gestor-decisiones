@@ -20,6 +20,7 @@ const links = [
 
 const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
     const { data: user, isLoading } = useUser();
     const { logout } = useAuth();
 
@@ -29,7 +30,9 @@ const NavBar = () => {
     return (
         <nav className="bg-orange-500 2xl:hidden w-full relative">
             <div className="flex items-center justify-between p-4">
-                <h1 className="text-xl font-bold">[LOGO]</h1>
+                <button onClick={() => navigate('/')}>
+                    <img src="/logo-good.png" alt="" className="h-10" />
+                </button>
                 {menuOpen ? (
                     <RxCross1
                         onClick={toggleMenu}
@@ -56,8 +59,8 @@ const NavBar = () => {
                             to={to}
                             onClick={closeMenu}
                             className={({ isActive }) =>
-                                `p-2 text-black flex gap-2 items-center hover:bg-orange-300 rounded ${
-                                    isActive ? 'bg-orange-300 rounded' : ''
+                                `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${
+                                    isActive ? 'bg-orange-400 rounded' : ''
                                 }`
                             }>
                             {icon}
@@ -66,7 +69,7 @@ const NavBar = () => {
                     ))}
 
                     {!isLoading && user && (
-                        <div className="flex items-center gap-2 mt-4 bg-orange-300 p-2 rounded">
+                        <div className="flex items-center gap-2 mt-4 bg-orange-400 p-2 rounded">
                             <img
                                 src={
                                     user.avatar && user.avatar.trim() !== ''

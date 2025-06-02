@@ -16,12 +16,10 @@ export const createUser = async (req: Request, res: Response) => {
       .json({ message: "Usuario creado con éxito", data: user, success: true });
   } catch (error: any) {
     if (!res.headersSent) {
-      res
-        .status(500)
-        .json({
-          message: "Ha ocurrido un error en el servidor",
-          success: false,
-        });
+      res.status(500).json({
+        message: "Ha ocurrido un error en el servidor",
+        success: false,
+      });
     }
   }
 };
