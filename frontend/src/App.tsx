@@ -13,12 +13,26 @@ import Analytics from './pages/Analytics/Analytics';
 import Evaluation from './pages/Evaluation/Evaluation';
 import Profile from './pages/Profile/Profile';
 import { useEffect, useState } from 'react';
-import { User } from './components/Button';
+import axios from 'axios';
+import { User } from './components/Button'; // o donde tengas el tipo definido
 
 function App() {
     const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/me', {
+                    withCredentials: true,
+                });
+                setUser(res.data.user);
+            } catch (error) {
+                setUser(null);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     return (
         <ErrorBoundary>
@@ -37,7 +51,7 @@ function App() {
                                 <Route path="analytics" element={<Analytics />} />
                                 <Route path="evaluation/:id" element={<Evaluation />} />
                                 <Route path="recommendations" element={<h1>Recommendations</h1>} />
-                                <Route path="profile" element={<Profile />} />
+                                <Route path="profile" element={<Profile user={user} />} />
                             </Route>
                         </Route>
                     </Route>

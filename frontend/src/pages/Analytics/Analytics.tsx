@@ -177,7 +177,7 @@ const Analytics = () => {
 
     return (
         <div className="w-full pr-4 h-full pb-4">
-            <header className="flex flex-col pt-8 pb-2 gap-2 sm:flex md:flex">
+            <header className="flex flex-col pt-4 pb-2 gap-2 sm:flex md:flex">
                 <h1 className="text-2xl font-bold  sm:text-3xl">Análisis de las evaluaciones</h1>
                 <p className="text-gray-600 font-medium mt-2">
                     Obtén información sobre tus patrones y resultados en la toma de decisiones

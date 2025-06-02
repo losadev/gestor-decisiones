@@ -69,7 +69,7 @@ const SideNavBar = () => {
                         </NavLink>
                     </div>
                     <NavLink
-                        to={''}
+                        to={'/dashboard/profile'}
                         className={({ isActive }) =>
                             `p-2 text-black flex gap-2 items-center hover:bg-orange-400 rounded ${isActive ? 'bg-orange-400' : ''}`
                         }>
