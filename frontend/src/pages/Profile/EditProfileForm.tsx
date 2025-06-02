@@ -147,7 +147,7 @@ const EditProfileForm = ({ user }: Props) => {
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-4 max-w-xl mx-auto my-auto border border-gray-300 shadow-sm p-8 rounded-lg w-[70%]">
+                className="flex flex-col gap-4 p-4 sm:border sm:border-gray-300 rounded-lg sm:w-[70%] md:w-[50%] lg:w-[40%]">
                 <Input
                     control={control}
                     name="name"

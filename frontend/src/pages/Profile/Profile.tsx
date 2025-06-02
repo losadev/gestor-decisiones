@@ -12,7 +12,7 @@ const Profile = ({ user }: Props) => {
             <header className="py-4 ">
                 <h1 className="text-2xl font-bold  sm:text-3xl">Editar perfil</h1>
             </header>
-            <div className="p-4 border bg-white border-gray-300 rounded-lg flex justify-center items-center h-full w-full">
+            <div className=" py-4 sm:py-8 bg-white border shadow-sm border-gray-300 rounded-lg flex justify-center items-center h-full w-full">
                 <EditProfileForm user={user} />
             </div>
         </div>
