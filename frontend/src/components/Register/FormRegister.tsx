@@ -36,7 +36,7 @@ const FormRegister = () => {
         const formattedDate = data.birthDate.toISOString().split('T')[0];
         formData.append('birthDate', formattedDate); // 'YYYY-MM-DD'
         if (data && data.avatar) {
-            formData.append('avatar', data.avatar[0]); // Aquí subes el archivo (muy importante)
+            formData.append('avatar', data.avatar[0]);
         }
 
         try {

@@ -12,9 +12,7 @@ export const verifyUser = async (
 ) => {
   try {
     const SECRET_ACCESS_TOKEN = process.env.JWT_SECRET;
-
     const token = req.cookies["access_token"];
-    console.log("Token recibido: ", req.cookies);
 
     if (!token) {
       res.status(401).json({ message: "No se ha proveído el token" });
@@ -22,15 +20,10 @@ export const verifyUser = async (
     }
 
     if (!SECRET_ACCESS_TOKEN) {
-      res.status(500).json({ message: "El secreto JWT no se ha configurado" });
+      res.status(500).json({ message: "El secreto JWT no está configurado" });
       return;
     }
 
-    /**
-     * 1. Decodifica el token
-     * 2. Verfica la firma
-     * 3. Develve el payload
-     */
     const decoded = jwt.verify(token, SECRET_ACCESS_TOKEN) as jwt.JwtPayload;
 
     if (!decoded || !decoded.id) {
@@ -47,8 +40,18 @@ export const verifyUser = async (
 
     const { password, ...data } = existingUser.get({ plain: true });
     req.user = data;
+
+    if (req.params.id && req.params.id !== String(data.id)) {
+      res
+        .status(403)
+        .json({ message: "No tienes permiso para acceder a este recurso" });
+      return;
+    }
+
     next();
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error de autenticación", error: error.message });
   }
 };

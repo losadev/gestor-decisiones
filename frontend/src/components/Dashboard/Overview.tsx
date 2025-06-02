@@ -42,7 +42,7 @@ const Overview = () => {
 
     return (
         <main className="w-full relative pr-4">
-            <div className="w-full flex flex-col py-4 ">
+            <div className="w-full flex flex-col ">
                 <div className="flex flex-col w-full ">
                     <header className="flex flex-col justify-between items-center px-0 py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
                         <h1 className="text-2xl font-bold text-center sm:text-3xl">

@@ -52,6 +52,7 @@ app.use("/api/evaluation", verifyUser, evaluationRouter);
 app.use("/api/recommendation", verifyUser, recommendationRouter);
 app.use("/api/proscons", verifyUser, prosConsRouter);
 app.post("/api/logout", logout);
+app.use("/api/users", verifyUser, userRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello, world!");
