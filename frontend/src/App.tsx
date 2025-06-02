@@ -11,8 +11,15 @@ import Decisions from './components/Dashboard/Decisions';
 import DecisionDetails from './pages/DecisionDetails/DecisionDetails';
 import Analytics from './pages/Analytics/Analytics';
 import Evaluation from './pages/Evaluation/Evaluation';
+import Profile from './pages/Profile/Profile';
+import { useEffect, useState } from 'react';
+import { User } from './components/Button';
 
 function App() {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {}, []);
+
     return (
         <ErrorBoundary>
             <BrowserRouter>
@@ -30,7 +37,7 @@ function App() {
                                 <Route path="analytics" element={<Analytics />} />
                                 <Route path="evaluation/:id" element={<Evaluation />} />
                                 <Route path="recommendations" element={<h1>Recommendations</h1>} />
-                                <Route path="settings" element={<h1>Settings</h1>} />
+                                <Route path="profile" element={<Profile />} />
                             </Route>
                         </Route>
                     </Route>
