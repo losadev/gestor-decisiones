@@ -67,12 +67,16 @@ export const updatePassword = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findByPk(userId);
-    if (!user)
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    if (!user) {
+      res.status(404).json({ message: "Usuario no encontrado" });
+      return;
+    }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch)
-      return res.status(401).json({ message: "Contraseña actual incorrecta" });
+    if (!isMatch) {
+      res.status(401).json({ message: "Contraseña actual incorrecta" });
+      return;
+    }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
