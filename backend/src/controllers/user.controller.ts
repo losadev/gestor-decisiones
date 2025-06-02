@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { userService } from "../services/user.service";
+import { User } from "../models/user.model";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
@@ -56,5 +58,28 @@ export const updateUser = async (req: Request, res: Response) => {
         success: false,
       });
     }
+  }
+};
+
+export const updatePassword = async (req: Request, res: Response) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findByPk(userId);
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch)
+      return res.status(401).json({ message: "Contraseña actual incorrecta" });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ message: "Contraseña actualizada correctamente" });
+  } catch (err) {
+    res.status(500).json({ message: "Error al actualizar la contraseña" });
   }
 };

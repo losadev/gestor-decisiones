@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { upload } from "../middlewares/upload";
-import { createUser, updateUser } from "../controllers/user.controller";
+import {
+  createUser,
+  updatePassword,
+  updateUser,
+} from "../controllers/user.controller";
 import { editUserSchema, validateZod } from "../middlewares/validationsUser";
 import { userSchema } from "../middlewares/validationsUser";
 
@@ -13,5 +17,6 @@ router.put(
   validateZod(editUserSchema),
   updateUser
 );
+router.put("/:id/password", updatePassword);
 
 export default router;
