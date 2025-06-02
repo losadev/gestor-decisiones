@@ -15,8 +15,8 @@ const SideNavBar = () => {
 
     return (
         <nav className="min-h-screen bg-orange-500 pt-4 pb-8 px-4 2xl:flex 2xl:flex-col hidden">
-            <NavLink to="/" className="bg-orange-600 rounded">
-                <img src={'/favicon.ico'} alt="logo" height={800} />
+            <NavLink to="/" className="bg-orange-600 rounded p-8">
+                <img src={'/logo-good.png'} alt="logo" className="h-10" />
             </NavLink>
 
             <div className="text-xl mt-8 flex flex-col gap-4 flex-1 font-medium">

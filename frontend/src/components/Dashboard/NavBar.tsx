@@ -29,7 +29,9 @@ const NavBar = () => {
     return (
         <nav className="bg-orange-500 2xl:hidden w-full relative">
             <div className="flex items-center justify-between p-4">
-                <h1 className="text-xl font-bold">[LOGO]</h1>
+                <h1 className="text-xl font-bold">
+                    <img src="/logo-good.png" alt="logo" className="h-10" />
+                </h1>
                 {menuOpen ? (
                     <RxCross1
                         onClick={toggleMenu}

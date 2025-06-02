@@ -32,7 +32,7 @@ const LoginForm = () => {
                 withCredentials: true,
             });
 
-            navigate('/dashboard');
+            navigate('/dashboard/overview');
             setMessage(response.data.message);
         } catch (error: any) {
             setMessage(error.response.data.message);
