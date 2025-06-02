@@ -45,10 +45,10 @@ const LoginForm = () => {
             <div className="hidden sm:flex justify-center items-center ">
                 <img src="/logo.svg" alt="logo" className="h-[200px] " />
             </div>
-            <h1 className="font-semibold text-2xl mt-4 mb-2 text-left flex w-full px-4">
+            <h1 className="font-semibold sm:hidden text-2xl mt-4 mb-2 text-left flex w-full px-4">
                 Inicia sesión
             </h1>
-            <p className="w-full text-left px-4 mb-4 text-gray-600">
+            <p className="w-full text-left sm:hidden px-4 mb-4 text-gray-600">
                 Si ya tienes cuenta inicia sesión
             </p>
             <form

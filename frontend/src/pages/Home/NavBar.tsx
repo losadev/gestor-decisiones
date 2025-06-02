@@ -31,7 +31,7 @@ const NavBar = () => {
     return (
         <>
             {/* Nav para móviles */}
-            <nav className="bg-orange-500 2xl:hidden w-full relative">
+            <nav className="block sm:hidden bg-orange-500 w-full relative">
                 <div className="flex items-center justify-between p-4">
                     <button onClick={() => navigate('/')}>
                         <img src="/logo-good.png" alt="" className="h-10" />
@@ -90,9 +90,9 @@ const NavBar = () => {
             </nav>
 
             {/* Nav para escritorio */}
-            <nav className="sm:flex hidden justify-between items-center w-full bg-orange-500 border-b border-b-gray-300 py-4 px-8 shadow-lg">
+            <nav className="hidden sm:flex justify-between items-center w-full bg-orange-500 border-b border-b-gray-300 py-4 px-8 shadow-lg">
                 <NavLink to="/">
-                    <img src="/favicon.ico" alt="logo" height={400} />
+                    <img src="/logo-good.png" alt="logo" className="h-10" />
                 </NavLink>
                 <div className="flex gap-8 items-center">
                     {!loading && user ? (
