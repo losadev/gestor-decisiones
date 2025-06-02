@@ -4,6 +4,7 @@ import {
   createUser,
   updatePassword,
   updateUser,
+  verifyCurrentPassword,
 } from "../controllers/user.controller";
 import { editUserSchema, validateZod } from "../middlewares/validationsUser";
 import { userSchema } from "../middlewares/validationsUser";
@@ -18,5 +19,6 @@ router.put(
   updateUser
 );
 router.put("/:id/password", updatePassword);
+router.post("/:id/password/verify", verifyCurrentPassword);
 
 export default router;

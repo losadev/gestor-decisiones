@@ -88,6 +88,22 @@ const EditProfileForm = ({ user }: Props) => {
         }
     };
 
+    const verifyCurrentPassword = async () => {
+        try {
+            await axios.post(
+                `http://localhost:5000/api/users/${user.id}/password/verify`,
+                { password: currentPassword },
+                { withCredentials: true }
+            );
+
+            setShowCurrentPassModal(false);
+            setShowNewPassModal(true);
+            setMessage('');
+        } catch (err: any) {
+            setMessage(err.response?.data?.message || 'Contraseña incorrecta');
+        }
+    };
+
     return (
         <>
             <form
@@ -154,10 +170,7 @@ const EditProfileForm = ({ user }: Props) => {
                                 Cancelar
                             </button>
                             <button
-                                onClick={() => {
-                                    setShowCurrentPassModal(false);
-                                    setShowNewPassModal(true);
-                                }}
+                                onClick={verifyCurrentPassword}
                                 className="px-4 py-2 bg-orange-600 cursor-pointer text-white rounded hover:bg-orange-400">
                                 Continuar
                             </button>

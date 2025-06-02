@@ -87,3 +87,26 @@ export const updatePassword = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error al actualizar la contraseña" });
   }
 };
+
+export const verifyCurrentPassword = async (req: Request, res: Response) => {
+  const { password } = req.body;
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      res.status(404).json({ message: "Usuario no encontrado" });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      res.status(401).json({ message: "Contraseña incorrecta" });
+      return;
+    }
+
+    res.json({ message: "Contraseña correcta" });
+  } catch (err) {
+    res.status(500).json({ message: "Error al verificar la contraseña" });
+  }
+};
