@@ -5,7 +5,6 @@ import {
   DataType,
   Default,
   ForeignKey,
-  HasOne,
   IsUUID,
   Model,
   PrimaryKey,
@@ -13,7 +12,7 @@ import {
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
 import { EvaluationAttributes } from "../types/evaluation.types";
-import { Recommendation } from "./recommendation.model";
+import { User } from "./user.model"; // 👈 Asegúrate de importar esto
 
 @Table
 export class Evaluation extends Model<EvaluationAttributes> {
@@ -41,4 +40,11 @@ export class Evaluation extends Model<EvaluationAttributes> {
 
   @BelongsTo(() => Decision)
   decision!: Decision;
+
+  @ForeignKey(() => User)
+  @Column(DataType.UUID)
+  userId!: string;
+
+  @BelongsTo(() => User)
+  user!: User;
 }

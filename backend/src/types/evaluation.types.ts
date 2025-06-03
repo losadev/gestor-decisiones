@@ -11,4 +11,5 @@ export type EvaluationCreateInput = {
   score: number;
   date: Date;
   decisionId: string;
+  userId: string;
 };
