@@ -1,10 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
 import DecisionForm from '../Decision/DecisionForm';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 function DecisionsTable() {
     const [data, setData] = useState<DecisionData[]>([]);
     const [showActions, setShowActions] = useState<number | null>(null);
@@ -23,6 +25,20 @@ function DecisionsTable() {
     const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(
         null
     );
+    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(searchFilterItems.length / itemsPerPage);
+
+    const paginatedItems = searchFilterItems.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchDecision, active]);
+
     const openModal = () => {
         setModal(true);
     };
@@ -177,8 +193,8 @@ function DecisionsTable() {
                     </ul>
                 </div>
 
-                <div className="flex-1 overflow-y-auto rounded-lg">
-                    <table className="w-full text-sm sm:text-base" ref={tableRef}>
+                <div className="flex-1 flex flex-col overflow-y-auto rounded-lg min-h-100">
+                    <table className="w-full text-sm sm:text-base custom-table" ref={tableRef}>
                         <thead className="bg-orange-500 text-black h-12 !rounded-lg">
                             <tr className="text-left">
                                 <th className="px-4 sm:px-6 py-3">Título</th>
@@ -188,9 +204,8 @@ function DecisionsTable() {
                                 <th className="px-4 sm:px-6 py-3">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="flex-1 border-x border-x-gray-300 border-b border-b-gray-300">
-                            <></>
-                            {searchFilterItems.map((decision, index) => (
+                        <tbody className="flex-1">
+                            {paginatedItems.map((decision, index) => (
                                 <>
                                     <tr key={index} className="hover:bg-gray-100 transition">
                                         <td className="px-4 sm:px-6 py-3">{decision.title}</td>
@@ -211,7 +226,7 @@ function DecisionsTable() {
                                             </button>
 
                                             <DropDownActions
-                                                ref={dropdownRef} // <-- Pasar ref al dropdown
+                                                ref={dropdownRef}
                                                 id={decision.id}
                                                 open={showActions === index}
                                                 openUpward={openUpwardIndex === index}
@@ -227,6 +242,29 @@ function DecisionsTable() {
                             ))}
                         </tbody>
                     </table>
+                    {paginatedItems.length === 0 ? (
+                        ''
+                    ) : (
+                        <div className="flex gap-4 mx-auto justify-center items-center mt-auto py-4">
+                            <button
+                                className="px-4 cursor-pointer py-2 bg-gray-200 rounded disabled:opacity-50"
+                                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}>
+                                <BsArrowLeft />
+                            </button>
+                            <span className="text-gray-700">
+                                Página {currentPage} de {totalPages}
+                            </span>
+                            <button
+                                className="px-4 py-2 cursor-pointer bg-gray-200 rounded disabled:opacity-50"
+                                onClick={() =>
+                                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                                }
+                                disabled={currentPage === totalPages}>
+                                <BsArrowRight />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
             {editDecisionId && (
