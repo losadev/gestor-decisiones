@@ -10,15 +10,19 @@ export const registerFormSchema = z
         email: z.string().email('Correo inválido').min(1, { message: 'El correo es obligatorio' }),
         password: z.string().min(6, 'La contraseña de tener al menos 6 caracteres'),
         confirmPassword: z.string().min(6, 'La confirmación debe tener al menos 6 caracteres'),
-        birthDate: z.coerce.date(),
-        avatar: z.any().optional(),
-        // .refine((files) => {
-        //     return files?.[0]?.size <= MAX_FILE_SIZE;
-        // }, `Max image size is 5MB.`)
-        // .refine(
-        //     (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-        //     'Only .jpg, .jpeg, .png and .webp formats are supported.'
-        // ),
+        birthDate: z.coerce.date({
+            errorMap: () => ({ message: 'La fecha es inválida' }),
+        }),
+        avatar: z
+            .any()
+            .optional()
+            .refine((files) => {
+                return files?.[0]?.size <= MAX_FILE_SIZE;
+            }, `La imagen debe pesar menos de 5MB.`)
+            .refine(
+                (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+                'Solo se permiten imágenes .jpg, .jpeg, .png y .webp.'
+            ),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Las contraseñas son inválidas',
