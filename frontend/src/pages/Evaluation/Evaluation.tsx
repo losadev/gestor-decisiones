@@ -4,13 +4,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ProCon } from '../../types/proCon.types';
 import { DecisionData } from '../../types/decision.types';
 import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-type FormData = {
-    greenBar: number;
-    redBar: number;
-    neutralBar: number;
-    notes: string;
-};
+const schema = z
+    .object({
+        greenBar: z.number().min(0),
+        redBar: z.number().min(0),
+        neutralBar: z.number().min(0),
+        notes: z.string().min(1, { message: 'Las notas son obligatorias' }),
+    })
+    .refine((data) => data.greenBar + data.redBar + data.neutralBar === 100, {
+        message: 'La suma de los porcentajes debe ser exactamente 100%',
+        path: ['neutralBar'],
+    });
+
+type FormData = z.infer<typeof schema>;
 
 const Evaluation = () => {
     const [message, setMessage] = useState<string>('');
@@ -28,9 +37,12 @@ const Evaluation = () => {
     const {
         control,
         handleSubmit,
-        //formState: { errors },
         reset,
+        watch,
+        setValue,
+        formState: { errors },
     } = useForm<FormData>({
+        resolver: zodResolver(schema),
         defaultValues: {
             greenBar: 0,
             redBar: 0,
@@ -40,9 +52,7 @@ const Evaluation = () => {
     });
 
     const total = greenBar + neutralBar + redBar;
-
     const weighted = total === 0 ? 0 : (greenBar * 10 + neutralBar * 5 + redBar * 0) / total;
-
     const finalScore = Math.max(1, Math.round(weighted));
 
     useEffect(() => {
@@ -76,6 +86,10 @@ const Evaluation = () => {
             setRedBar(newTotals.red);
             setNeutralBar(newTotals.neutral);
             setTotalPercentage(total);
+
+            setValue('greenBar', newTotals.green);
+            setValue('redBar', newTotals.red);
+            setValue('neutralBar', newTotals.neutral);
         }
     };
 
@@ -92,7 +106,7 @@ const Evaluation = () => {
                 },
                 { withCredentials: true }
             );
-            axios.patch(
+            await axios.patch(
                 `http://localhost:5000/api/decision/${decision.id}`,
                 {
                     status: 'evaluated',
@@ -203,13 +217,17 @@ const Evaluation = () => {
                                             }}
                                             className={`w-full green-bar`}
                                             style={{
-                                                background: `linear-gradient(to right, green ${greenBar}%, #ccc ${greenBar}%)
-                                            `,
+                                                background: `linear-gradient(to right, green ${greenBar}%, #ccc ${greenBar}%)`,
                                             }}
                                         />
                                     </>
                                 )}
                             />
+                            {errors.greenBar && (
+                                <p className="text-red-600 text-sm mt-1">
+                                    {errors.greenBar.message}
+                                </p>
+                            )}
 
                             <Controller
                                 name="redBar"
@@ -238,13 +256,15 @@ const Evaluation = () => {
                                             }}
                                             className={`w-full red-bar `}
                                             style={{
-                                                background: `linear-gradient(to right, red ${redBar}%, #ccc ${redBar}%)
-                                            `,
+                                                background: `linear-gradient(to right, red ${redBar}%, #ccc ${redBar}%)`,
                                             }}
                                         />
                                     </>
                                 )}
                             />
+                            {errors.redBar && (
+                                <p className="text-red-600 text-sm mt-1">{errors.redBar.message}</p>
+                            )}
 
                             <Controller
                                 name="neutralBar"
@@ -261,8 +281,7 @@ const Evaluation = () => {
                                             value={neutralBar}
                                             className={`w-full neutral-bar `}
                                             style={{
-                                                background: `linear-gradient(to right, yellow ${neutralBar}%, #ccc ${neutralBar}%)
-                                            `,
+                                                background: `linear-gradient(to right, yellow ${neutralBar}%, #ccc ${neutralBar}%)`,
                                             }}
                                             disabled={isDisabled}
                                             onChange={(e) => {
@@ -281,6 +300,11 @@ const Evaluation = () => {
                                     </>
                                 )}
                             />
+                            {errors.neutralBar && (
+                                <p className="text-red-600 text-sm mt-1">
+                                    {errors.neutralBar.message}
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -297,6 +321,11 @@ const Evaluation = () => {
                                     className="border w-full rounded border-gray-300 min-h-[120px] p-3 resize-y"
                                     placeholder="Describe los resultados de tu decisión y lo que aprendiste..."
                                 />
+                                {errors.notes && (
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.notes.message}
+                                    </p>
+                                )}
                             </>
                         )}
                     />

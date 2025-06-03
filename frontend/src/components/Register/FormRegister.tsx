@@ -8,8 +8,10 @@ import Button from '../Button';
 import axios from 'axios';
 import { useState } from 'react';
 import ModalNavBar from '../../modal/ModalNavBar';
+import { useNavigate } from 'react-router-dom';
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');
+    const navigate = useNavigate();
     const {
         control,
         handleSubmit,
@@ -17,6 +19,7 @@ const FormRegister = () => {
     } = useForm<FormRegisterValues>({
         resolver: zodResolver(registerFormSchema),
         mode: 'onBlur',
+        criteriaMode: 'all',
     });
 
     const onSubmit = async (data: {
@@ -42,6 +45,7 @@ const FormRegister = () => {
         try {
             const req = await axios.post('http://localhost:5000/api/register', formData);
             setMessage(req.data.message);
+            navigate('/login');
         } catch (error: any) {
             setMessage(error.message);
         }
@@ -56,6 +60,7 @@ const FormRegister = () => {
             </div>
 
             <form
+                noValidate
                 onSubmit={handleSubmit(onSubmit)}
                 className="sm:border h-full flex flex-col bg-white border-gray-300 sm:shadow-2xl text-[15px] sm:rounded-lg p-4 sm:mx-auto">
                 <div className="flex flex-col gap-2">
