@@ -75,19 +75,29 @@ const Analytics = () => {
 
         const timeDiffs = evaluations
             .map((evaluation) => {
-                const decision = decisions.find((d) => d.id === evaluation.decisionId);
+                const decision = decisions.find(
+                    (d) => String(d.id) === String(evaluation.decisionId)
+                );
                 if (!decision) return null;
+
                 const createdDecision = new Date(decision.createdAt);
                 const createdEvaluation = new Date(evaluation.createdAt);
+
+                if (isNaN(createdDecision.getTime()) || isNaN(createdEvaluation.getTime()))
+                    return null;
+
                 const diffInDays =
                     (createdEvaluation.getTime() - createdDecision.getTime()) /
                     (1000 * 60 * 60 * 24);
+
                 return diffInDays >= 0 ? diffInDays : null;
             })
             .filter((d): d is number => d !== null);
 
         if (timeDiffs.length === 0) return 0;
-        return timeDiffs.reduce((acc, curr) => acc + curr, 0) / timeDiffs.length;
+
+        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0);
+        return sum / timeDiffs.length;
     }, [evaluations, decisions]);
 
     const improvement = useMemo(() => {
