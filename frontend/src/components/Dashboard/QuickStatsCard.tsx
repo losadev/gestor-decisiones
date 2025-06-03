@@ -63,7 +63,7 @@ const QuickStatsCard = () => {
     }, [evaluations]);
 
     return (
-        <div className="rounded-lg bg-white border p-4 border-gray-300 shadow-md inline-flex flex-col gap-1 sm:w-full md:col-span-2 xl:col-span-1 lg:px-8 xl:h-full">
+        <div className="rounded-lg bg-white border p-4 sm:p-8 border-gray-300 shadow-md inline-flex flex-col gap-1 sm:w-full md:col-span-2 xl:col-span-1 lg:px-8 xl:h-full">
             <div className="flex flex-col gap-2 border-b-amber-100">
                 <h1 className="text-2xl font-semibold sm:text-3xl">Estadísticas rápidas</h1>
                 <p className="text-gray-500">Tus últimas decisiones evaluadas / creadas</p>
