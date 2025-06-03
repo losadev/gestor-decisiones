@@ -43,6 +43,28 @@ const Analytics = () => {
     const [selectedCategory, setSelectedCategory] = useState('Todas las categorías');
     const [selectedTimeRange, setSelectedTimeRange] = useState('Todo');
 
+    const filteredEvaluations = useMemo(() => {
+        return evaluations.filter((evaluation) => {
+            const decision = decisions.find((d) => d.id === evaluation.decisionId);
+            if (!decision) return false;
+
+            const inCategory =
+                selectedCategory === 'Todas las categorías' ||
+                decision.category === selectedCategory;
+
+            const inDateRange = (() => {
+                if (selectedTimeRange === 'Todo') return true;
+                const days = parseInt(selectedTimeRange);
+                const evaluationDate = new Date(evaluation.createdAt);
+                const limitDate = new Date();
+                limitDate.setDate(limitDate.getDate() - days);
+                return evaluationDate >= limitDate;
+            })();
+
+            return inCategory && inDateRange;
+        });
+    }, [evaluations, decisions, selectedCategory, selectedTimeRange]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -58,22 +80,19 @@ const Analytics = () => {
         };
         fetchData();
     }, []);
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
+    const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
+    const numberOfDecisions = filteredDecisions.length;
 
-    const numberOfDecisions = decisions.length;
-    const pending = useMemo(() => decisions.filter((d) => d.status === 'progress'), [decisions]);
-    const totalEvaluations = evaluations.length;
-
-    const successfulEvaluations = useMemo(
-        () => evaluations.filter((e) => e.score > 6).length,
-        [evaluations]
-    );
-
-    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
+    //const numberOfDecisions = decisions.length;
+    const pending = useMemo(() => {
+        return filteredDecisions.filter((d) => d.status === 'progress');
+    }, [filteredDecisions]);
 
     const averageDecisionTime = useMemo(() => {
-        if (evaluations.length === 0 || decisions.length === 0) return 0;
+        if (filteredEvaluations.length === 0 || decisions.length === 0) return 0;
 
-        const timeDiffs = evaluations
+        const timeDiffs = filteredEvaluations
             .map((evaluation) => {
                 const decision = decisions.find(
                     (d) => String(d.id) === String(evaluation.decisionId)
@@ -102,14 +121,14 @@ const Analytics = () => {
 
     const improvementLinear = useMemo(() => {
         console.log('EVLUATIONS LENGTH', evaluations);
-        if (evaluations.length === 0) return 0;
+        if (filteredEvaluations.length === 0) return 0;
 
         // Fecha límite hace 6 meses
         const limitDate = new Date();
         limitDate.setMonth(limitDate.getMonth() - 3);
 
         // Filtrar evaluaciones solo de los últimos 6 meses
-        const recentEvaluations = evaluations.filter((evaluation) => {
+        const recentEvaluations = filteredEvaluations.filter((evaluation) => {
             const evalDate = new Date(evaluation.createdAt);
             return evalDate >= limitDate;
         });
@@ -205,27 +224,13 @@ const Analytics = () => {
     //     }));
     // }, [evaluations, decisions]);
 
-    const filteredEvaluations = useMemo(() => {
-        return evaluations.filter((evaluation) => {
-            const decision = decisions.find((d) => d.id === evaluation.decisionId);
-            if (!decision) return false;
+    const successfulEvaluations = useMemo(
+        () => filteredEvaluations.filter((e) => e.score > 6).length,
+        [filteredEvaluations]
+    );
+    const totalEvaluations = filteredEvaluations.length;
 
-            const inCategory =
-                selectedCategory === 'Todas las categorías' ||
-                decision.category === selectedCategory;
-
-            const inDateRange = (() => {
-                if (selectedTimeRange === 'Todo') return true;
-                const days = parseInt(selectedTimeRange);
-                const evaluationDate = new Date(evaluation.createdAt);
-                const limitDate = new Date();
-                limitDate.setDate(limitDate.getDate() - days);
-                return evaluationDate >= limitDate;
-            })();
-
-            return inCategory && inDateRange;
-        });
-    }, [evaluations, decisions, selectedCategory, selectedTimeRange]);
+    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
 
     return (
         <div className="w-full 2xl:pr-4 h-full pb-4">
