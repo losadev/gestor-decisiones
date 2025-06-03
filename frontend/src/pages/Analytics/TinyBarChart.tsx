@@ -42,8 +42,8 @@ const TinyBarChart = ({ evaluations, decisions }: Props) => {
     });
 
     return (
-        <div className="flex flex-col h-full gap-4 w-full rounded-lg 2xl:p-8 bg-white shadow-sm border border-gray-300 p-4">
-            <h1 className="text-xl lg:text-3xl font-semibold">Decisiones por categoría</h1>
+        <div className="flex flex-col h-full gap-4 w-full rounded-lg md:p-8 bg-white shadow-sm border border-gray-300 p-4">
+            <h1 className="text-xl sm:text-2xl font-semibold">Decisiones por categoría</h1>
             <div className="w-full min-h-[300px] h-[300px] sm:h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={categoryData} margin={{ top: 30 }}>

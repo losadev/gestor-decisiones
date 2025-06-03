@@ -24,13 +24,13 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
             <div className="flex w-full">
                 <div className="flex flex-col gap-2 flex-1">
                     <span className="font-medium text-gray-600">{title}</span>
-                    <span className={`text-4xl font-semibold lg:text-3xl flex-1 ${className}`}>
+                    <span className={`text-[1.75rem]  font-semibold flex-1 ${className}`}>
                         {content}
                     </span>
                 </div>
                 <span className={`${className}`}>{icon}</span>
             </div>
-            <p className="text-gray-600">{description}</p>
+            <p className="text-gray-600 text-sm">{description}</p>
         </div>
     );
 };
@@ -176,7 +176,7 @@ const Analytics = () => {
     }, [evaluations, decisions, selectedCategory, selectedTimeRange]);
 
     return (
-        <div className="w-full pr-4 h-full pb-4">
+        <div className="w-full 2xl:pr-4 h-full pb-4">
             <header className="flex flex-col pt-4 pb-2 gap-2 sm:flex md:flex">
                 <h1 className="text-2xl font-bold  sm:text-3xl">Análisis de las evaluaciones</h1>
                 <p className="text-gray-600 font-medium mt-2">
