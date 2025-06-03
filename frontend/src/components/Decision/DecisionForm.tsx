@@ -7,6 +7,35 @@ import { DecisionCategoryType, DecisionData } from '../../types/decision.types';
 import { ImCross } from 'react-icons/im';
 import { RxCross1 } from 'react-icons/rx';
 
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+export const proConSchema = z.object({
+    description: z
+        .string()
+        .min(1, { message: 'La descripción es obligatoria' })
+        .max(255, { message: 'Máximo 255 caracteres' }),
+    type: z.enum(['Pro', 'Contra'], {
+        errorMap: () => ({ message: 'Tipo inválido' }),
+    }),
+    weight: z
+        .number()
+        .min(1, { message: 'El peso mínimo es 1' })
+        .max(10, { message: 'El peso máximo es 10' }),
+});
+
+export const decisionFormSchema = z.object({
+    title: z
+        .string()
+        .min(1, { message: 'El título es obligatorio' })
+        .max(255, { message: 'Máximo 255 caracteres' }),
+    category: z
+        .string()
+        .min(1, { message: 'La categoría es obligatoria' })
+        .max(100, { message: 'Máximo 100 caracteres' }),
+    prosCons: z.array(proConSchema).min(1, { message: 'Debe haber al menos un pro o contra' }),
+});
+
 type FormData = {
     title: string;
     category: string;
@@ -30,18 +59,15 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
         formState: { errors },
         reset,
     } = useForm<FormData>({
+        resolver: zodResolver(decisionFormSchema),
+        mode: 'onBlur',
         defaultValues: {
-            title: decision ? decision.title : '', // Si hay una decisión, se usa su título, si no, se deja vacío
-            category: decision ? decision.category : 'Trabajo',
-            prosCons: [
-                {
-                    description: '',
-                    type: 'Pro', // valor por defecto
-                    weight: 1, // mínimo permitido
-                },
-            ],
+            title: '',
+            category: 'Trabajo',
+            prosCons: [{ description: '', type: 'Pro', weight: 1 }],
         },
     });
+
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'prosCons',
@@ -162,6 +188,9 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                                     className="border border-gray-300 rounded px-3 py-2"
                                     value={field.value ?? ''}
                                 />
+                                {errors.title && (
+                                    <p className="text-red-500">{errors.title.message}</p>
+                                )}
                             </div>
                         )}
                         control={control}
@@ -201,6 +230,14 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                                                     className="border border-gray-300 rounded px-3 py-2"
                                                     value={field.value ?? ''}
                                                 />
+                                                {errors.prosCons?.[index]?.description && (
+                                                    <p className="text-red-500">
+                                                        {
+                                                            errors.prosCons[index].description
+                                                                ?.message
+                                                        }
+                                                    </p>
+                                                )}
                                             </div>
                                         )}
                                         control={control}

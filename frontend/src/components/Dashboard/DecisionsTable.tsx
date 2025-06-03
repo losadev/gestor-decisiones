@@ -157,7 +157,8 @@ function DecisionsTable() {
                     />
                 </div>
 
-                <div className="w-fit bg-gray-100 my-4 p-2 text-sm sm:text-base items-center rounded-lg">
+
+                <div className="inline-flex bg-gray-100 my-4 p-2 text-sm sm:text-base items-center rounded-lg max-w-max">
                     <ul className="flex flex-row font-medium items-center text-gray-800 gap-2 sm:gap-4">
                         <li
                             className={`${active === 1 ? 'bg-orange-500 text-white' : 'hover:bg-gray-200'} px-3 py-1 rounded cursor-pointer transition`}

@@ -4,7 +4,7 @@ import { FormLoginValues } from '../schemas/login.schema';
 
 type Props = {
     name: keyof FormRegisterValues;
-    control?: Control<FormRegisterValues | FormLoginValues>;
+    control: Control<FormRegisterValues | FormLoginValues>;
     type?: string;
     label: string;
     placeholder?: string;
@@ -27,7 +27,6 @@ const Input = ({ name, type, label, placeholder, control, error }: Props) => {
                         placeholder={placeholder}
                         {...field}
                         className="border border-gray-300 rounded px-3 py-2"
-                        value={field.value ?? ''}
                     />
                 )}
             />
