@@ -1,38 +1,49 @@
 import OpenAI from "openai";
-import { Decision } from "../models/decision.model";
-import { Evaluation } from "../models/evaluation.model";
-import { ProCon } from "../models/proCon.model";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function getRecommendationFromAI(
-  decision: Decision,
-  proCon: ProCon[]
+  decisionsData: {
+    title: string;
+    pros: string[];
+    cons: string[];
+    score: number;
+  }[]
 ) {
-  const decisionData = decision.toJSON();
-  const proConData = proCon[0].toJSON();
+  // Construir resumen con las 3 decisiones:
+  const decisionsSummary = decisionsData
+    .map((d, i) => {
+      return `Decisión ${i + 1}: "${d.title}"
+Pros: ${d.pros.join(", ")}
+Contras: ${d.cons.join(", ")}
+Evaluación final (puntuación): ${d.score}
+`;
+    })
+    .join("\n");
 
   const prompt = `
-Vas a tomar la decisión: "${decisionData.title}", y estos son los pros/contras de tomar esta decision "${proConData}"
+Eres un asistente experto en mejorar la toma de decisiones.
 
-Queremos ayudarte a mejorar tu proceso de toma de decisiones en el futuro.
+El usuario ha tomado estas últimas 3 decisiones con sus pros, contras y evaluaciones:
 
-1. Considera el tipo de decisión que tomaste.
-2. Analiza posibles pros y contras de ese tipo de decisiones.
-3. Sugiérenos un título breve y un contenido claro y útil que podamos guardar como recomendación para decisiones futuras similares.
+${decisionsSummary}
 
-Devuelve la respuesta en formato JSON con las siguientes claves: "title" y "content". Ejemplo:
+Analiza estas decisiones y evaluaciones, detecta patrones o aprendizajes importantes.
+
+Con base en eso, sugiere una recomendación breve y práctica que ayude al usuario a mejorar sus decisiones futuras.
+
+Devuelve solo un JSON con las claves "title" y "content". Ejemplo:
 {
-  "title": "Analiza antes de decidir",
-  "content": "Cuando tomes decisiones sobre comprar un coche eléctrico, considera investigar autonomía, disponibilidad de cargadores, mantenimiento y beneficios fiscales. Evita decisiones impulsivas sin comparar opciones."
+  "title": "Recomendación clara y breve",
+  "content": "Explicación útil para aplicar en decisiones futuras."
 }
 `;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4",
-    max_tokens: 150,
+    max_tokens: 250,
     messages: [
       {
         role: "system",
@@ -47,7 +58,6 @@ Devuelve la respuesta en formato JSON con las siguientes claves: "title" y "cont
   const raw = response.choices[0].message.content;
 
   try {
-    // Extrae solo el JSON del texto completo
     const match = raw?.match(/{[\s\S]*}/);
     if (!match) {
       console.error("No se encontró JSON válido en la respuesta:", raw);

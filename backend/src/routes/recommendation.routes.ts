@@ -1,5 +1,4 @@
-import { create } from "domain";
-import Router from "express";
+import { Router } from "express";
 import { createRecommendation } from "../controllers/recommendation.controller";
 
 const router = Router();

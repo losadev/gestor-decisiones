@@ -3,5 +3,4 @@ export interface RecommendationAttributes {
   userId: string;
   title: string;
   content: string;
-  decisionId: string;
 }

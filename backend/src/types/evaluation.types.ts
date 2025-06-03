@@ -4,6 +4,7 @@ export type EvaluationAttributes = {
   score: number;
   date: Date;
   decisionId: string;
+  userId: string;
 };
 
 export type EvaluationCreateInput = {
