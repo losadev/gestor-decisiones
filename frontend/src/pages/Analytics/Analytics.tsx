@@ -6,7 +6,7 @@ import Filters from './Filters';
 import AnalyticsResumeCard from '../../components/Dashboard/AnalyticsResumeCard';
 import TinyBarChart from './TinyBarChart';
 import LineChartDecisionStats from './LineChartDecisionStats';
-import { LuCircleAlert } from 'react-icons/lu';
+import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
 import axios from 'axios';
 import { DecisionData, Evaluation } from '../../types/decision.types';
 
@@ -43,116 +43,6 @@ const Analytics = () => {
     const [selectedCategory, setSelectedCategory] = useState('Todas las categorías');
     const [selectedTimeRange, setSelectedTimeRange] = useState('Todo');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [evalRes, decRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/evaluation', { withCredentials: true }),
-                    axios.get('http://localhost:5000/api/decision', { withCredentials: true }),
-                ]);
-                setEvaluations(evalRes.data.data);
-                setDecisions(decRes.data.decisions);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const numberOfDecisions = decisions.length;
-    const pending = useMemo(() => decisions.filter((d) => d.status === 'progress'), [decisions]);
-    const totalEvaluations = evaluations.length;
-
-    const successfulEvaluations = useMemo(
-        () => evaluations.filter((e) => e.score > 6).length,
-        [evaluations]
-    );
-
-    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
-
-    const averageDecisionTime = useMemo(() => {
-        if (evaluations.length === 0 || decisions.length === 0) return 0;
-
-        const timeDiffs = evaluations
-            .map((evaluation) => {
-                const decision = decisions.find((d) => d.id === evaluation.decisionId);
-                if (!decision) return null;
-                const createdDecision = new Date(decision.createdAt);
-                const createdEvaluation = new Date(evaluation.createdAt);
-                const diffInDays =
-                    (createdEvaluation.getTime() - createdDecision.getTime()) /
-                    (1000 * 60 * 60 * 24);
-                return diffInDays >= 0 ? diffInDays : null;
-            })
-            .filter((d): d is number => d !== null);
-
-        if (timeDiffs.length === 0) return 0;
-        return timeDiffs.reduce((acc, curr) => acc + curr, 0) / timeDiffs.length;
-    }, [evaluations, decisions]);
-
-    const improvement = useMemo(() => {
-        if (evaluations.length === 0) return 0;
-
-        const evaluationsByMonth = evaluations.reduce<Record<string, Evaluation[]>>(
-            (acc, evaluation) => {
-                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
-                if (!acc[month]) acc[month] = [];
-                acc[month].push(evaluation);
-                return acc;
-            },
-            {}
-        );
-
-        const successRateByMonth = Object.entries(evaluationsByMonth).map(([month, evals]) => {
-            const total = evals.length;
-            const successes = evals.filter((e) => e.score > 6).length;
-            return {
-                month,
-                rate: total > 0 ? successes / total : 0,
-            };
-        });
-
-        if (successRateByMonth.length < 2) return 0;
-
-        const sorted = successRateByMonth.sort((a, b) => a.month.localeCompare(b.month));
-        const first = sorted[0].rate;
-        const last = sorted[sorted.length - 1].rate;
-
-        if (first === 0) return 0;
-        return ((last - first) / first) * 100;
-    }, [evaluations]);
-
-    const categoryData = useMemo(() => {
-        if (evaluations.length === 0 || decisions.length === 0) return [];
-
-        const categoriesMap: Record<string, { buenas: number; malas: number }> = {};
-        allCategories.forEach((cat) => {
-            categoriesMap[cat] = { buenas: 0, malas: 0 };
-        });
-
-        evaluations.forEach((evaluation) => {
-            const decision = decisions.find((d) => d.id === evaluation.decisionId);
-            if (!decision) return;
-
-            const category = decision.category.trim();
-
-            if (!categoriesMap[category]) return;
-
-            const isGood = evaluation.score > 6;
-            if (isGood) {
-                categoriesMap[category].buenas += 1;
-            } else {
-                categoriesMap[category].malas += 1;
-            }
-        });
-
-        return allCategories.map((name) => ({
-            name,
-            buenas: categoriesMap[name].buenas,
-            malas: categoriesMap[name].malas,
-        }));
-    }, [evaluations, decisions]);
-
     const filteredEvaluations = useMemo(() => {
         return evaluations.filter((evaluation) => {
             const decision = decisions.find((d) => d.id === evaluation.decisionId);
@@ -174,6 +64,173 @@ const Analytics = () => {
             return inCategory && inDateRange;
         });
     }, [evaluations, decisions, selectedCategory, selectedTimeRange]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [evalRes, decRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/evaluation', { withCredentials: true }),
+                    axios.get('http://localhost:5000/api/decision', { withCredentials: true }),
+                ]);
+                setEvaluations(evalRes.data.data);
+                setDecisions(decRes.data.decisions);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
+    const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
+    const numberOfDecisions = filteredDecisions.length;
+
+    //const numberOfDecisions = decisions.length;
+    const pending = useMemo(() => {
+        return filteredDecisions.filter((d) => d.status === 'progress');
+    }, [filteredDecisions]);
+
+    const averageDecisionTime = useMemo(() => {
+        if (filteredEvaluations.length === 0 || decisions.length === 0) return 0;
+
+        const timeDiffs = filteredEvaluations
+            .map((evaluation) => {
+                const decision = decisions.find(
+                    (d) => String(d.id) === String(evaluation.decisionId)
+                );
+                if (!decision) return null;
+
+                const createdDecision = new Date(decision.createdAt);
+                const createdEvaluation = new Date(evaluation.createdAt);
+
+                if (isNaN(createdDecision.getTime()) || isNaN(createdEvaluation.getTime()))
+                    return null;
+
+                const diffInDays =
+                    (createdEvaluation.getTime() - createdDecision.getTime()) /
+                    (1000 * 60 * 60 * 24);
+
+                return diffInDays >= 0 ? diffInDays : null;
+            })
+            .filter((d): d is number => d !== null);
+
+        if (timeDiffs.length === 0) return 0;
+
+        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0);
+        return sum / timeDiffs.length;
+    }, [evaluations, decisions]);
+
+    const improvementLinear = useMemo(() => {
+        console.log('EVLUATIONS LENGTH', evaluations);
+        if (filteredEvaluations.length === 0) return 0;
+
+        // Fecha límite hace 6 meses
+        const limitDate = new Date();
+        limitDate.setMonth(limitDate.getMonth() - 3);
+
+        // Filtrar evaluaciones solo de los últimos 6 meses
+        const recentEvaluations = filteredEvaluations.filter((evaluation) => {
+            const evalDate = new Date(evaluation.createdAt);
+            return evalDate >= limitDate;
+        });
+
+        if (recentEvaluations.length === 0) return 0;
+
+        // Agrupar evaluaciones por mes (solo recientes)
+        const evaluationsByMonth: Record<string, Evaluation[]> = recentEvaluations.reduce(
+            (acc, evaluation) => {
+                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
+                if (!acc[month]) acc[month] = [];
+                acc[month].push(evaluation);
+                return acc;
+            },
+            {} as Record<string, Evaluation[]>
+        );
+
+        const successRateByMonth = Object.entries(evaluationsByMonth).map(
+            ([month, evals], index) => {
+                const total = evals.length;
+                const successes = evals.filter((e) => e.score > 6).length;
+                return {
+                    month,
+                    rate: total > 0 ? successes / total : 0,
+                    index,
+                };
+            }
+        );
+
+        if (successRateByMonth.length < 2) return 0;
+
+        const n = successRateByMonth.length;
+        const sumX = successRateByMonth.reduce((acc, cur) => acc + cur.index, 0);
+        const sumY = successRateByMonth.reduce((acc, cur) => acc + cur.rate, 0);
+        const sumXY = successRateByMonth.reduce((acc, cur) => acc + cur.index * cur.rate, 0);
+        const sumX2 = successRateByMonth.reduce((acc, cur) => acc + cur.index * cur.index, 0);
+
+        const numerator = n * sumXY - sumX * sumY;
+        const denominator = n * sumX2 - sumX * sumX;
+
+        if (denominator === 0) return 0;
+
+        const slope = numerator / denominator;
+        const improvementPercent = slope * 100;
+
+        return improvementPercent;
+    }, [evaluations]);
+
+    const improvementClass =
+        improvementLinear > 0
+            ? 'text-green-600'
+            : improvementLinear < 0
+              ? 'text-red-600 '
+              : 'text-gray-600 ';
+
+    const improvementIcon =
+        improvementLinear > 0 ? (
+            <LuTrendingUp className="p-2 rounded-full" />
+        ) : improvementLinear < 0 ? (
+            <LuTrendingDown className="p-2 rounded-full" />
+        ) : (
+            <LuCircleAlert className="p-2 rounded-full" />
+        );
+
+    // const categoryData = useMemo(() => {
+    //     if (evaluations.length === 0 || decisions.length === 0) return [];
+
+    //     const categoriesMap: Record<string, { buenas: number; malas: number }> = {};
+    //     allCategories.forEach((cat) => {
+    //         categoriesMap[cat] = { buenas: 0, malas: 0 };
+    //     });
+
+    //     evaluations.forEach((evaluation) => {
+    //         const decision = decisions.find((d) => d.id === evaluation.decisionId);
+    //         if (!decision) return;
+
+    //         const category = decision.category.trim();
+
+    //         if (!categoriesMap[category]) return;
+
+    //         const isGood = evaluation.score > 6;
+    //         if (isGood) {
+    //             categoriesMap[category].buenas += 1;
+    //         } else {
+    //             categoriesMap[category].malas += 1;
+    //         }
+    //     });
+
+    //     return allCategories.map((name) => ({
+    //         name,
+    //         buenas: categoriesMap[name].buenas,
+    //         malas: categoriesMap[name].malas,
+    //     }));
+    // }, [evaluations, decisions]);
+
+    const successfulEvaluations = useMemo(
+        () => filteredEvaluations.filter((e) => e.score > 6).length,
+        [filteredEvaluations]
+    );
+    const totalEvaluations = filteredEvaluations.length;
+
+    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
 
     return (
         <div className="w-full 2xl:pr-4 h-full pb-4">
@@ -221,13 +278,11 @@ const Analytics = () => {
                 />
 
                 <AnalyticsCard
-                    content={`${improvement.toFixed(0)}%`}
-                    description="Mejora en los resultados de las decisiones a lo largo del tiempo"
-                    icon={
-                        <LuCircleAlert className="bg-orange-200 rounded-full text-orange-400 p-2" />
-                    }
+                    content={`${improvementLinear.toFixed(0)}%`}
+                    description="Mejora en los resultados de las decisiones en los últimos 3 meses"
+                    icon={improvementIcon}
                     title="Mejora"
-                    className="text-5xl"
+                    className={`text-5xl ${improvementClass}`}
                 />
             </div>
 

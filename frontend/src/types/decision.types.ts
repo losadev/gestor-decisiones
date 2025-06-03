@@ -21,12 +21,12 @@ export type ProCon = {
 };
 
 export interface Evaluation {
-    id: string;
+    id?: string;
     decisionId: string;
     score: number;
     createdAt: string;
-    result: string;
-    date: string;
+    result?: string;
+    date?: string;
 }
 
 export interface Recommendation {
