@@ -69,8 +69,8 @@ const LineChartDecisionStats = ({ evaluations }: { evaluations: Evaluation[] }) 
     }, [evaluations]);
 
     return (
-        <div className="w-full flex flex-col justify-center gap-4 bg-white rounded-lg p-8 lg:col-span-2 shadow-sm border border-gray-300">
-            <h1 className="text-2xl lg:text-3xl font-semibold">
+        <div className="w-full flex flex-col justify-center gap-4 bg-white rounded-lg p-4 md:p-8 lg:col-span-2 shadow-sm border border-gray-300">
+            <h1 className="text-xl sm:text-2xl font-semibold">
                 Tendencia de Decisiones Buenas vs Malas
             </h1>
             <div className="w-full h-[300px] sm:h-[400px]">

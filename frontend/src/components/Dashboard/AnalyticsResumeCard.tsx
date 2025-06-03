@@ -40,8 +40,8 @@ const AnalyticsResumeCard = ({ evaluations }: Props) => {
     const total = chartData.reduce((acc, item) => acc + item.value, 0);
 
     return (
-        <div className="rounded-lg bg-white shadow-sm p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
-            <h1 className="text-3xl font-semibold">Resumen análisis</h1>
+        <div className="rounded-lg bg-white shadow-sm p-4 md:p-8 flex flex-col md:h-full md:flex-1 border border-gray-300">
+            <h1 className="text-xl sm:text-2xl font-semibold">Resumen análisis</h1>
             <p className="text-gray-500">Ratio de evaluaciones</p>
             <div className="flex justify-center items-center grow min-h-[400px]">
                 {total > 0 ? (
@@ -52,7 +52,7 @@ const AnalyticsResumeCard = ({ evaluations }: Props) => {
                                 cx="50%"
                                 cy="50%"
                                 labelLine={false}
-                                outerRadius={150}
+                                outerRadius="80%"
                                 fill="#8884d8"
                                 dataKey="value">
                                 {chartData.map((_entry, index) => (

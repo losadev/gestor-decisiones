@@ -140,7 +140,7 @@ function DecisionsTable() {
     return (
         <section className="flex flex-col flex-1 min-h-0 w-full h-full">
             <div className="flex-1 flex flex-col overflow-hidden bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 border border-gray-300">
-                <h2 className="text-2xl font-semibold">Tus decisiones</h2>
+                <h2 className="text-2xl sm:text-3xl font-semibold">Tus decisiones</h2>
                 <p className="mt-1 text-gray-600">
                     Gestiona y haz seguimiento de todas tus decisiones
                 </p>
@@ -157,7 +157,7 @@ function DecisionsTable() {
                     />
                 </div>
 
-                <div className="inline-flex bg-gray-100 my-4 p-2 text-sm sm:text-base items-center rounded-lg">
+                <div className="w-fit bg-gray-100 my-4 p-2 text-sm sm:text-base items-center rounded-lg">
                     <ul className="flex flex-row font-medium items-center text-gray-800 gap-2 sm:gap-4">
                         <li
                             className={`${active === 1 ? 'bg-orange-500 text-white' : 'hover:bg-gray-200'} px-3 py-1 rounded cursor-pointer transition`}
@@ -195,10 +195,10 @@ function DecisionsTable() {
                                     <tr key={index} className="hover:bg-gray-100 transition">
                                         <td className="px-4 sm:px-6 py-3">{decision.title}</td>
                                         <td className="px-4 sm:px-6 py-3">{decision.category}</td>
-                                        <td className="px-4 sm:px-6 py-3">
+                                        <td className="px-4 sm:px-6 py-3 min-w-[150px]">
                                             {decision.createdAt.split('T')[0]}
                                         </td>
-                                        <td className="px-4 sm:px-6 py-3">
+                                        <td className="px-4 sm:px-6 py-3 min-w-[170px]">
                                             <Chip mode={decision.status} />
                                         </td>
                                         <td className="px-4 sm:px-6 py-3 relative">
