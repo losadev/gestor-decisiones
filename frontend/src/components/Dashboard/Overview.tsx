@@ -72,7 +72,7 @@ const Overview = () => {
                         }}
                     />
                 </div>
-                {<DecisionsTable refreshTrigger={refreshTrigger} />}
+                {<DecisionsTable refreshTrigger={refreshTrigger} onRefresh={forceRefresh} />}
                 <Snackbar
                     message={snackbarMessage}
                     onClose={() => setSnackbarMessage('')}

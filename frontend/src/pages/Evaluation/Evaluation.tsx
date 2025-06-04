@@ -6,6 +6,7 @@ import { DecisionData } from '../../types/decision.types';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSnackbarStore } from '../../store/snackbarStore';
 
 const schema = z
     .object({
@@ -33,6 +34,9 @@ const Evaluation = () => {
     const [totalPercentage, setTotalPercentage] = useState<number>(0);
     const isDisabled = totalPercentage === 100;
     const navigate = useNavigate();
+    const { showSnackbar } = useSnackbarStore();
+
+    console.log(message);
 
     const {
         control,
@@ -115,6 +119,7 @@ const Evaluation = () => {
                     withCredentials: true,
                 }
             );
+            showSnackbar(response.data.message);
             setMessage(response.data.message);
             reset();
             setGreenBar(0);
@@ -122,14 +127,14 @@ const Evaluation = () => {
             setNeutralBar(0);
             setTotalPercentage(0);
 
+            navigate(`/dashboard/decisions/${decision.id}`);
             await axios.post(
                 'http://localhost:5000/api/recommendation',
                 { decisionId: decision.id },
                 { withCredentials: true }
             );
-
-            navigate(`/dashboard/decisions/${decision.id}`);
-        } catch (error) {
+        } catch (error: any) {
+            showSnackbar(error);
             setMessage('Error al crear evaluación');
         }
     };
@@ -138,7 +143,6 @@ const Evaluation = () => {
         <main className="p-4 w-full h-full flex flex-col gap-6 overflow-y-auto scroll-custom">
             <h1 className="text-2xl sm:text-3xl font-semibold">
                 Evalúa la decisión: {decision?.title}
-                {message}
             </h1>
 
             <section className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 sm:p-6 flex flex-col gap-6">
