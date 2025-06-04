@@ -4,7 +4,7 @@ import { evaluationService } from "../services/evaluation.service";
 export const createEvaluation = async (req: Request, res: Response) => {
   try {
     const { result, score, decisionId } = req.body;
-    const user = req.user as { id: string };
+    const user = (req as any).user as { id: string };
 
     if (!decisionId) {
       res

@@ -12,6 +12,7 @@ import prosConsRouter from "./routes/proCon.routes";
 import fs from "fs";
 import path from "path";
 import { logout } from "./controllers/auth.controller";
+//import "./types/express";
 
 const uploadsDir = path.join(__dirname, "..", "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -22,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://172.19.0.4:5173"],
     credentials: true,
   })
 );
@@ -38,11 +39,12 @@ app.use("/api/register", userRouter);
 app.use("/api/login", login);
 
 app.get("/api/me", verifyUser, (req, res) => {
-  if (!req.user) {
+  const user = (req as any).user as any;
+  if (!user) {
     res.status(401).send({ message: "ERROR EN /api/me" });
     return;
   }
-  res.json({ user: req.user });
+  res.json({ user: user });
 });
 
 app.use("/api/decision", verifyUser, decisionRouter);

@@ -1,5 +1,5 @@
 import { ProCon } from "../models/proCon.model";
-import { ProConType } from "../types/proCon.type";
+import { ProConType } from "../@types/proCon.type";
 import { v4 as uuidv4 } from "uuid";
 
 export const proConService = {

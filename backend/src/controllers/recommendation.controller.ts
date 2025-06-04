@@ -14,7 +14,7 @@ export const createRecommendation = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = req.user as { id: string };
+    const user = (req as any).user as { id: string };
 
     const existingRecommendation = await recommendationService.get(decisionId);
     if (existingRecommendation) {
@@ -91,7 +91,7 @@ export const createRecommendation = async (req: Request, res: Response) => {
 
 export const getRecommendations = async (req: Request, res: Response) => {
   try {
-    const user = req.user as { id: string };
+    const user = (req as any).user as { id: string };
 
     const recommendations = await recommendationService.getAllByUser(user.id);
 

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { proConService } from "../services/proCon.service";
-import { ProConReqBody } from "../types/proCon.type";
+import { ProConReqBody } from "../@types/proCon.type";
 import { decisionService } from "../services/decision.service";
 import { Decision } from "../models/decision.model";
 
 export const createDecision = async (req: Request, res: Response) => {
   try {
-    const userId = req.user as { id: string };
+    const userId = (req as any).user as { id: string };
 
     const decision = await decisionService.create({
       userId: userId.id,
@@ -109,7 +109,7 @@ export const getDecisionById = async (req: Request, res: Response) => {
 
 export const updateDecision = async (req: Request, res: Response) => {
   try {
-    const userId = req.user as { id: string };
+    const userId = (req as any).user as { id: string };
     const decisionId = req.params.id;
 
     // verifica que la decisión existe y pertenece al usuario
@@ -171,7 +171,7 @@ export const updateDecision = async (req: Request, res: Response) => {
 export const updateState = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const userId = req.user as { id: string };
+    const userId = (req as any).user as { id: string };
 
     const decision = await decisionService.getById(id);
 

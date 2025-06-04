@@ -13,7 +13,7 @@ import {
   Unique,
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
-import { UserAttributes } from "../types/user.types";
+import { UserAttributes } from "../@types/user.types";
 import { Recommendation } from "./recommendation.model";
 
 @Table

@@ -10,7 +10,7 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { RecommendationAttributes } from "../types/recommendation.types";
+import { RecommendationAttributes } from "../@types/recommendation.types";
 import { User } from "./user.model";
 import { Decision } from "./decision.model";
 import { Evaluation } from "./evaluation.model";

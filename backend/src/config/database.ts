@@ -13,7 +13,7 @@ export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PWD,
-  host: "localhost",
+  host: process.env.DB_HOST || "postgres",
   dialect: "postgres",
   models: [User, Category, Decision, ProCon, Evaluation, Recommendation],
 });
