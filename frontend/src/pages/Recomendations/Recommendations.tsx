@@ -10,7 +10,6 @@ type Recommendation = {
 };
 //#
 
-
 const Recommendations = () => {
     const [recomendations, setRecomendations] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(true);
@@ -46,20 +45,24 @@ const Recommendations = () => {
                     decisiones futuras
                 </p>
             </header>
-            <div className="bg-white shadow-sm border h-full w-full mt-8 border-gray-300 rounded-lg 2xl:p-8 2xl:flex 2xl:flex-row">
+            <div className=" h-full w-full mt-8 sm:border-gray-300 rounded-lg 2xl:flex 2xl:flex-row pb-4">
                 {recomendations.length === 0 ? (
-                    <p>No hay recomendaciones aún.</p>
+                    <div className="flex  h-full justify-center items-center">
+                        <p className="text-center text-gray-600 font-semibold text-xl">
+                            No hay recomendaciones aún.
+                        </p>
+                    </div>
                 ) : (
-                    <ul className="grid 2xl:grid-cols-3 2xl:grid-rows-2 gap-4">
+                    <ul className="grid md:grid-cols-2 2xl:grid-cols-3 2xl:grid-rows-2 gap-4 pb-4">
                         {recomendations.map((rec) => (
                             <li
                                 key={rec.id}
-                                className="border transition p-4 hover:shadow-lg rounded border-gray-300 shadow-sm flex flex-col gap-4">
+                                className="border transition bg-white p-4 hover:shadow-lg rounded border-gray-300 shadow-sm flex flex-col gap-4">
                                 <h3 className="font-semibold text-xl flex flex-row justify-between items-center">
                                     <span>{rec.title}</span>
                                     <FaLightbulb color="orange" />
                                 </h3>
-                                <p>{rec.content}</p>
+                                <p className="flex-1">{rec.content}</p>
                                 <p className="text-sm text-gray-500 mt-2">
                                     Fecha: {new Date(rec.createdAt).toLocaleDateString()}
                                 </p>

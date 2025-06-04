@@ -155,7 +155,7 @@ function DecisionsTable() {
     };
 
     return (
-        <section className="flex flex-col flex-1 min-h-0 w-full h-full">
+        <section className="flex flex-col flex-1 min-h-0 w-full h-full pb-4">
             <div className="flex-1 flex flex-col overflow-hidden bg-white shadow-md rounded-lg p-4 sm:p-6 lg:px-8 border border-gray-300">
                 <h2 className="text-2xl sm:text-3xl font-semibold">Tus decisiones</h2>
                 <p className="mt-1 text-gray-600">

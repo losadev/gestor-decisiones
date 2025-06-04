@@ -286,7 +286,7 @@ const Analytics = () => {
                 />
             </div>
 
-            <section className="grid lg:grid-cols-2 gap-4">
+            <section className="grid lg:grid-cols-2 gap-4 pb-4">
                 <TinyBarChart decisions={decisions} evaluations={filteredEvaluations} />
                 <AnalyticsResumeCard evaluations={filteredEvaluations} />
                 <LineChartDecisionStats evaluations={filteredEvaluations} />
