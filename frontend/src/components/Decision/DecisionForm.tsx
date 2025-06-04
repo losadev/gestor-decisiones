@@ -131,7 +131,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                 res = await axios.put(`http://localhost:5000/api/decision/${decisionId}`, data, {
                     withCredentials: true,
                 });
-                onMessage?.(res.data.message, true);
+                onMessage?.(res.data.message || 'Decisión actualizada', true);
             } else {
                 // creando una nueva
                 res = await axios.post('http://localhost:5000/api/decision', data, {

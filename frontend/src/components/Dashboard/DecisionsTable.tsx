@@ -297,6 +297,7 @@ function DecisionsTable({
                         setSnackbarMessage(msg);
                         setSnackbarSuccess(success);
                         closeModal();
+                        if (onRefresh) onRefresh();
                     }}
                     isOpen={modal}
                     onClose={() => {
