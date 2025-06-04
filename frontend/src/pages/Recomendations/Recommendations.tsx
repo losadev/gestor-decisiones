@@ -8,6 +8,7 @@ type Recommendation = {
     content: string;
     createdAt: string;
 };
+//#
 
 const Recommendations = () => {
     const [recomendations, setRecomendations] = useState<Recommendation[]>([]);
