@@ -22,4 +22,10 @@ export const recommendationService = {
 
     return recommendation;
   },
+  getAllByUser: async (userId: string) => {
+    return Recommendation.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+    });
+  },
 };

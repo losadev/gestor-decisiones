@@ -24,26 +24,25 @@ Evaluación final (puntuación): ${d.score}
     .join("\n");
 
   const prompt = `
-Eres un asistente experto en mejorar la toma de decisiones.
-
-El usuario ha tomado estas últimas 3 decisiones con sus pros, contras y evaluaciones:
-
-${decisionsSummary}
-
-Analiza estas decisiones y evaluaciones, detecta patrones o aprendizajes importantes.
-
-Con base en eso, sugiere una recomendación breve y práctica que ayude al usuario a mejorar sus decisiones futuras.
-
-Devuelve solo un JSON con las claves "title" y "content". Ejemplo:
-{
-  "title": "Recomendación clara y breve",
-  "content": "Explicación útil para aplicar en decisiones futuras."
-}
-`;
+    Eres un coach experto en ayudar a personas a tomar mejores decisiones.
+    
+    Te compartiré un resumen de 3 decisiones recientes que incluyen título, pros, contras y puntuación. Tu objetivo es identificar patrones de comportamiento en la toma de decisiones (como impulsividad, indecisión, precipitación, etc.) y dar una recomendación general para mejorar la toma de decisiones en el futuro.
+    
+    Devuelve SOLO un JSON con este formato:
+    
+    {
+      "title": "Consejo general claro y breve",
+      "content": "Explicación concreta, útil y general sobre cómo mejorar la toma de decisiones."
+    }
+    
+    Aquí está el resumen:
+    
+    ${decisionsSummary}
+    `;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4",
-    max_tokens: 250,
+    max_tokens: 150,
     messages: [
       {
         role: "system",

@@ -16,89 +16,91 @@ export const createRecommendation = async (req: Request, res: Response) => {
 
     const user = req.user as { id: string };
 
-    // Verifica si ya hay una recomendación
     const existingRecommendation = await recommendationService.get(decisionId);
     if (existingRecommendation) {
-      res.status(200).json({
-        message: "Recomendación ya existe",
-        data: existingRecommendation,
-      });
+      res
+        .status(200)
+        .json({ message: "Ya existe una recomendación para esta decisión." });
       return;
     }
 
-    // Cuenta las evaluaciones del usuario para esa decisión
-    const evaluationCount = await Evaluation.count({
-      where: { decisionId, userId: user.id },
-    });
-
-    // Solo continúa si es múltiplo de 3
-    if (evaluationCount === 0 || evaluationCount % 3 !== 0) {
-      res.status(200).json({
-        message: `No se genera recomendación aún. Total evaluaciones: ${evaluationCount}`,
-      });
-      return;
-    }
-
-    // Obtiene las últimas 3 evaluaciones del usuario para esta decisión
-    const lastEvaluations = await Evaluation.findAll({
-      where: { userId: user.id, decisionId },
-      order: [["date", "DESC"]],
+    const recentDecisions = await Decision.findAll({
+      where: { userId: user.id },
+      include: [ProCon],
+      order: [["createdAt", "DESC"]],
       limit: 3,
-      include: [Decision],
     });
 
-    if (lastEvaluations.length < 3) {
+    if (recentDecisions.length < 3) {
       res.status(400).json({
-        message: "No hay suficientes evaluaciones para generar recomendación",
+        message:
+          "Se necesitan al menos 3 decisiones para generar una recomendación.",
       });
       return;
     }
 
-    // Mapea los datos necesarios para el prompt
-    const decisionsData = await Promise.all(
-      lastEvaluations.map(async (evaluation) => {
-        const prosCons = await ProCon.findAll({
-          where: { decisionId: evaluation.decisionId },
-        });
+    const evaluations = await Evaluation.findAll({
+      where: {
+        decisionId: recentDecisions.map((d) => d.id),
+      },
+    });
 
-        const pros = prosCons
-          .filter((p) => p.type === "Pro")
-          .map((p) => p.description);
-        const cons = prosCons
-          .filter((p) => p.type === "Contra")
-          .map((p) => p.description);
+    const decisionsData = recentDecisions.map((decision) => {
+      const pros = decision.proCons
+        .filter((pc: any) => pc.type === "Pro")
+        .map((pc: any) => pc.text);
+      const cons = decision.proCons
+        .filter((pc: any) => pc.type === "Contra")
+        .map((pc: any) => pc.text);
+      const score =
+        evaluations.find((e) => e.decisionId === decision.id)?.score ?? 0;
 
-        return {
-          title: evaluation.decision.title,
-          //description: evaluation.decision.description,
-          pros,
-          cons,
-          score: evaluation.score,
-        };
-      })
-    );
+      return {
+        title: decision.title,
+        pros,
+        cons,
+        score,
+      };
+    });
 
-    const recommendationData = await getRecommendationFromAI(decisionsData);
+    const recommendation = await getRecommendationFromAI(decisionsData);
 
-    if (!recommendationData) {
-      res.status(500).json({ message: "Error al obtener la recomendación" });
+    if (!recommendation) {
+      res.status(500).json({
+        message: "No se pudo generar la recomendación con IA.",
+      });
       return;
     }
 
-    const recommendation = await recommendationService.create({
+    const newRecommendation = await recommendationService.create({
       userId: user.id,
-      ...recommendationData,
       decisionId,
+      title: recommendation.title,
+      content: recommendation.content,
     });
 
     res.status(201).json({
       message: "Recomendación creada con éxito",
-      data: recommendation,
+      recommendation: newRecommendation,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      message: "Error al crear la recomendación",
-      error: error.message || error,
+  } catch (error) {
+    console.error("Error al generar recomendación:", error);
+    res.status(500).json({ message: "Error al generar recomendación" });
+  }
+};
+
+export const getRecommendations = async (req: Request, res: Response) => {
+  try {
+    const user = req.user as { id: string };
+
+    const recommendations = await recommendationService.getAllByUser(user.id);
+
+    res.status(200).json({
+      message: "Recomendaciones recuperadas con éxito",
+      recommendations,
     });
+  } catch (error) {
+    console.error("Error al recuperar recomendaciones:", error);
+    res.status(500).json({ message: "Error al recuperar recomendaciones" });
   }
 };

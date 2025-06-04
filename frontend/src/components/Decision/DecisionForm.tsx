@@ -18,10 +18,10 @@ export const proConSchema = z.object({
     type: z.enum(['Pro', 'Contra'], {
         errorMap: () => ({ message: 'Tipo inválido' }),
     }),
-    weight: z
-        .number()
-        .min(1, { message: 'El peso mínimo es 1' })
-        .max(10, { message: 'El peso máximo es 10' }),
+    // weight: z
+    //     .number()
+    //     .min(1, { message: 'El peso mínimo es 1' })
+    //     .max(10, { message: 'El peso máximo es 10' }),
 });
 
 export const decisionFormSchema = z.object({
