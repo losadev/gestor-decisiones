@@ -69,7 +69,11 @@ const NavBar = () => {
                     ))}
 
                     {!isLoading && user && (
-                        <div className="flex items-center gap-2 mt-4 bg-orange-400 p-2 rounded">
+                        <div
+                            className="
+                          flex items-center gap-2 mt-4 p-2 rounded
+                         
+                        ">
                             <img
                                 src={
                                     user.avatar && user.avatar.trim() !== ''
@@ -79,8 +83,8 @@ const NavBar = () => {
                                 alt="Avatar"
                                 className="w-10 h-10 rounded-full object-cover"
                             />
-                            <span className="text-black flex-1 ml-2">{user.name}</span>
-                            <button onClick={logout}>
+                            <span className="text-black flex-1 sm:flex-0 ml-2">{user.name}</span>
+                            <button onClick={logout} className="cursor-pointer ml-2">
                                 <IoIosLogOut size={26} className="hover:scale-125 transition" />
                             </button>
                         </div>

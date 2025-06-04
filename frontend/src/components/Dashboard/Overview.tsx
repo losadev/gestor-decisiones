@@ -66,7 +66,7 @@ const Overview = () => {
                         }}
                     />
                 </div>
-                <DecisionsTable />
+                {<DecisionsTable />}
                 <Snackbar
                     message={snackbarMessage}
                     onClose={() => setSnackbarMessage('')}

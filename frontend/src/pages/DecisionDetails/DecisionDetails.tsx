@@ -158,7 +158,7 @@ const DecisionDetails = () => {
                             className=" font-medium rounded px-4 py-2 flex border border-red-600 items-center gap-2 hover:bg-red-100 cursor-pointer transition duration-200 ease-in-out"
                             onClick={() => {
                                 deleteDecision();
-                                navigate('/dashboard');
+                                navigate('/dashboard/overview');
                             }}>
                             <MdDelete className="text-red-600" />
                             <span className="text-red-600">Eliminar</span>
