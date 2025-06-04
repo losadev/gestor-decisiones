@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
@@ -18,7 +17,7 @@ function DecisionsTable() {
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [modal, setModal] = useState<boolean>(false);
 
-    const refs = useRef<(HTMLDivElement | null)[]>([]);
+    const refs = useRef<(HTMLButtonElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
     const [editDecisionId, setEditDecisionId] = useState<string | null>(null);
 
@@ -76,6 +75,8 @@ function DecisionsTable() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [showActions]);
+
+    console.log(message);
 
     const handleActions = (index: number) => {
         if (showActions === index) {
@@ -219,7 +220,9 @@ function DecisionsTable() {
                                         <td className="px-4 sm:px-6 py-3 relative">
                                             <button
                                                 type="button"
-                                                ref={(el) => (refs.current[index] = el)}
+                                                ref={(el) => {
+                                                    refs.current[index] = el;
+                                                }}
                                                 className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
                                                 onClick={() => handleActions(index)}>
                                                 <IoEllipsisHorizontalOutline />
@@ -269,6 +272,7 @@ function DecisionsTable() {
             </div>
             {editDecisionId && (
                 <DecisionForm
+                    //onMessage={{ msg: '', success: true }}
                     isOpen={modal}
                     onClose={() => {
                         closeModal();

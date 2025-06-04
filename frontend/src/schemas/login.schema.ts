@@ -7,3 +7,5 @@ export const loginFormSchema = z.object({
         .email({ message: 'Correo inválido' }), // valida formato email
     password: z.string().min(1, { message: 'La contraseña es obligatoria' }),
 });
+
+export type FormLoginValues = z.infer<typeof loginFormSchema>;

@@ -10,7 +10,6 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { Evaluation } from '../../types/decision.types';
-import axios from 'axios';
 import { subMonths, format } from 'date-fns';
 
 const getLastNMonths = (n: number): string[] => {

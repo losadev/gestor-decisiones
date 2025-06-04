@@ -21,6 +21,7 @@ const QuickStatsCard = () => {
     useAnimation(targetBad, setBadDecisions);
 
     console.log(targetBad, targetGood);
+    console.log(data);
 
     useEffect(() => {
         axios

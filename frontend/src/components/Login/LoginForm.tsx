@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { FormLoginValues, loginFormSchema } from '../../schemas/login.schema';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Button from '../Button';
 import Input from '../Input';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../Dashboard/NavBar';
 import ModalNavBar from '../../modal/ModalNavBar';
 import RegisterLink from './RegisterLink';
 
@@ -19,7 +18,7 @@ const LoginForm = () => {
     const [failedAttempts, setFailedAttempts] = useState(0);
     const [lockTime, setLockTime] = useState<number | null>(null);
     const [isLocked, setIsLocked] = useState(false);
-
+    console.log(failedAttempts);
     const {
         handleSubmit,
         control,
@@ -45,14 +44,14 @@ const LoginForm = () => {
         }
     }, [lockTime]);
 
-    const onSubmit = async (data: { email: string; password: string }) => {
+    const onSubmit: SubmitHandler<FormLoginValues> = async (data) => {
         if (isLocked) {
             setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/login', data, {
+            await axios.post('http://localhost:5000/api/login', data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -95,7 +94,7 @@ const LoginForm = () => {
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full sm:border sm:border-gray-300 bg-white sm:shadow-2xl text-[15px] rounded-lg p-4 sm:w-[50%] sm:mx-auto md:w-[50%] md:mx-auto lg:w-[40%] xl:w-[30%] 2xl:w-[25%]">
-                <Input
+                <Input<FormLoginValues>
                     control={control}
                     label="Correo electrónico"
                     name="email"
@@ -104,7 +103,7 @@ const LoginForm = () => {
                     type="email"
                     disabled={isLocked}
                 />
-                <Input
+                <Input<FormLoginValues>
                     control={control}
                     label="Contraseña"
                     name="password"

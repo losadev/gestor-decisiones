@@ -35,7 +35,7 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
     );
 };
 
-const allCategories = ['Trabajo', 'Salud', 'Finanzas', 'Personal', 'Familia', 'Otros'];
+//const allCategories = ['Trabajo', 'Salud', 'Finanzas', 'Personal', 'Familia', 'Otros'];
 
 const Analytics = () => {
     const [evaluations, setEvaluations] = useState<Evaluation[]>([]);

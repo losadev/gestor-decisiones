@@ -1,5 +1,5 @@
 import { ProCon } from '../../types/proCon.types';
-import { useState } from 'react';
+//import { useState } from 'react';
 
 type Props = {
     items: ProCon[];
@@ -8,10 +8,10 @@ type Props = {
 };
 
 const ProsConsTable = ({ items, title, color }: Props) => {
-    const [selectedItems, setSelectedItems] = useState<ProCon[]>([]);
+    //const [selectedItems, setSelectedItems] = useState<ProCon[]>([]);
     const bgColor = color === 'green' ? 'bg-green-50' : 'bg-red-50';
 
-    console.log('Items:', selectedItems);
+    //console.log('Items:', selectedItems);
 
     return (
         <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow `}>
@@ -49,4 +49,3 @@ const ProsConsTable = ({ items, title, color }: Props) => {
 };
 
 export default ProsConsTable;
-

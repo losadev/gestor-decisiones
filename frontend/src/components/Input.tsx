@@ -1,26 +1,32 @@
-import { Control, Controller, FieldError } from 'react-hook-form';
-import { FormRegisterValues } from '../schemas/register.schema';
-import { FormLoginValues } from '../schemas/login.schema';
+import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
 
-type Props = {
-    name: keyof FormRegisterValues;
-    control: Control<FormRegisterValues | FormLoginValues>;
+type Props<T extends FieldValues> = {
+    name: keyof T;
+    control: Control<T>;
     type?: string;
     label: string;
     placeholder?: string;
     error?: FieldError;
+    disabled?: boolean;
 };
 
-const Input = ({ name, type, label, placeholder, control, error }: Props) => {
+const Input = <T extends FieldValues>({
+    name,
+    type = 'text',
+    label,
+    placeholder,
+    control,
+    error,
+}: Props<T>) => {
     return (
         <div className="flex flex-col gap-2 flex-1">
-            <label htmlFor={name} className="font-medium">
+            <label htmlFor={String(name)} className="font-medium">
                 {label}
             </label>
 
             <Controller
                 control={control}
-                name={name}
+                name={name as any}
                 render={({ field }) => (
                     <input
                         type={type}

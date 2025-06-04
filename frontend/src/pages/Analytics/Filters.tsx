@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { LiaFilterSolid } from 'react-icons/lia';
 import { CategoryType } from '../../types/decision.types';
 import { TbWashDrycleanOff } from 'react-icons/tb';
-import { MdDateRange } from 'react-icons/md';
 
 interface FiltersProps {
     selectedCategory: string;

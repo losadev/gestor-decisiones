@@ -19,22 +19,24 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // el puerto de tu frontend
-    credentials: true, // permite enviar cookies
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
-app.use(cookieParser()); // cookie-parser para poder leer cookies
 
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+const PORT = process.env.PORT || 5000;
 
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/register", userRouter);
 app.use("/api/login", login);
-// GET /api/me
+
 app.get("/api/me", verifyUser, (req, res) => {
   if (!req.user) {
     res.status(401).send({ message: "ERROR EN /api/me" });
@@ -43,10 +45,6 @@ app.get("/api/me", verifyUser, (req, res) => {
   res.json({ user: req.user });
 });
 
-// app.get("/api/try", verifyUser, (req: Request, res: Response) => {
-//   console.log("Esto es req.user : ", req.user);
-//   res.json({ data: req.body, message: "Funciona", token: req.cookies });
-// });
 app.use("/api/decision", verifyUser, decisionRouter);
 app.use("/api/evaluation", verifyUser, evaluationRouter);
 app.use("/api/recommendation", verifyUser, recommendationRouter);

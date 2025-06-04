@@ -6,7 +6,6 @@ import { FaGitAlt } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
-import { FcSettings } from 'react-icons/fc';
 
 const SideNavBar = () => {
     const { data: user, isLoading } = useUser();

@@ -38,7 +38,7 @@ const Evaluation = () => {
         control,
         handleSubmit,
         reset,
-        watch,
+
         setValue,
         formState: { errors },
     } = useForm<FormData>({

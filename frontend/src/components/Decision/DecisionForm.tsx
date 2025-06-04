@@ -18,10 +18,10 @@ export const proConSchema = z.object({
     type: z.enum(['Pro', 'Contra'], {
         errorMap: () => ({ message: 'Tipo inválido' }),
     }),
-    // weight: z
-    //     .number()
-    //     .min(1, { message: 'El peso mínimo es 1' })
-    //     .max(10, { message: 'El peso máximo es 10' }),
+    weight: z
+        .number()
+        .min(0, { message: 'El peso mínimo es 1' })
+        .max(10, { message: 'El peso máximo es 10' }),
 });
 
 export const decisionFormSchema = z.object({
@@ -46,7 +46,7 @@ type Props = {
     isOpen?: boolean;
     onClose: () => void;
     decisionId?: string;
-    onMessage: (msg: string, success?: boolean) => void;
+    onMessage?: (msg: string, success?: boolean) => void;
 };
 
 const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
@@ -68,7 +68,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
         },
     });
 
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove } = useFieldArray<FormData>({
         control,
         name: 'prosCons',
     });
@@ -140,7 +140,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                     withCredentials: true,
                 });
             }
-            onMessage(res.data.message, true);
+            onMessage?.(res.data.message, true);
             if (!decisionId) {
                 reset({
                     title: '',
@@ -150,7 +150,7 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                 setProsCons([{ description: '', type: 'Pro', weight: 1 }]);
             }
         } catch (error: any) {
-            onMessage('Error al guardar la decisión', false);
+            onMessage?.('Error al guardar la decisión', false);
         } finally {
             setLoading(false);
         }

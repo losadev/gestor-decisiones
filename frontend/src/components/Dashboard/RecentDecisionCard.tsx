@@ -1,6 +1,6 @@
 import { PiArrowLineRightBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
-import { Chip } from './Chip';
+import Chip from './Chip';
 
 type Props = {
     title: string;

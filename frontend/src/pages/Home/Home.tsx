@@ -1,7 +1,6 @@
 import Footer from '../../components/Footer';
 import { AnalyticsIcon } from '../../components/Icons/AnalyticsIcon';
 import { DecisionTrackingIcon } from '../../components/Icons/DecisionTracking';
-import ModalNavBar from '../../modal/ModalNavBar';
 import Card from './Card';
 import Hero from './Hero';
 import NavBar from './NavBar';

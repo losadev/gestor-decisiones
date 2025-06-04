@@ -6,11 +6,10 @@ import Chip from '../../components/Dashboard/Chip';
 import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
-import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import { MdDelete, MdMoreVert } from 'react-icons/md';
+import { BsPencilSquare } from 'react-icons/bs';
+import { MdDelete } from 'react-icons/md';
 import ProsConsTable from './ProsConsTable';
 import DecisionForm from '../../components/Decision/DecisionForm';
-import { LiaFilterSolid } from 'react-icons/lia';
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaCheckCircle } from 'react-icons/fa';
 import Snackbar from '../../components/SnackBar';
@@ -19,7 +18,7 @@ const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
-    const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
+    //const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
     const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
@@ -28,6 +27,8 @@ const DecisionDetails = () => {
     const navigate = useNavigate();
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSuccess, setSnackbarSuccess] = useState(true);
+
+    console.log(message);
 
     const [modal, setModal] = useState<boolean>(false);
 

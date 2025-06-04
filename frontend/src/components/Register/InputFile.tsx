@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { ControllerRenderProps, UseControllerProps, useController } from 'react-hook-form';
+import { UseControllerProps, useController } from 'react-hook-form';
 
 type Props = UseControllerProps<any> & {
     label: string;
@@ -7,7 +7,7 @@ type Props = UseControllerProps<any> & {
 
 const InputFile = ({ name, control, label }: Props) => {
     const {
-        field: { onChange, value, ref },
+        field: { onChange, ref },
     } = useController({
         name,
         control,
