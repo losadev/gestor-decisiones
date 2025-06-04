@@ -6,7 +6,14 @@ import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
 import DecisionForm from '../Decision/DecisionForm';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
-function DecisionsTable() {
+
+function DecisionsTable({
+    refreshTrigger,
+    onRefresh,
+}: {
+    refreshTrigger: number;
+    onRefresh: () => void;
+}) {
     const [data, setData] = useState<DecisionData[]>([]);
     const [showActions, setShowActions] = useState<number | null>(null);
     const [openUpwardIndex, setOpenUpwardIndex] = useState<number | null>(null);
@@ -121,7 +128,7 @@ function DecisionsTable() {
                 setData(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [refreshTrigger]);
 
     useEffect(() => {
         let filtered = [...data];
@@ -148,6 +155,7 @@ function DecisionsTable() {
             })
             .then((response) => {
                 setMessage(response.data.message);
+                onRefresh();
             })
             .catch((error) => {
                 setMessage(error.message);

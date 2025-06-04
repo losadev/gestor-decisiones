@@ -5,7 +5,7 @@ import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const RecentActivity = () => {
+const RecentActivity = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [decisions, setDecisions] = useState<DecisionData[]>([]);
     const navigate = useNavigate();
 
@@ -18,12 +18,12 @@ const RecentActivity = () => {
                 setDecisions(response.data.decisions);
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [refreshTrigger]);
 
     const recentDecisions =
         decisions
             ?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 5)
+            .slice(0, 4)
             .map((decision) => ({
                 id: decision.id,
                 title: decision.title,

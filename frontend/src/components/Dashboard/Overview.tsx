@@ -14,6 +14,11 @@ const Overview = () => {
     const [modal, setModal] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSuccess, setSnackbarSuccess] = useState(true);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const forceRefresh = () => {
+        setRefreshTrigger((prev) => prev + 1);
+    };
 
     const openModal = () => {
         setModal(true);
@@ -52,8 +57,8 @@ const Overview = () => {
                     </header>
                     <section className="grid grid-cols-1 gap-4 my-4 p-0 md:grid-cols-2 md:grid-rows-1 md:items-stretch xl:grid-cols-3 xl:grid-rows-1 min-h-[300px] ">
                         <AnalyticsResumeCard evaluations={evaluations} />
-                        <RecentActivity />
-                        <QuickStatsCard />
+                        <RecentActivity refreshTrigger={refreshTrigger} />
+                        <QuickStatsCard refreshTrigger={refreshTrigger} />
                     </section>
 
                     <DecisionForm
@@ -63,10 +68,11 @@ const Overview = () => {
                             setSnackbarMessage(msg);
                             setSnackbarSuccess(success);
                             closeModal();
+                            forceRefresh();
                         }}
                     />
                 </div>
-                {<DecisionsTable />}
+                {<DecisionsTable refreshTrigger={refreshTrigger} />}
                 <Snackbar
                     message={snackbarMessage}
                     onClose={() => setSnackbarMessage('')}
