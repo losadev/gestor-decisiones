@@ -18,10 +18,10 @@ export const proConSchema = z.object({
     type: z.enum(['Pro', 'Contra'], {
         errorMap: () => ({ message: 'Tipo inválido' }),
     }),
-    // weight: z
-    //     .number()
-    //     .min(0, { message: 'El peso mínimo es 1' })
-    //     .max(10, { message: 'El peso máximo es 10' }),
+    weight: z
+        .number()
+        .min(0, { message: 'El peso mínimo es 1' })
+        .max(10, { message: 'El peso máximo es 10' }),
 });
 
 export const decisionFormSchema = z.object({
@@ -29,10 +29,7 @@ export const decisionFormSchema = z.object({
         .string()
         .min(1, { message: 'El título es obligatorio' })
         .max(255, { message: 'Máximo 255 caracteres' }),
-    category: z
-        .string()
-        .min(1, { message: 'La categoría es obligatoria' })
-        .max(100, { message: 'Máximo 100 caracteres' }),
+    category: z.string().min(1, { message: 'La categoría es obligatoria' }),
     prosCons: z.array(proConSchema).min(1, { message: 'Debe haber al menos un pro o contra' }),
 });
 
@@ -134,13 +131,14 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
                 res = await axios.put(`http://localhost:5000/api/decision/${decisionId}`, data, {
                     withCredentials: true,
                 });
+                onMessage?.(res.data.message, true);
             } else {
                 // creando una nueva
                 res = await axios.post('http://localhost:5000/api/decision', data, {
                     withCredentials: true,
                 });
+                onMessage?.(res.data.message, true);
             }
-            onMessage?.(res.data.message, true);
             if (!decisionId) {
                 reset({
                     title: '',

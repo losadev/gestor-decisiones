@@ -47,7 +47,7 @@ const Recommendations = () => {
             </header>
             <div className=" h-full w-full mt-8 sm:border-gray-300 rounded-lg 2xl:flex 2xl:flex-row pb-4">
                 {recomendations.length === 0 ? (
-                    <div className="flex  h-full justify-center items-center">
+                    <div className="flex  h-full bg-white rounded-lg sm:shadow border border-gray-300 w-full justify-center items-center">
                         <p className="text-center text-gray-600 font-semibold text-xl">
                             No hay recomendaciones aún.
                         </p>

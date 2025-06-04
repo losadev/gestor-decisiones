@@ -13,6 +13,7 @@ import DecisionForm from '../../components/Decision/DecisionForm';
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaCheckCircle } from 'react-icons/fa';
 import Snackbar from '../../components/SnackBar';
+import { useSnackbarStore } from '../../store/snackbarStore';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
@@ -27,6 +28,7 @@ const DecisionDetails = () => {
     const navigate = useNavigate();
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSuccess, setSnackbarSuccess] = useState(true);
+    const { showSnackbar } = useSnackbarStore();
 
     console.log(message);
 
@@ -39,7 +41,6 @@ const DecisionDetails = () => {
     const closeModal = () => {
         setModal(false);
     };
-    console.log('EVALUATION', evaluation);
     useEffect(() => {
         const main = document.getElementById('main-scroll');
         if (main) {
@@ -57,7 +58,7 @@ const DecisionDetails = () => {
         }).catch((error) => {
             console.error('Error fetching pros and cons:', error);
         });
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         const res = axios.get(`http://localhost:5000/api/decision/${id}`, {
@@ -74,7 +75,7 @@ const DecisionDetails = () => {
         }).catch((error) => {
             console.error('Error fetching decision details:', error);
         });
-    }, []);
+    }, [id]);
 
     const deleteDecision = () => {
         const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
@@ -82,8 +83,10 @@ const DecisionDetails = () => {
         });
         res.then((response) => {
             setMessage(response.data.message);
+            showSnackbar(response.data.message);
         }).catch((error) => {
             setMessage(error);
+            showSnackbar(error);
         });
     };
 
@@ -98,7 +101,7 @@ const DecisionDetails = () => {
             .catch((err) => {
                 console.error('Error al obtener la evaluación:', err);
             });
-    }, []);
+    }, [id]);
 
     // Pros
     const pros = prosCons?.filter((item) => item.type === 'Pro') || [];
@@ -106,12 +109,12 @@ const DecisionDetails = () => {
     const cons = prosCons?.filter((item) => item.type === 'Contra') || [];
 
     return (
-        <div className="px-2 pb-4 2xl:px-4 flex w-full h-full flex-col gap-4 ">
+        <div className="px-2 2xl:px-4 flex w-full h-full flex-col gap-4 ">
             <header className="pt-4 pb-2">
                 <h1 className="text-2xl font-semibold">Detalles de la decisión</h1>
                 <p className="text-gray-600">Mira y gestiona esta decisión</p>
             </header>
-            <div className="bg-white border h-full border-gray-300 shadow-sm  flex flex-col w-full rounded-lg p-4 2xl:p-8 gap-4">
+            <div className="bg-white 2xl:h-full border border-gray-300 shadow-sm  flex flex-col w-full rounded-lg p-4 2xl:p-8 gap-4">
                 <div>
                     <h1 className="text-xl 2xl:text-4xl font-semibold">{decision?.title}</h1>
                 </div>
@@ -206,7 +209,7 @@ const DecisionDetails = () => {
                                         onClick={() => {
                                             setShowMobileMenu(false);
                                             deleteDecision();
-                                            navigate('/dashboard');
+                                            navigate('/dashboard/overview');
                                         }}
                                         className="w-full px-4 py-2 text-left  text-red-600 hover:bg-red-100">
                                         <MdDelete className="inline mr-2" />

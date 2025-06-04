@@ -6,13 +6,14 @@ import axios from 'axios';
 import Chip from '../../components/Dashboard/Chip';
 import DecisionForm from '../Decision/DecisionForm';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+import { useSnackbarStore } from '../../store/snackbarStore';
 
 function DecisionsTable({
     refreshTrigger,
     onRefresh,
 }: {
     refreshTrigger: number;
-    onRefresh: () => void;
+    onRefresh?: () => void;
 }) {
     const [data, setData] = useState<DecisionData[]>([]);
     const [showActions, setShowActions] = useState<number | null>(null);
@@ -23,6 +24,7 @@ function DecisionsTable({
     const [message, setMessage] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [modal, setModal] = useState<boolean>(false);
+    const { showSnackbar } = useSnackbarStore();
 
     const refs = useRef<(HTMLButtonElement | null)[]>([]);
     const tableRef = useRef<HTMLTableElement | null>(null);
@@ -33,7 +35,9 @@ function DecisionsTable({
     );
     const itemsPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSuccess, setSnackbarSuccess] = useState(true);
+    console.log(snackbarMessage, snackbarSuccess);
     const totalPages = Math.ceil(searchFilterItems.length / itemsPerPage);
 
     const paginatedItems = searchFilterItems.slice(
@@ -155,7 +159,8 @@ function DecisionsTable({
             })
             .then((response) => {
                 setMessage(response.data.message);
-                onRefresh();
+                showSnackbar(response.data.message);
+                onRefresh?.();
             })
             .catch((error) => {
                 setMessage(error.message);
@@ -214,43 +219,51 @@ function DecisionsTable({
                             </tr>
                         </thead>
                         <tbody className="flex-1">
-                            {paginatedItems.map((decision, index) => (
-                                <>
-                                    <tr key={index} className="hover:bg-gray-100 transition">
-                                        <td className="px-4 sm:px-6 py-3">{decision.title}</td>
-                                        <td className="px-4 sm:px-6 py-3">{decision.category}</td>
-                                        <td className="px-4 sm:px-6 py-3 min-w-[150px]">
-                                            {decision.createdAt.split('T')[0]}
-                                        </td>
-                                        <td className="px-4 sm:px-6 py-3 min-w-[170px]">
-                                            <Chip mode={decision.status} />
-                                        </td>
-                                        <td className="px-4 sm:px-6 py-3 relative">
-                                            <button
-                                                type="button"
-                                                ref={(el) => {
-                                                    refs.current[index] = el;
-                                                }}
-                                                className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
-                                                onClick={() => handleActions(index)}>
-                                                <IoEllipsisHorizontalOutline />
-                                            </button>
+                            {paginatedItems.length === 0 ? (
+                                <p className="text-gray-500 p-8">Aún no hay decisiones</p>
+                            ) : (
+                                paginatedItems.map((decision, index) => (
+                                    <>
+                                        <tr key={index} className="hover:bg-gray-100 transition">
+                                            <td className="px-4 sm:px-6 py-3">{decision.title}</td>
+                                            <td className="px-4 sm:px-6 py-3">
+                                                {decision.category}
+                                            </td>
+                                            <td className="px-4 sm:px-6 py-3 min-w-[150px]">
+                                                {decision.createdAt.split('T')[0]}
+                                            </td>
+                                            <td className="px-4 sm:px-6 py-3 min-w-[170px]">
+                                                <Chip mode={decision.status} />
+                                            </td>
+                                            <td className="px-4 sm:px-6 py-3 relative">
+                                                <button
+                                                    type="button"
+                                                    ref={(el) => {
+                                                        refs.current[index] = el;
+                                                    }}
+                                                    className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
+                                                    onClick={() => handleActions(index)}>
+                                                    <IoEllipsisHorizontalOutline />
+                                                </button>
 
-                                            <DropDownActions
-                                                ref={dropdownRef}
-                                                id={decision.id}
-                                                open={showActions === index}
-                                                openUpward={openUpwardIndex === index}
-                                                position={
-                                                    showActions === index ? dropdownPosition : null
-                                                }
-                                                onDelete={deleteDecision}
-                                                onEdit={handleEdit}
-                                            />
-                                        </td>
-                                    </tr>
-                                </>
-                            ))}
+                                                <DropDownActions
+                                                    ref={dropdownRef}
+                                                    id={decision.id}
+                                                    open={showActions === index}
+                                                    openUpward={openUpwardIndex === index}
+                                                    position={
+                                                        showActions === index
+                                                            ? dropdownPosition
+                                                            : null
+                                                    }
+                                                    onDelete={deleteDecision}
+                                                    onEdit={handleEdit}
+                                                />
+                                            </td>
+                                        </tr>
+                                    </>
+                                ))
+                            )}
                         </tbody>
                     </table>
                     {paginatedItems.length === 0 ? (
@@ -280,7 +293,11 @@ function DecisionsTable({
             </div>
             {editDecisionId && (
                 <DecisionForm
-                    //onMessage={{ msg: '', success: true }}
+                    onMessage={(msg, success = true) => {
+                        setSnackbarMessage(msg);
+                        setSnackbarSuccess(success);
+                        closeModal();
+                    }}
                     isOpen={modal}
                     onClose={() => {
                         closeModal();

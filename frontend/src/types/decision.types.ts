@@ -47,7 +47,7 @@ export type DecisionData = {
     id: string;
     title: string;
     category: CategoryType;
-    description: string;
+    description?: string;
     status: 'progress' | 'evaluated';
     userId: string;
     proCons: ProCon[];

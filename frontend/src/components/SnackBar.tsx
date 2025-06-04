@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
@@ -9,20 +9,41 @@ interface Props {
 }
 
 export default function Snackbar({ open, message, success, onClose }: Props) {
+    const [visible, setVisible] = useState(false);
+    const [shouldRender, setShouldRender] = useState(open);
+
     useEffect(() => {
         if (open) {
-            const timer = setTimeout(onClose, 3000);
+            setShouldRender(true);
+            // Aparece
+            setVisible(true);
+            // Cierra después de 3s
+            const timer = setTimeout(() => {
+                setVisible(false); // inicia fade out
+            }, 3000);
             return () => clearTimeout(timer);
+        } else {
+            // Si se cierra externamente
+            setVisible(false);
         }
-    }, [open, onClose]);
+    }, [open]);
 
-    if (!open) return null;
+    // Cuando termina la animación de salida, desmontar y llamar onClose
+    const handleTransitionEnd = () => {
+        if (!visible) {
+            setShouldRender(false);
+            onClose();
+        }
+    };
+
+    if (!shouldRender) return null;
 
     const portalRoot = document.getElementById('snackbar-root');
     if (!portalRoot) return null;
 
     return createPortal(
         <div
+            onTransitionEnd={handleTransitionEnd}
             style={{
                 position: 'fixed',
                 bottom: '20px',
@@ -34,7 +55,8 @@ export default function Snackbar({ open, message, success, onClose }: Props) {
                 borderRadius: '4px',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
                 zIndex: 9999,
-                transition: 'all',
+                opacity: visible ? 1 : 0,
+                transition: 'opacity 0.3s ease',
                 display: 'inline-flex',
             }}>
             {message}
