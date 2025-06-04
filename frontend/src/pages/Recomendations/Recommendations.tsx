@@ -10,6 +10,7 @@ type Recommendation = {
 };
 //#
 
+
 const Recommendations = () => {
     const [recomendations, setRecomendations] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(true);
