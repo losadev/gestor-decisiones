@@ -32,7 +32,9 @@ const DropDownActions = forwardRef<HTMLDivElement, DropDownActionsProps>(
                 }}>
                 <ul className="flex flex-col gap-2 px-4 py-2 font-medium text-sm">
                     <li>
-                        <button onClick={() => navigate(`${id}`)} className="hover:underline">
+                        <button
+                            onClick={() => navigate(`/dashboard/decisions/${id}`)}
+                            className="hover:underline">
                             Ver detalles
                         </button>
                     </li>
