@@ -24,7 +24,7 @@ const Decisions = () => {
         }
     }, [modal]);
     return (
-        <div className="flex flex-col gap-4 w-full h-full 2xl:pr-4">
+        <div className="flex flex-col gap-4 w-full h-full">
             <header className="flex flex-col justify-between items-center py-4 gap-8 sm:flex sm:flex-row sm:items-center md:flex md:flex-row :items-center">
                 <h1 className="text-2xl font-bold text-center sm:text-3xl">
                     Gestor de decisiones personales

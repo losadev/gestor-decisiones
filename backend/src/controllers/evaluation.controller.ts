@@ -4,6 +4,7 @@ import { evaluationService } from "../services/evaluation.service";
 export const createEvaluation = async (req: Request, res: Response) => {
   try {
     const { result, score, decisionId } = req.body;
+    const user = req.user as { id: string };
 
     if (!decisionId) {
       res
@@ -16,6 +17,7 @@ export const createEvaluation = async (req: Request, res: Response) => {
       result,
       score,
       decisionId,
+      userId: user.id,
     });
 
     res.status(201).json({

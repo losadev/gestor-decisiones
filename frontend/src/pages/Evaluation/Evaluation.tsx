@@ -122,6 +122,12 @@ const Evaluation = () => {
             setNeutralBar(0);
             setTotalPercentage(0);
 
+            await axios.post(
+                'http://localhost:5000/api/recommendation',
+                { decisionId: decision.id },
+                { withCredentials: true }
+            );
+
             navigate(`/dashboard/decisions/${decision.id}`);
         } catch (error) {
             setMessage('Error al crear evaluación');

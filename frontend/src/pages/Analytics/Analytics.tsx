@@ -233,7 +233,7 @@ const Analytics = () => {
     const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
 
     return (
-        <div className="w-full 2xl:pr-4 h-full pb-4">
+        <div className="w-full h-full">
             <header className="flex flex-col pt-4 pb-2 gap-2 sm:flex md:flex">
                 <h1 className="text-2xl font-bold  sm:text-3xl">Análisis de las evaluaciones</h1>
                 <p className="text-gray-600 font-medium mt-2">

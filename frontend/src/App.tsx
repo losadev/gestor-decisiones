@@ -15,6 +15,7 @@ import Profile from './pages/Profile/Profile';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { User } from './components/Button'; // o donde tengas el tipo definido
+import Recommendations from './pages/Recomendations/Recommendations';
 
 function App() {
     const [user, setUser] = useState<User | null>(null);
@@ -50,7 +51,7 @@ function App() {
                                 <Route path="decisions/:id" element={<DecisionDetails />} />
                                 <Route path="analytics" element={<Analytics />} />
                                 <Route path="evaluation/:id" element={<Evaluation />} />
-                                <Route path="recommendations" element={<h1>Recommendations</h1>} />
+                                <Route path="recommendations" element={<Recommendations />} />
                                 <Route path="profile" element={<Profile user={user} />} />
                             </Route>
                         </Route>
