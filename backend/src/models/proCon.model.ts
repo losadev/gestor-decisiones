@@ -12,7 +12,7 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { ProConAttributes, ProConType } from "../types/proCon.type";
+import { ProConAttributes, ProConType } from "../@types/proCon.type";
 import { Decision } from "./decision.model";
 
 @Table

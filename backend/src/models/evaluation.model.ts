@@ -11,7 +11,7 @@ import {
   Table,
 } from "sequelize-typescript";
 import { Decision } from "./decision.model";
-import { EvaluationAttributes } from "../types/evaluation.types";
+import { EvaluationAttributes } from "../@types/evaluation.types";
 import { User } from "./user.model"; // 👈 Asegúrate de importar esto
 
 @Table

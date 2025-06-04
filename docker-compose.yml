@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    command: npm run dev -- --host
+
+  api:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: proyecto-final-db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql # si quieres inicializar la DB con SQL
+
+volumes:
+  pgdata:

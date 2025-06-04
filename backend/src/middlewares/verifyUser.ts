@@ -39,7 +39,7 @@ export const verifyUser = async (
     }
 
     const { password, ...data } = existingUser.get({ plain: true });
-    req.user = data;
+    (req as any).user = data;
 
     if (req.params.id && req.params.id !== String(data.id)) {
       res
