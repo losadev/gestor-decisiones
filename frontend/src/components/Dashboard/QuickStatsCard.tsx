@@ -3,7 +3,7 @@ import { useAnimation } from '../../hooks/useAnimtation';
 import { DecisionData, Evaluation } from '../../types/decision.types';
 import axios from 'axios';
 
-const QuickStatsCard = () => {
+const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [data, setData] = useState<DecisionData[] | []>([]);
     const [evaluations, setEvaluation] = useState<Evaluation[] | []>([]);
 
@@ -34,7 +34,7 @@ const QuickStatsCard = () => {
                 setPendingDecisions(pending);
             })
             .catch(console.log);
-    }, []);
+    }, [refreshTrigger]);
     console.log('Evaluations: ', evaluations);
     useEffect(() => {
         axios
@@ -43,7 +43,7 @@ const QuickStatsCard = () => {
                 setEvaluation(response.data.data);
             })
             .catch(console.log);
-    }, []);
+    }, [refreshTrigger]);
 
     useEffect(() => {
         console.log('Evaluations changed: ', evaluations);

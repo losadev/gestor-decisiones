@@ -8,6 +8,8 @@ const Decisions = () => {
     const [modal, setModal] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSuccess, setSnackbarSuccess] = useState(true);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const forceRefresh = () => setRefreshTrigger((prev) => prev + 1);
 
     const openModal = () => {
         setModal(true);
@@ -32,7 +34,7 @@ const Decisions = () => {
                 <NewDecisionButton onClick={openModal} />
             </header>
             <main className="flex-1 w-full ">
-                <DecisionsTable />
+                <DecisionsTable refreshTrigger={refreshTrigger} onRefresh={forceRefresh} />
             </main>
             <DecisionForm
                 isOpen={modal}
@@ -41,6 +43,7 @@ const Decisions = () => {
                     setSnackbarMessage(msg);
                     setSnackbarSuccess(success);
                     closeModal();
+                    forceRefresh();
                 }}
             />
             <Snackbar
