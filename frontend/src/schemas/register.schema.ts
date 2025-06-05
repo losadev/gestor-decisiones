@@ -16,11 +16,15 @@ export const registerFormSchema = z
         avatar: z
             .any()
             .optional()
-            .refine((files) => {
-                return files?.[0]?.size <= MAX_FILE_SIZE;
-            }, `La imagen debe pesar menos de 5MB.`)
             .refine(
-                (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+                (files) => !files || files.length === 0 || files[0]?.size <= MAX_FILE_SIZE,
+                'La imagen debe pesar menos de 5MB.'
+            )
+            .refine(
+                (files) =>
+                    !files ||
+                    files.length === 0 ||
+                    ACCEPTED_IMAGE_MIME_TYPES.includes(files[0]?.type),
                 'Solo se permiten imágenes .jpg, .jpeg, .png y .webp.'
             ),
     })

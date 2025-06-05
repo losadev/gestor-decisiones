@@ -8,8 +8,8 @@ export const proConSchema = z.object({
     type: z.enum(['Pro', 'Contra'], {
         errorMap: () => ({ message: 'Tipo inválido' }),
     }),
-    weight: z
+    weight: z.coerce
         .number()
-        .min(0, { message: 'El peso mínimo es 1' })
+        .min(1, { message: 'El peso mínimo es 1' })
         .max(10, { message: 'El peso máximo es 10' }),
 });
