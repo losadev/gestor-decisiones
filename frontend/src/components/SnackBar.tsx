@@ -56,8 +56,11 @@ export default function Snackbar({ open, message, success, onClose }: Props) {
                 boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
                 zIndex: 9999,
                 opacity: visible ? 1 : 0,
+                whiteSpace: 'nowrap',
                 transition: 'opacity 0.3s ease',
                 display: 'inline-flex',
+                width: 'fit-content',
+                maxWidth: '90vw',
             }}>
             {message}
         </div>,

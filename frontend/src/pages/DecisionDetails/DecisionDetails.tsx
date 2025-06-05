@@ -60,21 +60,23 @@ const DecisionDetails = () => {
         });
     }, [id]);
 
+    const fetchDecision = () => {
+        axios
+            .get(`http://localhost:5000/api/decision/${id}`, {
+                withCredentials: true,
+            })
+            .then((response) => {
+                const decision = response.data.decision;
+                setDecision(decision);
+                setIsEvaluated(decision.status === 'evaluated');
+            })
+            .catch((error) => {
+                console.error('Error fetching decision details:', error);
+            });
+    };
+
     useEffect(() => {
-        const res = axios.get(`http://localhost:5000/api/decision/${id}`, {
-            withCredentials: true,
-        });
-        res.then((response) => {
-            const decision = response.data.decision;
-            setDecision(decision);
-            if (decision.status === 'evaluated') {
-                setIsEvaluated(true);
-            } else {
-                setIsEvaluated(false);
-            }
-        }).catch((error) => {
-            console.error('Error fetching decision details:', error);
-        });
+        fetchDecision();
     }, [id]);
 
     const deleteDecision = () => {
@@ -233,17 +235,17 @@ const DecisionDetails = () => {
                     <div className="border flex justify-center rounded-lg p-4 border-gray-300 md:p-8 2xl:flex-1">
                         {isEvaluated ? (
                             <div className="overflow-x-auto  flex flex-col w-full">
-                                <h2 className="text-2xl font-semibold text-center mb-4 flex justify-center gap-4">
+                                <h2 className="text-xl md:text-2xl font-semibold text-center mb-4 flex justify-center gap-4">
                                     <span className="text-center">Evaluación completada</span>
                                     <FaCheckCircle className="text-green-600" size={28} />
                                 </h2>
-                                <table className="min-w-full border border-gray-200 !rounded-lg shadow-md my-auto">
-                                    <thead className="bg-gray-100 ">
+                                <table className="min-w-full table-fixed rounded-t-lg border-gray-200 rounded-lg my-auto">
+                                    <thead className="bg-gray-100">
                                         <tr>
-                                            <th className="py-3 px-4 bg-black text-left text-gray-100 font-semibold">
+                                            <th className="w-1/3 py-3 px-4 rounded-tl-lg bg-black text-left text-gray-100 font-semibold">
                                                 Campo
                                             </th>
-                                            <th className="py-3 px-4 bg-black text-left text-gray-100 font-semibold">
+                                            <th className="py-3 px-4 bg-black text-left rounded-tr-lg text-gray-100 font-semibold">
                                                 Valor
                                             </th>
                                         </tr>
@@ -253,19 +255,23 @@ const DecisionDetails = () => {
                                             <td className="py-3 px-4 font-medium text-gray-700">
                                                 Resultado
                                             </td>
-                                            <td className="py-3 px-4">{evaluation?.result}</td>
+                                            <td className="py-3 px-4 break-words">
+                                                {evaluation?.result}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td className="py-3 px-4 font-medium text-gray-700">
                                                 Puntuación
                                             </td>
-                                            <td className="py-3 px-4">{evaluation?.score}</td>
+                                            <td className="py-3 px-4 break-words">
+                                                {evaluation?.score}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td className="py-3 px-4 font-medium text-gray-700">
                                                 Fecha
                                             </td>
-                                            <td className="py-3 px-4">
+                                            <td className="py-3 px-4 break-words">
                                                 {evaluation?.date
                                                     ? new Date(evaluation.date).toLocaleDateString()
                                                     : 'No disponible'}
@@ -308,6 +314,7 @@ const DecisionDetails = () => {
                             onMessage={(msg, success = true) => {
                                 setSnackbarMessage(msg);
                                 setSnackbarSuccess(success);
+                                fetchDecision();
                                 closeModal();
                             }}
                             decisionId={id}

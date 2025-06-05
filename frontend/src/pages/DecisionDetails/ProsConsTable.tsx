@@ -14,7 +14,7 @@ const ProsConsTable = ({ items, title, color }: Props) => {
     //console.log('Items:', selectedItems);
 
     return (
-        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow `}>
+        <div className={`${bgColor} p-4 rounded shadow flex-1 flex flex-col grow min-h-[300px]`}>
             <h2
                 className={`text-xl font-semibold mb-2 ${color === 'green' ? 'text-green-800' : 'text-red-800'}`}>
                 {title}
@@ -24,7 +24,7 @@ const ProsConsTable = ({ items, title, color }: Props) => {
                     <table
                         className={`w-full  ${color === 'green' ? 'pros_table' : 'contras_table'}`}>
                         <thead>
-                            <tr className={color === 'green' ? '!bg-green-800' : '!bg-red-800'}>
+                            <tr className={color === 'green' ? '!bg-green-800 ' : '!bg-red-800'}>
                                 <th className="w-4/6 p-2 text-white text-center ">Nombre</th>
                                 <th className="w-2/6 p-2 text-white text-center">Importancia</th>
                             </tr>
