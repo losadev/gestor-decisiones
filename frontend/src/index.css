@@ -1,0 +1,121 @@
+@font-face {
+    font-family: 'Inter';
+    src:
+        url('../src/assets/fonts/Inter.woff2') format('woff2'),
+        url('../src/assets/fonts/Inter.woff') format('woff');
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src:
+        url('../src/assets/fonts/Mulish.woff2') format('woff2'),
+        url('../src/assets/fonts/Mulish.woff') format('woff');
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@import 'tailwindcss';
+
+/* index.css o global.css */
+html,
+body,
+#root {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+@theme {
+    --font-inter: 'Inter', 'sans-serif';
+    --font-mulish: 'Mulish', 'sans-serif';
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.scroll-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.scroll-custom::-webkit-scrollbar-track {
+    background: #f3f4f6; /* gray-100 */
+}
+
+.scroll-custom::-webkit-scrollbar-thumb {
+    background-color: #f97316; /* Tailwind orange-500 */
+    border-radius: 6px;
+}
+
+.custom-table {
+    & tbody tr:nth-child(even) {
+        @apply !bg-gray-50 hover:bg-gray-100;
+    }
+    & tbody tr:nth-child(odd) {
+        @apply !bg-white hover:bg-gray-100;
+    }
+}
+
+input[type='range'] {
+    -webkit-appearance: none;
+    height: 8px;
+    background: #ccc;
+    border-radius: 5px;
+}
+
+/* Thumb (el círculo) */
+.green-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: green;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.red-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.neutral-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: yellow;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.menu-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity 200ms ease-out,
+        transform 200ms ease-out;
+}
+.menu-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+.menu-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+        opacity 200ms ease-in,
+        transform 200ms ease-in;
+}
