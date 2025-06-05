@@ -141,6 +141,7 @@ const Evaluation = () => {
 
     return (
         <main className="w-full flex flex-col gap-6 scroll-custom ">
+
             <h1 className="text-2xl sm:text-3xl font-semibold">
                 Evalúa la decisión:{' '}
                 <span className="font-medium font-mulish">{decision?.title}</span>
