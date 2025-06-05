@@ -14,6 +14,8 @@ const Recommendations = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    console.log(error);
+
     useEffect(() => {
         const fetchRecomendations = async () => {
             try {
@@ -30,6 +32,8 @@ const Recommendations = () => {
 
         fetchRecomendations();
     }, []);
+
+    if (loading) return <p>Cargando recomendaciones...</p>;
 
     return (
         <div className="flex flex-col h-full w-full">

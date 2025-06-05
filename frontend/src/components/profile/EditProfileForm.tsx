@@ -5,9 +5,9 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useState } from 'react';
-import { User } from '../../components/Button';
 import { useSnackbarStore } from '../../store/snackbarStore';
-import InputFile from './InputFile';
+import { User } from '../../types/user.types';
+import InputFile from '../InputFile';
 
 const editProfileSchema = z.object({
     name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),

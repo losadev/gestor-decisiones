@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { Evaluation } from '../../types/decision.types';
+import { Evaluation } from '../types/evaluation.types';
 
 interface Props {
     evaluations: Evaluation[];

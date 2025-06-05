@@ -1,13 +1,10 @@
 const Hero = () => {
     return (
         <section className="relative w-full">
-            {/* Imagen de fondo */}
             <div className="absolute inset-0 bg-[url('/hero-img.png')] bg-contain bg-no-repeat bg-center lg:hidden" />
 
-            {/* Overlay oscuro */}
             <div className="absolute inset-0 bg-black/60 lg:hidden" />
 
-            {/* Contenido */}
             <div className="relative flex gap-8 px-4 sm:px-16 py-24 sm:py-64 justify-center lg:py-32 xl:px-64 ">
                 <div className="text-white lg:text-black flex-1 flex flex-col justify-center text-pretty lg:pl-12 ">
                     <h1 className="text-5xl font-bold sm:text-center lg:text-left">

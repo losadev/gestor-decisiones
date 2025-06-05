@@ -1,6 +1,5 @@
 import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Chip from '../../components/Dashboard/Chip';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';

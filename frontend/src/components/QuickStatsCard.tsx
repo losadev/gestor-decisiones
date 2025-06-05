@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useAnimation } from '../../hooks/useAnimtation';
-import { DecisionData, Evaluation } from '../../types/decision.types';
 import axios from 'axios';
+import { DecisionData } from '../types/decision.types';
+import { Evaluation } from '../types/evaluation.types';
+import { useAnimation } from '../hooks/useAnimtation';
 
 const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [data, setData] = useState<DecisionData[] | []>([]);
@@ -16,7 +17,7 @@ const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [targetGood, setTargetGood] = useState<number>(0);
     const [targetBad, setTargetBad] = useState<number>(0);
 
-    // Animación de los porcentajes
+    // animacion de los porcentajes
     useAnimation(targetGood, setGoodDecisions);
     useAnimation(targetBad, setBadDecisions);
 

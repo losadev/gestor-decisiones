@@ -1,10 +1,10 @@
-import Footer from '../../components/Footer';
-import { AnalyticsIcon } from '../../components/Icons/AnalyticsIcon';
-import { DecisionTrackingIcon } from '../../components/Icons/DecisionTracking';
-import Card from './Card';
-import Hero from './Hero';
-import NavBar from './NavBar';
 import { FcIdea } from 'react-icons/fc';
+import NavBar from '../components/NavBar';
+import Hero from '../components/home/Hero';
+import Card from '../components/Card';
+import { AnalyticsIcon } from '../components/Icons/AnalyticsIcon';
+import { DecisionTrackingIcon } from '../components/Icons/DecisionTracking';
+import Footer from '../components/Footer';
 
 const Home = () => {
     return (

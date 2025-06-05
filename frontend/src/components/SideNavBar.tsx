@@ -4,8 +4,8 @@ import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import { IoIosLogOut, IoMdAnalytics, IoMdSettings } from 'react-icons/io';
 import { FaGitAlt } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { useUser } from '../../hooks/useUser';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
+import { useUser } from '../hooks/useUser';
 
 const SideNavBar = () => {
     const { data: user, isLoading } = useUser();

@@ -9,6 +9,7 @@ import Input from '../components/Input';
 import InputFile from '../components/InputFile';
 import Button from '../components/Button';
 import LoginLink from '../components/register/LoginLink';
+
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState(false);

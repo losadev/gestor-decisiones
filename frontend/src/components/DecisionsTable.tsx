@@ -21,7 +21,6 @@ function DecisionsTable({
     const [searchDecision, setSearchDecision] = useState<string>('');
     const [searchFilterItems, setSearchFilterItems] = useState<DecisionData[]>(data);
     const [active, setActive] = useState<number>(1);
-    const [message, setMessage] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [modal, setModal] = useState<boolean>(false);
     const { showSnackbar } = useSnackbarStore();
@@ -156,12 +155,11 @@ function DecisionsTable({
                 withCredentials: true,
             })
             .then((response) => {
-                setMessage(response.data.message);
                 showSnackbar(response.data.message);
                 onRefresh?.();
             })
             .catch((error) => {
-                setMessage(error.message);
+                showSnackbar(error);
             });
     };
 

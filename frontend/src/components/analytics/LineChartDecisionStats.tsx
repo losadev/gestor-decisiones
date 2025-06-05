@@ -10,7 +10,7 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { subMonths, format } from 'date-fns';
-import { Evaluation } from '../types/decision.types';
+import { Evaluation } from '../../types/evaluation.types';
 
 const getLastNMonths = (n: number): string[] => {
     const months: string[] = [];

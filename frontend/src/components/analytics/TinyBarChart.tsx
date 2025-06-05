@@ -8,8 +8,8 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { Evaluation } from '../../types/decision.types';
 import { DecisionData } from '../../types/decision.types';
+import { Evaluation } from '../../types/evaluation.types';
 
 interface CategoryData {
     name: string;
