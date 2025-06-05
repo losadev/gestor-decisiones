@@ -66,15 +66,15 @@ export const deleteDecision = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllDecisions = async (_req: Request, res: Response) => {
+export const getAllDecisions = async (req: Request, res: Response) => {
   try {
-    const decisions = await Decision.findAll();
+    const userId = (req as any).user.id;
+    const decisions = await Decision.findAll({ where: { userId } });
     res.status(200).json({
-      message: "Se han recuperado todas las decisiones",
+      message: "Se han recuperado las decisiones del usuario",
       success: true,
       decisions,
     });
-    return;
   } catch (error: any) {
     res
       .status(500)
