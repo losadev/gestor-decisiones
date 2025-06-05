@@ -21,7 +21,7 @@ export const sequelize = new Sequelize({
 export const connectionDB = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log(`Server running at http://localhost:${process.env.PORT}/`);
   } catch (error: any) {
     console.log("Error al conectarse a la BD", error.message);
