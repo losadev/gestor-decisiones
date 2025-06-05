@@ -1,25 +1,25 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { DecisionData, Evaluation } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Chip from '../../components/Dashboard/Chip';
-import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
-import ProsConsTable from './ProsConsTable';
-import DecisionForm from '../../components/Decision/DecisionForm';
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaCheckCircle } from 'react-icons/fa';
-import Snackbar from '../../components/SnackBar';
-import { useSnackbarStore } from '../../store/snackbarStore';
+import { useSnackbarStore } from '../store/snackbarStore';
+import { DecisionData } from '../types/decision.types';
+import Chip from '../components/Chip';
+import ProsConsTable from '../components/decisionDetails/ProsConsTable';
+import Snackbar from '../components/SnackBar';
+import DecisionForm from '../components/DecisionForm';
+import { ProCon } from '../types/proCon.types';
+import { Evaluation } from '../types/evaluation.types';
 
 const DecisionDetails = () => {
     const [decision, setDecision] = useState<DecisionData | null>(null);
     const [prosCons, setProsCons] = useState<ProCon[] | null>(null);
     const [message, setMessage] = useState<string>('');
-    //const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
     const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
@@ -311,7 +311,7 @@ const DecisionDetails = () => {
                         <DecisionForm
                             isOpen={modal}
                             onClose={closeModal}
-                            onMessage={(msg, success = true) => {
+                            onMessage={(msg: string, success = true) => {
                                 setSnackbarMessage(msg);
                                 setSnackbarSuccess(success);
                                 fetchDecision();

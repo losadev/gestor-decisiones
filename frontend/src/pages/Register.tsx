@@ -1,14 +1,14 @@
-import Input from '../Input';
-import InputFile from './InputFile';
-import LoginLink from './LoginLink';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormRegisterValues, registerFormSchema } from '../../schemas/register.schema';
-import Button from '../Button';
 import axios from 'axios';
 import { useState } from 'react';
-import ModalNavBar from '../../modal/ModalNavBar';
 import { useNavigate } from 'react-router-dom';
+import { FormRegisterValues, registerFormSchema } from '../schemas/register.schema';
+import ModalNavBar from '../modal/ModalNavBar';
+import Input from '../components/Input';
+import InputFile from '../components/InputFile';
+import Button from '../components/Button';
+import LoginLink from '../components/register/LoginLink';
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState(false);

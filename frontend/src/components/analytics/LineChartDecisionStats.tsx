@@ -9,8 +9,8 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { Evaluation } from '../../types/decision.types';
 import { subMonths, format } from 'date-fns';
+import { Evaluation } from '../types/decision.types';
 
 const getLastNMonths = (n: number): string[] => {
     const months: string[] = [];
@@ -46,20 +46,6 @@ const LineChartDecisionStats = ({ evaluations }: { evaluations: Evaluation[] }) 
     const [chartData, setChartData] = useState<{ month: string; buenas: number; malas: number }[]>(
         []
     );
-
-    // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:5000/api/evaluation', { withCredentials: true })
-    //         .then((response) => {
-    //             const data = response.data.data as Evaluation[];
-    //             // setEvaluation(data);
-
-    //             const months = getLastNMonths(5);
-    //             const stats = countEvaluationsPerMonth(data, months);
-    //             setChartData(stats);
-    //         })
-    //         .catch(console.log);
-    // }, []);
 
     useEffect(() => {
         const months = getLastNMonths(5);

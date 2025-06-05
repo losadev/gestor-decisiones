@@ -1,37 +1,13 @@
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FaTrash } from 'react-icons/fa';
-import { ProCon } from '../../types/proCon.types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { DecisionCategoryType, DecisionData } from '../../types/decision.types';
 import { ImCross } from 'react-icons/im';
 import { RxCross1 } from 'react-icons/rx';
-
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-export const proConSchema = z.object({
-    description: z
-        .string()
-        .min(1, { message: 'La descripción es obligatoria' })
-        .max(255, { message: 'Máximo 255 caracteres' }),
-    type: z.enum(['Pro', 'Contra'], {
-        errorMap: () => ({ message: 'Tipo inválido' }),
-    }),
-    weight: z
-        .number()
-        .min(0, { message: 'El peso mínimo es 1' })
-        .max(10, { message: 'El peso máximo es 10' }),
-});
-
-export const decisionFormSchema = z.object({
-    title: z
-        .string()
-        .min(1, { message: 'El título es obligatorio' })
-        .max(255, { message: 'Máximo 255 caracteres' }),
-    category: z.string().min(1, { message: 'La categoría es obligatoria' }),
-    prosCons: z.array(proConSchema).min(1, { message: 'Debe haber al menos un pro o contra' }),
-});
+import { DecisionCategoryType, DecisionData } from '../types/decision.types';
+import { decisionFormSchema } from '../schemas/decision.schema';
+import { ProCon } from '../types/proCon.types';
 
 type FormData = {
     title: string;

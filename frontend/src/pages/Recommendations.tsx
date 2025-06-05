@@ -8,7 +8,6 @@ type Recommendation = {
     content: string;
     createdAt: string;
 };
-//#
 
 const Recommendations = () => {
     const [recomendations, setRecomendations] = useState<Recommendation[]>([]);
@@ -24,7 +23,6 @@ const Recommendations = () => {
                 setRecomendations(response.data.recommendations.slice(0, 6));
             } catch (err: any) {
                 setError('Error al cargar las recomendaciones');
-                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -32,9 +30,6 @@ const Recommendations = () => {
 
         fetchRecomendations();
     }, []);
-
-    if (loading) return <p>Cargando recomendaciones...</p>;
-    if (error) return <p>{error}</p>;
 
     return (
         <div className="flex flex-col h-full w-full">

@@ -1,8 +1,8 @@
-import NavBar from './components/Dashboard/NavBar';
-import SideNavBar from './components/Dashboard/SideNavBar';
 import { Outlet } from 'react-router-dom';
 import Snackbar from './components/SnackBar';
 import { useSnackbarStore } from './store/snackbarStore';
+import SideNavBar from './components/SideNavBar';
+import NavBar from './components/NavBar';
 
 const Layout = () => {
     const { open, message, closeSnackbar } = useSnackbarStore();

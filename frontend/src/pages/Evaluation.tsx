@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ProCon } from '../../types/proCon.types';
-import { DecisionData } from '../../types/decision.types';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSnackbarStore } from '../../store/snackbarStore';
+import { DecisionData } from '../types/decision.types';
+import { useSnackbarStore } from '../store/snackbarStore';
+import { ProCon } from '../types/proCon.types';
 
 const schema = z
     .object({
@@ -141,7 +141,6 @@ const Evaluation = () => {
 
     return (
         <main className="w-full flex flex-col gap-6 scroll-custom ">
-
             <h1 className="text-2xl sm:text-3xl font-semibold">
                 Evalúa la decisión:{' '}
                 <span className="font-medium font-mulish">{decision?.title}</span>

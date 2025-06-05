@@ -1,7 +1,7 @@
-import EditProfileForm from './EditProfileForm';
-import { User } from '../../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { User } from '../types/user.types';
+import EditProfileForm from '../components/profile/EditProfileForm';
 
 const Profile = () => {
     const [user, setUser] = useState<User | null>(null);

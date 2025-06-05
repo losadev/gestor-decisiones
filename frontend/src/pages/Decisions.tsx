@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import DecisionsTable from './DecisionsTable';
-import NewDecisionButton from './NewDecisionButton';
-import DecisionForm from '../Decision/DecisionForm';
-import Snackbar from '../SnackBar';
+import NewDecisionButton from '../components/NewDecisionButton';
+import DecisionsTable from '../components/DecisionsTable';
+import DecisionForm from '../components/DecisionForm';
+import Snackbar from '../components/SnackBar';
 
 const Decisions = () => {
     const [modal, setModal] = useState<boolean>(false);
@@ -39,7 +39,7 @@ const Decisions = () => {
             <DecisionForm
                 isOpen={modal}
                 onClose={closeModal}
-                onMessage={(msg, success = true) => {
+                onMessage={(msg: string, success = true) => {
                     setSnackbarMessage(msg);
                     setSnackbarSuccess(success);
                     closeModal();

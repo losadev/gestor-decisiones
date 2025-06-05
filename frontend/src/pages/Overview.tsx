@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import DecisionForm from '../Decision/DecisionForm';
-import NewDecisionButton from './NewDecisionButton';
-import QuickStatsCard from './QuickStatsCard';
-import RecentActivity from './RecentActivity';
-import DecisionsTable from './DecisionsTable';
-import AnalyticsResumeCard from './AnalyticsResumeCard';
-import { Evaluation } from '../../types/decision.types';
+
 import axios from 'axios';
-import Snackbar from '../SnackBar';
+import { Evaluation } from '../types/decision.types';
+import AnalyticsResumeCard from '../components/AnalyticsResumeCard';
+import RecentActivity from '../components/RecentActivity';
+import QuickStatsCard from '../components/QuickStatsCard';
+import NewDecisionButton from '../components/NewDecisionButton';
+import DecisionForm from '../components/DecisionForm';
+import DecisionsTable from '../components/DecisionsTable';
+import Snackbar from '../components/SnackBar';
 
 const Overview = () => {
     const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
@@ -64,7 +65,7 @@ const Overview = () => {
                     <DecisionForm
                         isOpen={modal}
                         onClose={closeModal}
-                        onMessage={(msg, success = true) => {
+                        onMessage={(msg: string, success = true) => {
                             setSnackbarMessage(msg);
                             setSnackbarSuccess(success);
                             closeModal();

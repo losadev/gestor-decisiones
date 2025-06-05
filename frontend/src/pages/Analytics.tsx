@@ -1,41 +1,16 @@
-import { ReactNode, useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { HiOutlineTrendingUp } from 'react-icons/hi';
 import { MdOutlineWatchLater } from 'react-icons/md';
-import Filters from './Filters';
-import AnalyticsResumeCard from '../../components/Dashboard/AnalyticsResumeCard';
-import TinyBarChart from './TinyBarChart';
-import LineChartDecisionStats from './LineChartDecisionStats';
 import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
 import axios from 'axios';
-import { DecisionData, Evaluation } from '../../types/decision.types';
-
-interface Props {
-    title: string;
-    content: string;
-    icon: ReactNode;
-    description: string;
-    className?: string;
-}
-
-const AnalyticsCard = ({ title, content, icon, description, className }: Props) => {
-    return (
-        <div className="border bg-white border-gray-300 rounded-lg p-8 flex flex-col gap-6  shadow-sm">
-            <div className="flex w-full">
-                <div className="flex flex-col gap-2 flex-1">
-                    <span className="font-medium text-gray-600">{title}</span>
-                    <span className={`text-[1.75rem]  font-semibold flex-1 ${className}`}>
-                        {content}
-                    </span>
-                </div>
-                <span className={`${className}`}>{icon}</span>
-            </div>
-            <p className="text-gray-600 text-sm">{description}</p>
-        </div>
-    );
-};
-
-//const allCategories = ['Trabajo', 'Salud', 'Finanzas', 'Personal', 'Familia', 'Otros'];
+import { DecisionData } from '../types/decision.types';
+import Filters from '../components/Filters';
+import AnalyticsResumeCard from '../components/AnalyticsResumeCard';
+import AnalyticsCard from '../components/analytics/AnalyticsCard';
+import LineChartDecisionStats from '../components/analytics/LineChartDecisionStats';
+import TinyBarChart from '../components/analytics/TinyBarChart';
+import { Evaluation } from '../types/evaluation.types';
 
 const Analytics = () => {
     const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
@@ -84,7 +59,6 @@ const Analytics = () => {
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
-    //const numberOfDecisions = decisions.length;
     const pending = useMemo(() => {
         return filteredDecisions.filter((d) => d.status === 'progress');
     }, [filteredDecisions]);
@@ -123,11 +97,11 @@ const Analytics = () => {
         console.log('EVLUATIONS LENGTH', evaluations);
         if (filteredEvaluations.length === 0) return 0;
 
-        // Fecha límite hace 6 meses
+        // fecha limite hace 6 meses
         const limitDate = new Date();
         limitDate.setMonth(limitDate.getMonth() - 3);
 
-        // Filtrar evaluaciones solo de los últimos 6 meses
+        // filtrar evaluaciones solo de los ultimos 6 meses
         const recentEvaluations = filteredEvaluations.filter((evaluation) => {
             const evalDate = new Date(evaluation.createdAt);
             return evalDate >= limitDate;
@@ -135,7 +109,7 @@ const Analytics = () => {
 
         if (recentEvaluations.length === 0) return 0;
 
-        // Agrupar evaluaciones por mes (solo recientes)
+        // agrupar evaluaciones por mes (solo recientes)
         const evaluationsByMonth: Record<string, Evaluation[]> = recentEvaluations.reduce(
             (acc, evaluation) => {
                 const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
@@ -192,37 +166,6 @@ const Analytics = () => {
         ) : (
             <LuCircleAlert className="p-2 rounded-full" />
         );
-
-    // const categoryData = useMemo(() => {
-    //     if (evaluations.length === 0 || decisions.length === 0) return [];
-
-    //     const categoriesMap: Record<string, { buenas: number; malas: number }> = {};
-    //     allCategories.forEach((cat) => {
-    //         categoriesMap[cat] = { buenas: 0, malas: 0 };
-    //     });
-
-    //     evaluations.forEach((evaluation) => {
-    //         const decision = decisions.find((d) => d.id === evaluation.decisionId);
-    //         if (!decision) return;
-
-    //         const category = decision.category.trim();
-
-    //         if (!categoriesMap[category]) return;
-
-    //         const isGood = evaluation.score > 6;
-    //         if (isGood) {
-    //             categoriesMap[category].buenas += 1;
-    //         } else {
-    //             categoriesMap[category].malas += 1;
-    //         }
-    //     });
-
-    //     return allCategories.map((name) => ({
-    //         name,
-    //         buenas: categoriesMap[name].buenas,
-    //         malas: categoriesMap[name].malas,
-    //     }));
-    // }, [evaluations, decisions]);
 
     const successfulEvaluations = useMemo(
         () => filteredEvaluations.filter((e) => e.score > 6).length,

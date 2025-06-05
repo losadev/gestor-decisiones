@@ -2,12 +2,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Input from '../../components/Input';
-import InputFile from '../../components/Register/InputFile';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useState } from 'react';
 import { User } from '../../components/Button';
 import { useSnackbarStore } from '../../store/snackbarStore';
+import InputFile from './InputFile';
 
 const editProfileSchema = z.object({
     name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
@@ -99,14 +99,14 @@ const EditProfileForm = ({ user }: Props) => {
     };
 
     const verifyCurrentPassword = async () => {
-        // Si está bloqueado y no ha pasado el tiempo, mostrar mensaje y salir
+        // si esta bloqueado y no ha pasado el tiempo, mostrar mensaje y salir
         if (lockTime) {
             const now = Date.now();
             if (now - lockTime < LOCK_DURATION) {
                 setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
                 return;
             } else {
-                // Ya pasó el bloqueo, resetear todo
+                // ya paso el bloqueo, resetear todo
                 setFailedAttempts(0);
                 setLockTime(null);
                 setMessage('');
@@ -114,7 +114,7 @@ const EditProfileForm = ({ user }: Props) => {
         }
 
         if (failedAttempts >= 5) {
-            // Aquí por si quedó algún estado raro, bloquear y guardar tiempo
+            // aqui por si quedo algun estado raro, bloquear y guardar tiempo
             setLockTime(Date.now());
             setMessage('Has alcanzado el límite de intentos. Por favor, inténtalo más tarde.');
             return;

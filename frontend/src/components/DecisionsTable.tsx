@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
-import { DecisionData } from '../../types/decision.types';
 import axios from 'axios';
-import Chip from '../../components/Dashboard/Chip';
-import DecisionForm from '../Decision/DecisionForm';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
-import { useSnackbarStore } from '../../store/snackbarStore';
+import { useSnackbarStore } from '../store/snackbarStore';
+import { DecisionData } from '../types/decision.types';
+import Chip from './Chip';
+import DecisionForm from './DecisionForm';
 
 function DecisionsTable({
     refreshTrigger,
@@ -69,7 +69,7 @@ function DecisionsTable({
             // Si no hay dropdown abierto, no hacer nada
             if (showActions === null) return;
 
-            // Verificar si clic fue fuera del dropdown y fuera del botón
+            // verfica si clic fue fuera del dropdown y fuera del boton
             const clickedOutsideDropdown =
                 dropdownRef.current && !dropdownRef.current.contains(target);
             const clickedOutsideButton = !buttonElements[showActions]?.contains(target);
@@ -86,8 +86,6 @@ function DecisionsTable({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [showActions]);
-
-    console.log(message);
 
     const handleActions = (index: number) => {
         if (showActions === index) {

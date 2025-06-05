@@ -1,18 +1,18 @@
-import LoginForm from './components/Login/LoginForm';
-import FormRegister from './components/Register/FormRegister';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home/Home';
 import ProtectedRoutes from './utils/ProtectedRoutes';
-import Dashboard from './components/Dashboard/Dashboard';
-import Overview from './components/Dashboard/Overview';
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './Layout';
-import Decisions from './components/Dashboard/Decisions';
-import DecisionDetails from './pages/DecisionDetails/DecisionDetails';
-import Analytics from './pages/Analytics/Analytics';
-import Evaluation from './pages/Evaluation/Evaluation';
-import Profile from './pages/Profile/Profile';
-import Recommendations from './pages/Recomendations/Recommendations';
+import FormRegister from './pages/Register';
+import Home from './pages/Home';
+import LoginForm from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Overview from './pages/Overview';
+import Decisions from './pages/Decisions';
+import DecisionDetails from './pages/DecisionDetails';
+import Analytics from './pages/Analytics';
+import Recommendations from './pages/Recommendations';
+import Evaluation from './pages/Evaluation';
+import Profile from './pages/Profile';
 
 function App() {
     return (

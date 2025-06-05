@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { FormLoginValues, loginFormSchema } from '../../schemas/login.schema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import Button from '../Button';
-import Input from '../Input';
 import { useNavigate } from 'react-router-dom';
-import ModalNavBar from '../../modal/ModalNavBar';
-import RegisterLink from './RegisterLink';
+import { FormLoginValues, loginFormSchema } from '../schemas/login.schema';
+import ModalNavBar from '../modal/ModalNavBar';
+import Input from '../components/Input';
+import Button from '../components/Button';
+import RegisterLink from '../components/login/RegisterLink';
 
 const LOCK_DURATION = 10 * 60 * 1000; // 10 minutos
 const MAX_FAILED_ATTEMPTS = 5;
@@ -28,7 +28,7 @@ const LoginForm = () => {
         mode: 'onBlur',
     });
 
-    // Verificar si está bloqueado al montar y actualizar estado
+    // verificar si esta bloqueado al montar y actualizar estado
     useEffect(() => {
         if (lockTime) {
             const now = Date.now();
