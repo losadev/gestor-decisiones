@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import axios from 'axios';
 import { useState } from 'react';
 import { User } from '../../components/Button';
+import { useSnackbarStore } from '../../store/snackbarStore';
 
 const editProfileSchema = z.object({
     name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
@@ -31,13 +32,14 @@ const EditProfileForm = ({ user }: Props) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [failedAttempts, setFailedAttempts] = useState(0);
     const [lockTime, setLockTime] = useState<number | null>(null);
+    const { showSnackbar } = useSnackbarStore();
 
     const LOCK_DURATION = 10 * 60 * 1000;
 
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
     } = useForm<EditProfileValues>({
         resolver: zodResolver(editProfileSchema),
         defaultValues: {
@@ -62,9 +64,10 @@ const EditProfileForm = ({ user }: Props) => {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            setMessage(res.data.message || 'Perfil actualizado');
+            showSnackbar(res.data.message || 'Perfil actualizado');
         } catch (err: any) {
-            setMessage(err.response?.data?.message || 'Error al actualizar');
+            const msg = err.response?.data?.message || 'Error al actualizar';
+            showSnackbar(msg);
         }
     };
 
@@ -80,9 +83,12 @@ const EditProfileForm = ({ user }: Props) => {
                 { currentPassword, newPassword },
                 { withCredentials: true }
             );
-            setMessage('Contraseña actualizada');
+            const msg = 'Contraseña actualizada';
+            showSnackbar(msg);
+            setMessage('');
         } catch (err: any) {
-            setMessage(err.response?.data?.message || 'Error al actualizar la contraseña');
+            const msg = err.response?.data?.message || 'Error al actualizar la contraseña';
+            showSnackbar(msg);
         } finally {
             setShowCurrentPassModal(false);
             setShowNewPassModal(false);
@@ -177,14 +183,14 @@ const EditProfileForm = ({ user }: Props) => {
                     error={errors.birthDate}
                 />
                 <InputFile control={control} name="avatar" label="Avatar" />
-                <Button type="submit" text="Guardar cambios" />
+                <Button type="submit" text="Guardar cambios" isDisabled={!isDirty} />
+
                 <button
                     type="button"
                     onClick={() => setShowCurrentPassModal(true)}
                     className="text-orange-600 hover:text-orange-700 cursor-pointer underline text-sm mt-2">
                     Cambiar contraseña
                 </button>
-                {message && <p className="text-center text-sm">{message}</p>}
             </form>
 
             {/* modal que pide contrase actuall */}
@@ -200,6 +206,7 @@ const EditProfileForm = ({ user }: Props) => {
                             className="border p-2 w-full mb-4 rounded-lg"
                             disabled={isLocked}
                         />
+                        {message && <p className="text-red-600 text-sm my-2">{message}</p>}
                         <div className="flex justify-end gap-2">
                             <button
                                 onClick={() => {
@@ -231,7 +238,7 @@ const EditProfileForm = ({ user }: Props) => {
                 </div>
             )}
 
-            {/* modal para nuevaa contraseña */}
+            {/* modal para nueva contraseña */}
             {showNewPassModal && (
                 <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 w-[90%] max-w-md shadow-lg">
@@ -250,12 +257,14 @@ const EditProfileForm = ({ user }: Props) => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="border p-2 w-full mb-4 rounded-lg"
                         />
+                        {message && <p className="text-red-600 text-sm my-2">{message}</p>}
                         <div className="flex justify-end gap-2">
                             <button
                                 onClick={() => {
                                     setShowNewPassModal(false);
                                     setNewPassword('');
                                     setConfirmPassword('');
+                                    setMessage('');
                                 }}
                                 className="px-4 py-2 border rounded hover:bg-gray-100">
                                 Cancelar

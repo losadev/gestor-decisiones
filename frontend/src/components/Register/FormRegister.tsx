@@ -11,6 +11,8 @@ import ModalNavBar from '../../modal/ModalNavBar';
 import { useNavigate } from 'react-router-dom';
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const {
         control,
@@ -30,6 +32,7 @@ const FormRegister = () => {
         birthDate: Date;
         avatar?: FileList;
     }) => {
+        setLoading(true);
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('lastName', data.lastName);
@@ -47,7 +50,13 @@ const FormRegister = () => {
             setMessage(req.data.message);
             navigate('/login');
         } catch (error: any) {
-            setMessage(error.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message);
+            } else {
+                setMessage('Error al registrar el usuario');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -124,12 +133,11 @@ const FormRegister = () => {
                             error={errors.confirmPassword}
                         />
                     </div>
-
                     <InputFile label="Avatar" name="avatar" control={control} />
-                    <Button text="Registarse" type="submit" />
+                    {message && <p className="text-red-600">{message}</p>}
+                    <Button text={loading ? 'Registrando...' : 'Registrarse'} type="submit" />
                     <LoginLink />
                 </div>
-                {message && <p>{message}</p>}
             </form>
         </div>
     );

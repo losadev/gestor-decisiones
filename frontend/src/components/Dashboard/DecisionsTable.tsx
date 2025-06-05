@@ -218,50 +218,48 @@ function DecisionsTable({
                                 <th className="px-4 sm:px-6 py-3">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="flex-1">
+                        <tbody>
                             {paginatedItems.length === 0 ? (
-                                <p className="text-gray-500 p-8">Aún no hay decisiones</p>
+                                <tr>
+                                    <td colSpan={5} className="text-center text-gray-500 py-12">
+                                        Aún no hay decisiones
+                                    </td>
+                                </tr>
                             ) : (
                                 paginatedItems.map((decision, index) => (
-                                    <>
-                                        <tr key={index} className="hover:bg-gray-100 transition">
-                                            <td className="px-4 sm:px-6 py-3">{decision.title}</td>
-                                            <td className="px-4 sm:px-6 py-3">
-                                                {decision.category}
-                                            </td>
-                                            <td className="px-4 sm:px-6 py-3 min-w-[150px]">
-                                                {decision.createdAt.split('T')[0]}
-                                            </td>
-                                            <td className="px-4 sm:px-6 py-3 min-w-[170px]">
-                                                <Chip mode={decision.status} />
-                                            </td>
-                                            <td className="px-4 sm:px-6 py-3 relative">
-                                                <button
-                                                    type="button"
-                                                    ref={(el) => {
-                                                        refs.current[index] = el;
-                                                    }}
-                                                    className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
-                                                    onClick={() => handleActions(index)}>
-                                                    <IoEllipsisHorizontalOutline />
-                                                </button>
+                                    <tr key={index} className="hover:bg-gray-100 transition">
+                                        <td className="px-4 sm:px-6 py-3">{decision.title}</td>
+                                        <td className="px-4 sm:px-6 py-3">{decision.category}</td>
+                                        <td className="px-4 sm:px-6 py-3 min-w-[150px]">
+                                            {decision.createdAt.split('T')[0]}
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-3 min-w-[170px]">
+                                            <Chip mode={decision.status} />
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-3 relative">
+                                            <button
+                                                type="button"
+                                                ref={(el) => {
+                                                    refs.current[index] = el;
+                                                }}
+                                                className="cursor-pointer hover:bg-orange-200 rounded-lg p-2"
+                                                onClick={() => handleActions(index)}>
+                                                <IoEllipsisHorizontalOutline />
+                                            </button>
 
-                                                <DropDownActions
-                                                    ref={dropdownRef}
-                                                    id={decision.id}
-                                                    open={showActions === index}
-                                                    openUpward={openUpwardIndex === index}
-                                                    position={
-                                                        showActions === index
-                                                            ? dropdownPosition
-                                                            : null
-                                                    }
-                                                    onDelete={deleteDecision}
-                                                    onEdit={handleEdit}
-                                                />
-                                            </td>
-                                        </tr>
-                                    </>
+                                            <DropDownActions
+                                                ref={dropdownRef}
+                                                id={decision.id}
+                                                open={showActions === index}
+                                                openUpward={openUpwardIndex === index}
+                                                position={
+                                                    showActions === index ? dropdownPosition : null
+                                                }
+                                                onDelete={deleteDecision}
+                                                onEdit={handleEdit}
+                                            />
+                                        </td>
+                                    </tr>
                                 ))
                             )}
                         </tbody>
