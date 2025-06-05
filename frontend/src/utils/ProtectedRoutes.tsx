@@ -2,8 +2,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const spinnerStyle: React.CSSProperties = {
-    border: '4px solid rgba(255, 165, 0, 0.3)', // naranja claro transparente
-    borderTop: '4px solid orange', // naranja sólido
+    border: '4px solid rgba(255, 165, 0, 0.3)',
+    borderTop: '4px solid orange',
     borderRadius: '50%',
     width: '40px',
     height: '40px',
