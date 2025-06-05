@@ -54,10 +54,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .custom-table {
-    & tbody tr:nth-child(odd) {
+    & tbody tr:nth-child(even) {
         @apply !bg-gray-50 hover:bg-gray-100;
     }
-    & tbody tr:nth-child(even) {
+    & tbody tr:nth-child(odd) {
         @apply !bg-white hover:bg-gray-100;
     }
 }

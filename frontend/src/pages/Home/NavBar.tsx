@@ -99,12 +99,12 @@ const NavBar = () => {
                         <>
                             <NavLink
                                 to="/dashboard/overview"
-                                className="bg-black text-white px-3 py-1 rounded font-medium">
+                                className="bg-black hover:text-orange-500 transition text-white cursor-pointer px-3 py-1 rounded font-medium">
                                 Ir al panel
                             </NavLink>
                             <button
                                 onClick={handleLogout}
-                                className="bg-orange-100 px-3 py-1 rounded font-medium hover:text-white">
+                                className="bg-white hover:bg-gray-100 cursor-pointer px-3 py-1 rounded font-medium ">
                                 Cerrar sesión
                             </button>
                         </>

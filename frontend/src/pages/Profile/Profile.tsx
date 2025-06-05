@@ -1,11 +1,26 @@
 import EditProfileForm from './EditProfileForm';
 import { User } from '../../components/Button';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-type Props = {
-    user: User | null;
-};
+const Profile = () => {
+    const [user, setUser] = useState<User | null>(null);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/me', {
+                    withCredentials: true,
+                });
 
-const Profile = ({ user }: Props) => {
+                setUser(res.data.user);
+            } catch (error: any) {
+                setUser(null);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
     if (!user) return null;
     return (
         <div className="flex flex-col w-full h-full">
