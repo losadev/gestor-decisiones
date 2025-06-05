@@ -1,7 +1,6 @@
 import { Evaluation } from "../models/evaluation.model";
 import { v4 as uuidv4 } from "uuid";
 import { EvaluationCreateInput } from "../@types/evaluation.types";
-import { get } from "http";
 
 export const evaluationService = {
   create: async (evaluationData: Omit<EvaluationCreateInput, "date">) => {

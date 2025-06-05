@@ -12,7 +12,6 @@ export async function getRecommendationFromAI(
     score: number;
   }[]
 ) {
-  // Construir resumen con las 3 decisiones:
   const decisionsSummary = decisionsData
     .map((d, i) => {
       return `Decisión ${i + 1}: "${d.title}"
@@ -28,7 +27,7 @@ Evaluación final (puntuación): ${d.score}
     
     Te compartiré un resumen de 3 decisiones recientes que incluyen título, pros, contras y puntuación. Tu objetivo es identificar patrones de comportamiento en la toma de decisiones (como impulsividad, indecisión, precipitación, etc.) y dar una recomendación general para mejorar la toma de decisiones en el futuro.
     
-    Devuelve SOLO un JSON con este formato:
+    **Importante: Devuelve SOLO un JSON con este formato:
     
     {
       "title": "Consejo general claro y breve",

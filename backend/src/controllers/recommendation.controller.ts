@@ -32,10 +32,10 @@ export const createRecommendation = async (req: Request, res: Response) => {
     });
 
     if (recentDecisions.length < 3) {
-      res.status(400).json({
-        message:
-          "Se necesitan al menos 3 decisiones para generar una recomendación.",
-      });
+      // res.status(400).json({
+      //   message:
+      //     "Se necesitan al menos 3 decisiones para generar una recomendación.",
+      // });
       return;
     }
 
