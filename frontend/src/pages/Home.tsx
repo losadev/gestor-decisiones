@@ -1,15 +1,15 @@
 import { FcIdea } from 'react-icons/fc';
-import NavBar from '../components/NavBar';
 import Hero from '../components/home/Hero';
 import Card from '../components/Card';
 import { AnalyticsIcon } from '../components/Icons/AnalyticsIcon';
 import { DecisionTrackingIcon } from '../components/Icons/DecisionTracking';
 import Footer from '../components/Footer';
+import NavBarHome from '../components/home/NavBarHome';
 
 const Home = () => {
     return (
         <div className="min-h-screen w-screen">
-            <NavBar />
+            <NavBarHome />
             {/* <ModalNavBar /> */}
             <main className="w-full bg-white">
                 <Hero />

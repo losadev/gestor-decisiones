@@ -16,7 +16,7 @@ const links = [
     { to: '/dashboard/recommendations', label: 'Recomendaciones', icon: <FaLightbulb /> },
 ];
 
-const NavBar = () => {
+const NavBarHome = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { user, logout, loading } = useAuth();
     const navigate = useNavigate();
@@ -128,4 +128,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default NavBarHome;

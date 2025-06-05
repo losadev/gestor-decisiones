@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Chip from '../Chip';
 
 const RecentActivity = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [decisions, setDecisions] = useState<DecisionData[]>([]);

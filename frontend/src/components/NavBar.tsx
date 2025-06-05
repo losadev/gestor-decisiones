@@ -7,8 +7,8 @@ import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import { GoHomeFill } from 'react-icons/go';
 import { RxCross1 } from 'react-icons/rx';
 import { IoIosLogOut } from 'react-icons/io';
-import { useUser } from '../../hooks/useUser';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
+import { useUser } from '../hooks/useUser';
 
 const links = [
     { to: '/', label: 'Inicio', icon: <GoHomeFill /> },
