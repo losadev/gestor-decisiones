@@ -140,52 +140,51 @@ const Evaluation = () => {
     };
 
     return (
-        <main className="p-4 w-full h-full flex flex-col gap-6 overflow-y-auto scroll-custom">
+        <main className="w-full h-full flex flex-col gap-6 scroll-custom">
             <h1 className="text-2xl sm:text-3xl font-semibold">
-                Evalúa la decisión: {decision?.title}
+                Evalúa la decisión:{' '}
+                <span className="font-medium font-mulish">{decision?.title}</span>
             </h1>
 
             <section className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 sm:p-6 flex flex-col gap-6">
-                <div className="space-y-4 flex flex-col flex-1">
-                    <h2 className="text-2xl font-semibold text-center">Resumen de la decisión</h2>
-                    <div className="inline-flex flex-col 2xl:w-[50%] mx-auto gap-4">
-                        <div className="border border-gray-300 rounded p-4 shadow-md sm:p-6 flex flex-col gap-4 flex-1 hover:shadow-xl transition hover:scale-105 bg-white">
-                            <ul className="text-base sm:text-lg space-y-2">
-                                <li>
-                                    <span className="text-gray-600">Título:</span> {decision?.title}
+                <div className=" flex flex-col gap-4 md:flex-row flex-1 items-stretch">
+                    <div className="border border-gray-300 rounded p-4 min-h-[250px] shadow-md sm:p-6 flex flex-col gap-4 flex-1 hover:shadow-xl transition hover:scale-105 bg-white">
+                        <h2 className="text-xl sm:text-2xl font-semibold text-center">
+                            Resumen de la decisión
+                        </h2>
+                        <ul className="text-base sm:text-lg text-center space-y-2 mt-4">
+                            <li>
+                                <span className="text-gray-600">Título:</span> {decision?.title}
+                            </li>
+                            <li>
+                                <span className="text-gray-600">Categoría:</span>{' '}
+                                {decision?.category}
+                            </li>
+                            <li>
+                                <span className="text-gray-600">Fecha de creación:</span>{' '}
+                                {createdAt}
+                            </li>
+                            <li>
+                                <span className="text-gray-600">Descripción:</span>{' '}
+                                {decision?.description}
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="border border-gray-300 rounded p-4 min-h-[250px] sm:p-6 shadow-md hover:shadow-xl transition hover:scale-105 bg-white flex flex-col gap-4 flex-1 items-center">
+                        <h2 className="text-xl sm:text-2xl font-semibold">Pros y Contras</h2>
+                        <ul className="space-y-2 mt-4">
+                            {prosCons?.map((item) => (
+                                <li key={item.id} className="flex items-center gap-2">
+                                    <span
+                                        className={
+                                            item.type === 'Pro' ? 'text-green-600' : 'text-red-600'
+                                        }>
+                                        {item.type === 'Pro' ? '✔️' : '❌'}
+                                    </span>
+                                    {item.description}
                                 </li>
-                                <li>
-                                    <span className="text-gray-600">Categoría:</span>{' '}
-                                    {decision?.category}
-                                </li>
-                                <li>
-                                    <span className="text-gray-600">Fecha de creación:</span>{' '}
-                                    {createdAt}
-                                </li>
-                                <li>
-                                    <span className="text-gray-600">Descripción:</span>{' '}
-                                    {decision?.description}
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="border border-gray-300 rounded p-4 sm:p-6 shadow-md hover:shadow-xl transition hover:scale-105 bg-white flex flex-col gap-4 flex-1 items-center">
-                            <h3 className="text-lg font-semibold">Pros y Contras</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                {prosCons?.map((item) => (
-                                    <li key={item.id} className="flex items-center gap-2">
-                                        <span
-                                            className={
-                                                item.type === 'Pro'
-                                                    ? 'text-green-600'
-                                                    : 'text-red-600'
-                                            }>
-                                            {item.type === 'Pro' ? '✔️' : '❌'}
-                                        </span>
-                                        {item.description}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 

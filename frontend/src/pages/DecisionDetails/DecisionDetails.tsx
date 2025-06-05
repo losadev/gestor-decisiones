@@ -111,7 +111,7 @@ const DecisionDetails = () => {
     const cons = prosCons?.filter((item) => item.type === 'Contra') || [];
 
     return (
-        <div className="px-2 2xl:px-4 flex w-full h-full flex-col gap-4 ">
+        <div className="flex w-full h-full flex-col gap-4">
             <header className="pt-4 pb-2">
                 <h1 className="text-2xl font-semibold">Detalles de la decisión</h1>
                 <p className="text-gray-600">Mira y gestiona esta decisión</p>

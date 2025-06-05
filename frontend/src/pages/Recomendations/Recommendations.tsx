@@ -21,7 +21,7 @@ const Recommendations = () => {
                 const response = await axios.get('http://localhost:5000/api/recommendation', {
                     withCredentials: true,
                 });
-                setRecomendations(response.data.recommendations);
+                setRecomendations(response.data.recommendations.slice(0, 6));
             } catch (err: any) {
                 setError('Error al cargar las recomendaciones');
                 console.error(err);

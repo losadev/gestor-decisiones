@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { HiBars3 } from 'react-icons/hi2';
-import { IoMdAnalytics } from 'react-icons/io';
+import { IoMdAnalytics, IoMdSettings } from 'react-icons/io';
 import { FaLightbulb, FaGitAlt } from 'react-icons/fa';
 import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import { GoHomeFill } from 'react-icons/go';
@@ -16,6 +16,7 @@ const links = [
     { to: '/dashboard/decisions', label: 'Decisiones', icon: <FaGitAlt /> },
     { to: '/dashboard/analytics', label: 'Análisis', icon: <IoMdAnalytics /> },
     { to: '/dashboard/recommendations', label: 'Recomendaciones', icon: <FaLightbulb /> },
+    { to: '/dashboard/profile', label: 'Perfil', icon: <IoMdSettings /> },
 ];
 
 const NavBar = () => {
