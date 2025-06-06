@@ -34,3 +34,4 @@ export const registerFormSchema = z
     });
 
 export type FormRegisterValues = z.infer<typeof registerFormSchema>;
+
