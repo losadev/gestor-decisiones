@@ -1,3 +1,7 @@
+import { Evaluation } from './evaluation.types';
+import { ProCon } from './proCon.types';
+import { Recommendation } from './recommendation.types';
+
 export enum DecisionCategoryType {
     WORK = 'Trabajo',
     HEALTH = 'Salud',
@@ -13,26 +17,6 @@ export type DecisionAttributes = {
     category: DecisionCategoryType | string;
     userId: string;
 };
-
-export type ProCon = {
-    description: string;
-    type: string;
-    weight: number;
-};
-
-export interface Evaluation {
-    id?: string;
-    decisionId: string;
-    score: number;
-    createdAt: string;
-    result?: string;
-    date?: string;
-}
-
-export interface Recommendation {
-    id: string;
-    decisionId: string;
-}
 
 export enum CategoryType {
     WORK = 'Trabajo',
