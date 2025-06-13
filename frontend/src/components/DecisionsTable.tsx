@@ -87,6 +87,8 @@ function DecisionsTable({
     }, [showActions]);
 
     const handleActions = (index: number) => {
+        // SI el índice es el mismo que el actual, cerrar el dropdown (el indice es la fila de la tabla)
+
         if (showActions === index) {
             setShowActions(null);
             setOpenUpwardIndex(null);
@@ -96,6 +98,11 @@ function DecisionsTable({
 
         setShowActions(index);
 
+        const actionEl = refs.current[index]; //  el elemento HTML del botón de acciones sobre el que se hizo click.
+        const tableEl = tableRef.current; //: la referencia a la tabla entera
+
+        if (actionEl && tableEl) {
+            //  las coordenadas y tamaño del actionEl en la pantalla ()en la ventana
         const actionEl = refs.current[index];
         const tableEl = tableRef.current;
 
