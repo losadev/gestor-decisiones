@@ -23,6 +23,21 @@ const InputFile = ({ name, control, label }: Props) => {
             const imageUrl = URL.createObjectURL(file); // Crea una URL temporal para mostrar la imagen seleccionada en el navegador
             setImage(imageUrl); // Actualiza el estado local con la URL para que se muestre la imagen
             onChange(e.target.files); // Actualiza el formulario con el objeto FileList para que react-hook-form lo registre
+
+        field: { onChange, ref },
+    } = useController({
+        name,
+        control,
+    });
+
+    const [image, setImage] = useState<string>('/person.svg');
+
+    const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setImage(imageUrl);
+            onChange(e.target.files); // ← esto pasa el FileList al formulario
         }
     };
 

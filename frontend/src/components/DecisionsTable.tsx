@@ -88,6 +88,7 @@ function DecisionsTable({
 
     const handleActions = (index: number) => {
         // SI el índice es el mismo que el actual, cerrar el dropdown (el indice es la fila de la tabla)
+
         if (showActions === index) {
             setShowActions(null);
             setOpenUpwardIndex(null);
@@ -102,6 +103,10 @@ function DecisionsTable({
 
         if (actionEl && tableEl) {
             //  las coordenadas y tamaño del actionEl en la pantalla ()en la ventana
+        const actionEl = refs.current[index];
+        const tableEl = tableRef.current;
+
+        if (actionEl && tableEl) {
             const actionRect = actionEl.getBoundingClientRect();
 
             const dropdownHeight = 150;

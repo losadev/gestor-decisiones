@@ -200,6 +200,7 @@ const Evaluation = () => {
 
                         <div className="flex flex-col gap-4">
                             {/*CONTROLLER AYUDA A MANEJAR EL ESTADO AUTOMATICAMENTE*/}
+
                             <Controller
                                 name="greenBar"
                                 control={control}
