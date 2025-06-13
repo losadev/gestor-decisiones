@@ -1,7 +1,10 @@
 import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
-
+//Extiende de FieldValues para asegurar que el tipo genérico T representa un objeto con campos válidos para formularios.
+//FieldValues es un tipo base (generalmente usado en librerías como react-hook-form) que define un objeto con claves y valores que corresponden a los datos de un formulario.
 type Props<T extends FieldValues> = {
-    name: keyof T;
+    // T es un genérico que extiende FieldValues
+    // T representa el tipo de datos del formulario, por ejemplo, { name: string; age: number; }
+    name: keyof T; //uno de los nombres de los campos definidos en T
     control: Control<T>;
     type?: string;
     label: string;

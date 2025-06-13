@@ -27,13 +27,14 @@ const Analytics = () => {
                 selectedCategory === 'Todas las categorías' ||
                 decision.category === selectedCategory;
 
+            // Es una funcion que se ejecuta inmediatamente
             const inDateRange = (() => {
                 if (selectedTimeRange === 'Todo') return true;
-                const days = parseInt(selectedTimeRange);
+                const days = parseInt(selectedTimeRange); // convierte el rango a días integer
                 const evaluationDate = new Date(evaluation.createdAt);
                 const limitDate = new Date();
-                limitDate.setDate(limitDate.getDate() - days);
-                return evaluationDate >= limitDate;
+                limitDate.setDate(limitDate.getDate() - days); // Resta days al día actual para obtener una fecha límite.
+                return evaluationDate >= limitDate; // Devuelve true si la fecha de la evaluación es igual o posterior a esa fecha límite
             })();
 
             return inCategory && inDateRange;
@@ -55,7 +56,8 @@ const Analytics = () => {
         };
         fetchData();
     }, []);
-    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
+
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId)); // evita que se repita el filtro en cada renderizado
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
@@ -68,7 +70,9 @@ const Analytics = () => {
 
         const timeDiffs = filteredEvaluations
             .map((evaluation) => {
+                // para cada evaluacion, busca la decision correspondiente
                 const decision = decisions.find(
+                    // busca la decision que coincida con el id de la evaluacion
                     (d) => String(d.id) === String(evaluation.decisionId)
                 );
                 if (!decision) return null;
@@ -76,20 +80,25 @@ const Analytics = () => {
                 const createdDecision = new Date(decision.createdAt);
                 const createdEvaluation = new Date(evaluation.createdAt);
 
+                // Verifica que las fechas sean válidas
                 if (isNaN(createdDecision.getTime()) || isNaN(createdEvaluation.getTime()))
                     return null;
 
+                // Calcula la diferencia en días entre la fecha de creación de la evaluación y la decisión
+                // Obtiene el tiempo en milisegundos y lo convierte a días
                 const diffInDays =
                     (createdEvaluation.getTime() - createdDecision.getTime()) /
-                    (1000 * 60 * 60 * 24);
+                    (1000 * 60 * 60 * 24); // puede ser decimal los dias
 
                 return diffInDays >= 0 ? diffInDays : null;
             })
+            // es un type predicate en TypeScript que le dice al compilador que después del filtro, d es definitivamente un number y no null.
             .filter((d): d is number => d !== null);
 
         if (timeDiffs.length === 0) return 0;
 
-        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0);
+        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0); // suma los elementos del array empezando desde 0
+        // Devuelve el promedio dividiendo la suma entre la cantidad de elementos
         return sum / timeDiffs.length;
     }, [evaluations, decisions]);
 
@@ -101,7 +110,7 @@ const Analytics = () => {
         const limitDate = new Date();
         limitDate.setMonth(limitDate.getMonth() - 3);
 
-        // filtrar evaluaciones solo de los ultimos 6 meses
+        // filtrar evaluaciones solo de los ultimos 3 meses
         const recentEvaluations = filteredEvaluations.filter((evaluation) => {
             const evalDate = new Date(evaluation.createdAt);
             return evalDate >= limitDate;
@@ -112,12 +121,12 @@ const Analytics = () => {
         // agrupar evaluaciones por mes (solo recientes)
         const evaluationsByMonth: Record<string, Evaluation[]> = recentEvaluations.reduce(
             (acc, evaluation) => {
-                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
+                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7); // saca el mes y año (los ultimos siete digitos)
                 if (!acc[month]) acc[month] = [];
                 acc[month].push(evaluation);
                 return acc;
             },
-            {} as Record<string, Evaluation[]>
+            {} as Record<string, Evaluation[]> // esto es el valor inicial del reduce
         );
 
         const successRateByMonth = Object.entries(evaluationsByMonth).map(
