@@ -17,12 +17,12 @@ export const createRecommendation = async (req: Request, res: Response) => {
     const user = (req as any).user as { id: string };
 
     const existingRecommendation = await recommendationService.get(decisionId);
-    if (existingRecommendation) {
-      res
-        .status(200)
-        .json({ message: "Ya existe una recomendación para esta decisión." });
-      return;
-    }
+    // if (existingRecommendation) {
+    //   res
+    //     .status(200)
+    //     .json({ message: "Ya existe una recomendación para esta decisión." });
+    //   return;
+    // }
 
     const recentDecisions = await Decision.findAll({
       where: { userId: user.id },
