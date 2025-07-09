@@ -8,7 +8,8 @@ import TinyBarChart from './TinyBarChart';
 import LineChartDecisionStats from './LineChartDecisionStats';
 import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
 import axios from 'axios';
-import { DecisionData, Evaluation } from '../../types/decision.types';
+import { DecisionData } from '../../types/decision.types';
+import { Evaluation } from '../../types/evaluation.types';
 
 interface Props {
     title: string;

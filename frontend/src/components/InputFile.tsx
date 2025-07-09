@@ -7,23 +7,6 @@ type Props = UseControllerProps<any> & {
 
 const InputFile = ({ name, control, label }: Props) => {
     const {
-        field: { onChange, ref }, // Extrae las funciones onChange y ref del objeto 'field' que devuelve useController
-    } = useController({
-        name, // Nombre del campo de formulario, usado para identificarlo en react-hook-form
-        control, // Control del formulario que maneja el estado y validación (viene del hook useForm)
-    });
-
-    const [image, setImage] = useState<string>('/person.svg'); // Estado local para guardar la URL de la imagen que se mostrará, inicia con una imagen por defecto
-
-    const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-        // Función que se ejecuta cuando cambia el input file (cuando se selecciona un archivo)
-        const file = e.target.files?.[0]; // Obtiene el primer archivo seleccionado del input (si existe)
-        if (file) {
-            // Si hay un archivo seleccionado
-            const imageUrl = URL.createObjectURL(file); // Crea una URL temporal para mostrar la imagen seleccionada en el navegador
-            setImage(imageUrl); // Actualiza el estado local con la URL para que se muestre la imagen
-            onChange(e.target.files); // Actualiza el formulario con el objeto FileList para que react-hook-form lo registre
-
         field: { onChange, ref },
     } = useController({
         name,
@@ -37,7 +20,7 @@ const InputFile = ({ name, control, label }: Props) => {
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImage(imageUrl);
-            onChange(e.target.files); // ← esto pasa el FileList al formulario
+            onChange(e.target.files);
         }
     };
 
