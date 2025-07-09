@@ -36,8 +36,6 @@ const AnalyticsCard = ({ title, content, icon, description, className }: Props) 
     );
 };
 
-//const allCategories = ['Trabajo', 'Salud', 'Finanzas', 'Personal', 'Familia', 'Otros'];
-
 const Analytics = () => {
     const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
     const [decisions, setDecisions] = useState<DecisionData[]>([]);
@@ -85,7 +83,6 @@ const Analytics = () => {
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
-    //const numberOfDecisions = decisions.length;
     const pending = useMemo(() => {
         return filteredDecisions.filter((d) => d.status === 'progress');
     }, [filteredDecisions]);
@@ -158,7 +155,9 @@ const Analytics = () => {
             }
         );
 
-        if (successRateByMonth.length < 2) return 0;
+        if (successRateByMonth.length < 2) {
+            return 0;
+        }
 
         const n = successRateByMonth.length;
         const sumX = successRateByMonth.reduce((acc, cur) => acc + cur.index, 0);
