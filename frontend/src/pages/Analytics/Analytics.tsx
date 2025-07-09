@@ -177,12 +177,9 @@ const Analytics = () => {
         return improvementPercent;
     }, [evaluations]);
 
-    const improvementClass =
-        improvementLinear > 0
-            ? 'text-green-600'
-            : improvementLinear < 0
-              ? 'text-red-600 '
-              : 'text-gray-600 ';
+    let improvementClass = 'text-gray-600';
+    if (improvementLinear > 0) improvementClass = 'text-green-600';
+    else if (improvementLinear < 0) improvementClass = 'text-red-600';
 
     const improvementIcon =
         improvementLinear > 0 ? (
