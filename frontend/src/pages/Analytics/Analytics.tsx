@@ -122,6 +122,7 @@ const Analytics = () => {
 
         // Fecha límite hace 6 meses
         const limitDate = new Date();
+
         limitDate.setMonth(limitDate.getMonth() - 3);
 
         // Filtrar evaluaciones solo de los últimos 6 meses
