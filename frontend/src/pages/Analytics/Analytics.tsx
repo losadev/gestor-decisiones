@@ -121,7 +121,6 @@ const Analytics = () => {
     }, [evaluations, decisions]);
 
     const improvementLinear = useMemo(() => {
-        console.log('EVLUATIONS LENGTH', evaluations);
         if (filteredEvaluations.length === 0) return 0;
 
         // Fecha límite hace 6 meses
@@ -193,37 +192,6 @@ const Analytics = () => {
         ) : (
             <LuCircleAlert className="p-2 rounded-full" />
         );
-
-    // const categoryData = useMemo(() => {
-    //     if (evaluations.length === 0 || decisions.length === 0) return [];
-
-    //     const categoriesMap: Record<string, { buenas: number; malas: number }> = {};
-    //     allCategories.forEach((cat) => {
-    //         categoriesMap[cat] = { buenas: 0, malas: 0 };
-    //     });
-
-    //     evaluations.forEach((evaluation) => {
-    //         const decision = decisions.find((d) => d.id === evaluation.decisionId);
-    //         if (!decision) return;
-
-    //         const category = decision.category.trim();
-
-    //         if (!categoriesMap[category]) return;
-
-    //         const isGood = evaluation.score > 6;
-    //         if (isGood) {
-    //             categoriesMap[category].buenas += 1;
-    //         } else {
-    //             categoriesMap[category].malas += 1;
-    //         }
-    //     });
-
-    //     return allCategories.map((name) => ({
-    //         name,
-    //         buenas: categoriesMap[name].buenas,
-    //         malas: categoriesMap[name].malas,
-    //     }));
-    // }, [evaluations, decisions]);
 
     const successfulEvaluations = useMemo(
         () => filteredEvaluations.filter((e) => e.score > 6).length,
