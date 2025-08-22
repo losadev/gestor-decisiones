@@ -2,14 +2,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import { HiOutlineTrendingUp } from 'react-icons/hi';
 import { MdOutlineWatchLater } from 'react-icons/md';
-import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
-import axios from 'axios';
-import { DecisionData } from '../types/decision.types';
 import Filters from '../components/Filters';
 import AnalyticsResumeCard from '../components/AnalyticsResumeCard';
 import AnalyticsCard from '../components/analytics/AnalyticsCard';
 import LineChartDecisionStats from '../components/analytics/LineChartDecisionStats';
 import TinyBarChart from '../components/analytics/TinyBarChart';
+import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
+import axios from 'axios';
+import { DecisionData } from '../types/decision.types';
 import { Evaluation } from '../types/evaluation.types';
 
 const Analytics = () => {
@@ -34,6 +34,7 @@ const Analytics = () => {
                 const limitDate = new Date();
                 limitDate.setDate(limitDate.getDate() - days); // Resta días al día actual para obtener una fecha límite.
                 return evaluationDate >= limitDate; // Devuelve true si la fecha de la evaluación es igual o posterior a esa fecha límite
+
             })();
 
             return inCategory && inDateRange;
@@ -69,7 +70,7 @@ const Analytics = () => {
 
         const timeDiffs = filteredEvaluations
             .map((evaluation) => {
-                // para cada evaluacion, busca la decision correspondiente
+
                 const decision = decisions.find(
                     (d) => String(d.id) === String(evaluation.decisionId)
                 );
@@ -88,6 +89,7 @@ const Analytics = () => {
                     (createdEvaluation.getTime() - createdDecision.getTime()) /
                     (1000 * 60 * 60 * 24); // puede ser decimal los dias
 
+
                 return diffInDays >= 0 ? diffInDays : null;
             })
             .filter((d): d is number => d !== null);
@@ -96,20 +98,18 @@ const Analytics = () => {
 
         const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0); // suma los elementos del array empezando desde 0
         // Devuelve el promedio dividiendo la suma entre la cantidad de elementos
+
         return sum / timeDiffs.length;
     }, [evaluations, decisions]);
 
     const improvementLinear = useMemo(() => {
-        console.log('EVLUATIONS LENGTH', evaluations);
         if (filteredEvaluations.length === 0) return 0;
 
-        // fecha limite hace 6 meses
+        // Fecha límite hace 3 meses
         const limitDate = new Date();
         limitDate.setMonth(limitDate.getMonth() - 3);
 
-        // filtrar evaluaciones solo de los ultimos 3 meses
-
-        // filtrar evaluaciones solo de los ultimos 6 meses
+        // Filtrar evaluaciones solo de los últimos 3 meses
         const recentEvaluations = filteredEvaluations.filter((evaluation) => {
             const evalDate = new Date(evaluation.createdAt);
             return evalDate >= limitDate;
@@ -117,15 +117,17 @@ const Analytics = () => {
 
         if (recentEvaluations.length === 0) return 0;
 
-        // agrupar evaluaciones por mes (solo recientes)
+        // Agrupar evaluaciones por mes (solo recientes)
         const evaluationsByMonth: Record<string, Evaluation[]> = recentEvaluations.reduce(
             (acc, evaluation) => {
                 const month = new Date(evaluation.createdAt).toISOString().slice(0, 7); // saca el mes y año (los ultimos siete digitos)
+
                 if (!acc[month]) acc[month] = [];
                 acc[month].push(evaluation);
                 return acc;
             },
             {} as Record<string, Evaluation[]> // esto es el valor inicial del reduce
+
         );
 
         const successRateByMonth = Object.entries(evaluationsByMonth).map(
@@ -163,8 +165,8 @@ const Analytics = () => {
         improvementLinear > 0
             ? 'text-green-600'
             : improvementLinear < 0
-              ? 'text-red-600 '
-              : 'text-gray-600 ';
+                ? 'text-red-600 '
+                : 'text-gray-600 ';
 
     const improvementIcon =
         improvementLinear > 0 ? (
@@ -181,7 +183,8 @@ const Analytics = () => {
     );
     const totalEvaluations = filteredEvaluations.length;
 
-    const successRate = totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
+    const successRate =
+        totalEvaluations > 0 ? (successfulEvaluations / totalEvaluations) * 100 : 0;
 
     return (
         <div className="w-full h-full">
@@ -211,9 +214,7 @@ const Analytics = () => {
                 <AnalyticsCard
                     content={`${successRate.toFixed(0)}%`}
                     description={`Basado en ${totalEvaluations} decisiones evaluadas`}
-                    icon={
-                        <HiOutlineTrendingUp className="bg-green-400 rounded-full text-green-200 p-2 " />
-                    }
+                    icon={<HiOutlineTrendingUp className="bg-green-400 rounded-full text-green-200 p-2 " />}
                     title="Ratio de éxito"
                     className="text-5xl"
                 />
@@ -221,9 +222,7 @@ const Analytics = () => {
                 <AnalyticsCard
                     content={`${averageDecisionTime.toFixed(1)} días`}
                     description="Tiempo medio desde la consideración hasta la decisión"
-                    icon={
-                        <MdOutlineWatchLater className="bg-green-200 rounded-full text-green-400 p-2" />
-                    }
+                    icon={<MdOutlineWatchLater className="bg-green-200 rounded-full text-green-400 p-2" />}
                     title="Tiempo medio para decidir"
                     className="text-5xl"
                 />

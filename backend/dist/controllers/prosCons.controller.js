@@ -17,7 +17,7 @@ const getAllProsConsById = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const prosCons = yield proCon_model_1.ProCon.findAll({
             where: { decisionId: id },
         });
-        if (!prosCons) {
+        if (prosCons.length === 0) {
             res.status(404).json({
                 message: "No se han encontrado los pros y contras",
                 success: false,
