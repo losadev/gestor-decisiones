@@ -57,7 +57,9 @@ const Analytics = () => {
         fetchData();
     }, []);
 
-    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
+
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId)); 
+
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
