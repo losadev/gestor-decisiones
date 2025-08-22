@@ -73,7 +73,11 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
     DB_NAME=tu_base_datos
     DB_USERNAME=tu_usuario
     DB_PWD=tu_contraseña
+    DB_HOST=postgres
+    DB_SYNC_FORCE=false
    ```
+
+   - `DB_SYNC_FORCE`: establece `true` solo si deseas que Sequelize elimine y recree las tablas al iniciar la aplicación.
 
 5. Construye el proyecto TypeScript:
 
