@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
   res.cookie("access_token", token, options);
 
   res.status(200).json({
-    message: "Usuario loegueado con éxito",
+    message: "Usuario logueado con éxito",
     token,
     data: userWithoutPassword,
     success: true,
