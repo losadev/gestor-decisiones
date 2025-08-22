@@ -120,6 +120,7 @@ El frontend debería estar corriendo en http://localhost:3000.
 ### Backend:
 
 - La API permite interactuar con las decisiones, evaluaciones y recomendaciones. Los principales endpoints son:
+- La subida de avatares solo acepta imágenes en formato JPG o PNG con un tamaño máximo de 2 MB.
 
 - POST /decisions: Crear una nueva decisión.
 

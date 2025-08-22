@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { upload } from "../middlewares/upload";
+import { uploadAvatar } from "../middlewares/upload";
 import {
   createUser,
   updatePassword,
@@ -11,10 +11,10 @@ import { userSchema } from "../middlewares/validationsUser";
 
 const router = Router();
 
-router.post("/", upload.single("avatar"), validateZod(userSchema), createUser);
+router.post("/", uploadAvatar, validateZod(userSchema), createUser);
 router.put(
   "/:id",
-  upload.single("avatar"),
+  uploadAvatar,
   validateZod(editUserSchema),
   updateUser
 );
