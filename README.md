@@ -48,16 +48,19 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
 
    ```bash
    git clone https://github.com/losadev/proyecto-final.git
-   
+   ```
+
 2. Navega al directorio del backend:
 
    ```bash
     cd backend
+   ```
 
 3. Instala las dependencias:
 
     ```bash
     npm install
+   ```
 
 4. Configura las variables de entorno:
    
@@ -70,16 +73,19 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
     DB_NAME=tu_base_datos
     DB_USERNAME=tu_usuario
     DB_PWD=tu_contraseña
+   ```
 
 5. Construye el proyecto TypeScript:
 
     ```bash
     npm run build
+    ```
 
-5. Inicia el servidor de desarrollo:
+6. Inicia el servidor de desarrollo:
 
     ```bash
     npm run dev
+   ```
 
 El backend debería estar corriendo en http://localhost:5000.
 
@@ -91,16 +97,19 @@ El backend debería estar corriendo en http://localhost:5000.
 
     ```bash
     cd frontend
+   ```
 
 2. Instala las dependencias:
 
     ```bash
     npm install
+   ```
 
 3. Inicia el servidor de desarrollo:
 
     ```bash
     npm run dev
+   ```
 
 El frontend debería estar corriendo en http://localhost:3000.
 
