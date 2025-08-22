@@ -21,9 +21,13 @@ if (!fs.existsSync(uploadsDir)) {
 
 const app = express();
 
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
+  : ["http://localhost:5173", "http://172.19.0.4:5173"];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://172.19.0.4:5173"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
