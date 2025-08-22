@@ -27,14 +27,14 @@ const Analytics = () => {
                 selectedCategory === 'Todas las categorías' ||
                 decision.category === selectedCategory;
 
-            // Verifica si la evaluación está dentro del rango de fechas seleccionado.
             const inDateRange = (() => {
                 if (selectedTimeRange === 'Todo') return true;
-                const days = parseInt(selectedTimeRange);
+                const days = parseInt(selectedTimeRange); // convierte el rango a días entero
                 const evaluationDate = new Date(evaluation.createdAt);
                 const limitDate = new Date();
-                limitDate.setDate(limitDate.getDate() - days);
-                return evaluationDate >= limitDate;
+                limitDate.setDate(limitDate.getDate() - days); // Resta días al día actual para obtener una fecha límite.
+                return evaluationDate >= limitDate; // Devuelve true si la fecha de la evaluación es igual o posterior a esa fecha límite
+
             })();
 
             return inCategory && inDateRange;
@@ -57,9 +57,7 @@ const Analytics = () => {
         fetchData();
     }, []);
 
-
-    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId)); 
-
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
@@ -72,6 +70,7 @@ const Analytics = () => {
 
         const timeDiffs = filteredEvaluations
             .map((evaluation) => {
+
                 const decision = decisions.find(
                     (d) => String(d.id) === String(evaluation.decisionId)
                 );
@@ -80,11 +79,16 @@ const Analytics = () => {
                 const createdDecision = new Date(decision.createdAt);
                 const createdEvaluation = new Date(evaluation.createdAt);
 
-                if (isNaN(createdDecision.getTime()) || isNaN(createdEvaluation.getTime())) return null;
+                // Verifica que las fechas sean válidas
+                if (isNaN(createdDecision.getTime()) || isNaN(createdEvaluation.getTime()))
+                    return null;
 
+                // Calcula la diferencia en días entre la fecha de creación de la evaluación y la decisión
+                // Obtiene el tiempo en milisegundos y lo convierte a días
                 const diffInDays =
                     (createdEvaluation.getTime() - createdDecision.getTime()) /
-                    (1000 * 60 * 60 * 24);
+                    (1000 * 60 * 60 * 24); // puede ser decimal los dias
+
 
                 return diffInDays >= 0 ? diffInDays : null;
             })
@@ -92,7 +96,9 @@ const Analytics = () => {
 
         if (timeDiffs.length === 0) return 0;
 
-        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0);
+        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0); // suma los elementos del array empezando desde 0
+        // Devuelve el promedio dividiendo la suma entre la cantidad de elementos
+
         return sum / timeDiffs.length;
     }, [evaluations, decisions]);
 
@@ -114,12 +120,14 @@ const Analytics = () => {
         // Agrupar evaluaciones por mes (solo recientes)
         const evaluationsByMonth: Record<string, Evaluation[]> = recentEvaluations.reduce(
             (acc, evaluation) => {
-                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7);
+                const month = new Date(evaluation.createdAt).toISOString().slice(0, 7); // saca el mes y año (los ultimos siete digitos)
+
                 if (!acc[month]) acc[month] = [];
                 acc[month].push(evaluation);
                 return acc;
             },
-            {} as Record<string, Evaluation[]>
+            {} as Record<string, Evaluation[]> // esto es el valor inicial del reduce
+
         );
 
         const successRateByMonth = Object.entries(evaluationsByMonth).map(
