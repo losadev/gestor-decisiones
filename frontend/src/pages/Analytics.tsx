@@ -29,11 +29,11 @@ const Analytics = () => {
 
             const inDateRange = (() => {
                 if (selectedTimeRange === 'Todo') return true;
-                const days = parseInt(selectedTimeRange); // convierte el rango a días entero
+                const days = parseInt(selectedTimeRange);
                 const evaluationDate = new Date(evaluation.createdAt);
                 const limitDate = new Date();
-                limitDate.setDate(limitDate.getDate() - days); // Resta días al día actual para obtener una fecha límite.
-                return evaluationDate >= limitDate; // Devuelve true si la fecha de la evaluación es igual o posterior a esa fecha límite
+                limitDate.setDate(limitDate.getDate() - days);
+                return evaluationDate >= limitDate;
 
             })();
 
@@ -57,7 +57,8 @@ const Analytics = () => {
         fetchData();
     }, []);
 
-    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
+    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId)); // evita que se repita el filtro en cada renderizado
+
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
@@ -70,8 +71,10 @@ const Analytics = () => {
 
         const timeDiffs = filteredEvaluations
             .map((evaluation) => {
-
+                // para cada evaluacion, busca la decision correspondiente
                 const decision = decisions.find(
+                    // busca la decision que coincida con el id de la evaluacion
+
                     (d) => String(d.id) === String(evaluation.decisionId)
                 );
                 if (!decision) return null;
@@ -89,9 +92,10 @@ const Analytics = () => {
                     (createdEvaluation.getTime() - createdDecision.getTime()) /
                     (1000 * 60 * 60 * 24); // puede ser decimal los dias
 
-
                 return diffInDays >= 0 ? diffInDays : null;
             })
+            // es un type predicate en TypeScript que le dice al compilador que después del filtro, d es definitivamente un number y no null.
+
             .filter((d): d is number => d !== null);
 
         if (timeDiffs.length === 0) return 0;
