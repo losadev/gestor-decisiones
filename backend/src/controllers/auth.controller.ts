@@ -3,6 +3,8 @@ import { User } from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { generateAccessJWT } from "../utils/generateAccessJWT";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body;
 
@@ -36,8 +38,8 @@ export const login = async (req: Request, res: Response) => {
   let options = {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: false,
-    sameSite: "lax" as const,
+    secure: isProd,
+    sameSite: (isProd ? "none" : "lax") as "none" | "lax",
   };
   const token = generateAccessJWT({ id: existingUser.id });
   res.cookie("access_token", token, options);
@@ -53,8 +55,8 @@ export const login = async (req: Request, res: Response) => {
 export const logout = (_req: Request, res: Response) => {
   res.clearCookie("access_token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
   });
   res
     .status(200)
