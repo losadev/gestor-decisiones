@@ -5,7 +5,7 @@ import AnalyticsResumeCard from '../components/AnalyticsResumeCard';
 import QuickStatsCard from '../components/QuickStatsCard';
 import NewDecisionButton from '../components/NewDecisionButton';
 import DecisionForm from '../components/DecisionForm';
-import DecisionsTable from '../components/DecisionsTable';
+import DecisionsTable from '../components/Dashboard/DecisionsTable';
 import Snackbar from '../components/SnackBar';
 import RecentActivity from '../components/overview/RecentActivity';
 import { Evaluation } from '../types/evaluation.types';

@@ -7,7 +7,7 @@ import { FormLoginValues, loginFormSchema } from '../schemas/login.schema';
 import ModalNavBar from '../modal/ModalNavBar';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import RegisterLink from '../components/login/RegisterLink';
+import RegisterLink from '../components/Login/RegisterLink';
 
 const LOCK_DURATION = 10 * 60 * 1000; // 10 minutos
 const MAX_FAILED_ATTEMPTS = 5;

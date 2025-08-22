@@ -8,7 +8,7 @@ import ModalNavBar from '../modal/ModalNavBar';
 import Input from '../components/Input';
 import InputFile from '../components/InputFile';
 import Button from '../components/Button';
-import LoginLink from '../components/register/LoginLink';
+import LoginLink from '../components/Register/LoginLink';
 
 const FormRegister = () => {
     const [message, setMessage] = useState<string>('');

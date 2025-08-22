@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import NewDecisionButton from '../components/NewDecisionButton';
-import DecisionsTable from '../components/DecisionsTable';
+import DecisionsTable from '../components/Dashboard/DecisionsTable';
 import DecisionForm from '../components/DecisionForm';
 import Snackbar from '../components/SnackBar';
 

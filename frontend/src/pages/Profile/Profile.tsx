@@ -1,5 +1,5 @@
 import EditProfileForm from './EditProfileForm';
-import { User } from '../../components/Button';
+import type { User } from '../../types/user.types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
