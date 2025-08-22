@@ -10,6 +10,7 @@ export const getAllProsConsById = async (req: Request, res: Response) => {
     });
 
     if (prosCons.length === 0) {
+
       res.status(404).json({
         message: "No se han encontrado los pros y contras",
         success: false,
