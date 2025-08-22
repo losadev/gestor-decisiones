@@ -1,6 +1,6 @@
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FaTrash } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../utils/api';
 import { useEffect, useState } from 'react';
 import { ImCross } from 'react-icons/im';
 import { RxCross1 } from 'react-icons/rx';
@@ -73,10 +73,8 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
         if (!decisionId) return;
 
         // Carga la decisión
-        axios
-            .get(`http://localhost:5000/api/decision/${decisionId}`, {
-                withCredentials: true,
-            })
+        api
+            .get(`/decision/${decisionId}`)
             .then((response) => {
                 setDecision(response.data.decision);
             })
@@ -85,10 +83,8 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
             });
 
         // Carga los pros y contras
-        axios
-            .get(`http://localhost:5000/api/proscons/${decisionId}`, {
-                withCredentials: true,
-            })
+        api
+            .get(`/proscons/${decisionId}`)
             .then((response) => {
                 setProsCons(response.data.prosCons);
             })
@@ -104,15 +100,11 @@ const DecisionForm = ({ isOpen, onClose, decisionId, onMessage }: Props) => {
 
             if (decisionId) {
                 // editando una decisión existente
-                res = await axios.put(`http://localhost:5000/api/decision/${decisionId}`, data, {
-                    withCredentials: true,
-                });
+                res = await api.put(`/decision/${decisionId}`, data);
                 onMessage?.(res.data.message || 'Decisión actualizada', true);
             } else {
                 // creando una nueva
-                res = await axios.post('http://localhost:5000/api/decision', data, {
-                    withCredentials: true,
-                });
+                res = await api.post('/decision', data);
                 onMessage?.(res.data.message, true);
             }
             if (!decisionId) {

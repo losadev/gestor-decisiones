@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { FormLoginValues, loginFormSchema } from '../schemas/login.schema';
 import ModalNavBar from '../modal/ModalNavBar';
@@ -51,11 +51,10 @@ const LoginForm = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/login', data, {
+            await api.post('/login', data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                withCredentials: true,
             });
 
             setFailedAttempts(0);

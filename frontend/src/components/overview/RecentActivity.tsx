@@ -2,7 +2,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Chip from '../Chip';
 
 const RecentActivity = ({ refreshTrigger }: { refreshTrigger: number }) => {
@@ -10,10 +10,8 @@ const RecentActivity = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/decision', {
-                withCredentials: true,
-            })
+        api
+            .get('/decision')
             .then((response) => {
                 setDecisions(response.data.decisions);
             })

@@ -6,7 +6,7 @@ import RecentActivity from './RecentActivity';
 import DecisionsTable from './DecisionsTable';
 import AnalyticsResumeCard from './AnalyticsResumeCard';
 import { Evaluation } from '../../types/decision.types';
-import axios from 'axios';
+import api from '../../utils/api';
 import Snackbar from '../SnackBar';
 
 const Overview = () => {
@@ -36,8 +36,8 @@ const Overview = () => {
     }, [modal]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+        api
+            .get('/evaluation')
             .then((response) => {
                 const data = response.data.data as Evaluation[];
                 setEvaluations(data);

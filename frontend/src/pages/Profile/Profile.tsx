@@ -1,16 +1,14 @@
 import EditProfileForm from './EditProfileForm';
 import type { User } from '../../types/user.types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const Profile = () => {
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/me', {
-                    withCredentials: true,
-                });
+                const res = await api.get('/me');
 
                 setUser(res.data.user);
             } catch (error: any) {

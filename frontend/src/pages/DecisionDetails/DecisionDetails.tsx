@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { DecisionData, Evaluation } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Chip from '../../components/Dashboard/Chip';
 import { ProCon } from '../../types/proCon.types';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
@@ -49,9 +49,7 @@ const DecisionDetails = () => {
     }, [modal]);
 
     useEffect(() => {
-        const res = axios.get(`http://localhost:5000/api/proscons/${id}`, {
-            withCredentials: true,
-        });
+        const res = api.get(`/proscons/${id}`);
         res.then((response) => {
             setProsCons(response.data.prosCons);
             console.log(response.data.prosCons);
@@ -61,10 +59,8 @@ const DecisionDetails = () => {
     }, [id]);
 
     const fetchDecision = () => {
-        axios
-            .get(`http://localhost:5000/api/decision/${id}`, {
-                withCredentials: true,
-            })
+        api
+            .get(`/decision/${id}`)
             .then((response) => {
                 const decision = response.data.decision;
                 setDecision(decision);
@@ -80,9 +76,7 @@ const DecisionDetails = () => {
     }, [id]);
 
     const deleteDecision = () => {
-        const res = axios.delete(`http://localhost:5000/api/decision/${id}`, {
-            withCredentials: true,
-        });
+        const res = api.delete(`/decision/${id}`);
         res.then((response) => {
             setMessage(response.data.message);
             showSnackbar(response.data.message);
@@ -93,10 +87,8 @@ const DecisionDetails = () => {
     };
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:5000/api/evaluation/${id}`, {
-                withCredentials: true,
-            })
+        api
+            .get(`/evaluation/${id}`)
             .then((res) => {
                 setEvaluation(res.data.data);
             })

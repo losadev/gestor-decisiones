@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../utils/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,8 +8,8 @@ export const useAuth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/me', { withCredentials: true })
+        api
+            .get('/me')
             .then((res) => setUser(res.data.user))
             .catch(() => {
                 setUser(null);
@@ -19,7 +19,7 @@ export const useAuth = () => {
 
     const logout = async () => {
         try {
-            await axios.post('http://localhost:5000/api/logout', {}, { withCredentials: true });
+            await api.post('/logout', {});
             setUser(null);
             navigate('/');
         } catch (error) {

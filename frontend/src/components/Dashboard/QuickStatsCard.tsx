@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAnimation } from '../../hooks/useAnimtation';
 import { DecisionData, Evaluation } from '../../types/decision.types';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [data, setData] = useState<DecisionData[] | []>([]);
@@ -24,8 +24,8 @@ const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     console.log(data);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/decision', { withCredentials: true })
+        api
+            .get('/decision')
             .then((response) => {
                 const decisions = response.data.decisions;
                 setData(decisions);
@@ -37,8 +37,8 @@ const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     }, [refreshTrigger]);
     console.log('Evaluations: ', evaluations);
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+        api
+            .get('/evaluation')
             .then((response) => {
                 setEvaluation(response.data.data);
             })

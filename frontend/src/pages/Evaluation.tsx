@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../utils/api';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
@@ -60,15 +60,15 @@ const Evaluation = () => {
     const finalScore = Math.max(1, Math.round(weighted));
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:5000/api/proscons/${id}`, { withCredentials: true })
+        api
+            .get(`/proscons/${id}`)
             .then((res) => setProsCons(res.data.prosCons))
             .catch((err) => console.error('Error fetching pros and cons:', err));
     }, [id]);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:5000/api/decision/${id}`, { withCredentials: true })
+        api
+            .get(`/decision/${id}`)
             .then((res) => setDecision(res.data.decision))
             .catch((err) => console.error('Error fetching decision details:', err));
     }, [id]);
@@ -101,23 +101,19 @@ const Evaluation = () => {
         try {
             if (!decision?.id) return;
 
-            const response = await axios.post(
-                'http://localhost:5000/api/evaluation',
+            const response = await api.post(
+                '/evaluation',
                 {
                     result: data.notes,
                     score: finalScore,
                     decisionId: decision.id,
                 },
-                { withCredentials: true }
             );
-            await axios.patch(
-                `http://localhost:5000/api/decision/${decision.id}`,
+            await api.patch(
+                `/decision/${decision.id}`,
                 {
                     status: 'evaluated',
                 },
-                {
-                    withCredentials: true,
-                }
             );
             showSnackbar(response.data.message);
             setMessage(response.data.message);
@@ -128,11 +124,7 @@ const Evaluation = () => {
             setTotalPercentage(0);
 
             navigate(`/dashboard/decisions/${decision.id}`);
-            await axios.post(
-                'http://localhost:5000/api/recommendation',
-                { decisionId: decision.id },
-                { withCredentials: true }
-            );
+            await api.post('/recommendation', { decisionId: decision.id });
         } catch (error: any) {
             showSnackbar(error);
             setMessage('Error al crear evaluación');
