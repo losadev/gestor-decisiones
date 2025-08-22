@@ -4,7 +4,7 @@ import { z } from 'zod';
 import Input from '../../components/Input';
 import InputFile from '../../components/Register/InputFile';
 import Button from '../../components/Button';
-import axios from 'axios';
+import api from '../../utils/api';
 import { useState } from 'react';
 import type { User } from '../../types/user.types';
 import { useSnackbarStore } from '../../store/snackbarStore';
@@ -60,8 +60,7 @@ const EditProfileForm = ({ user }: Props) => {
             formData.append('avatar', data.avatar[0]);
         }
         try {
-            const res = await axios.put(`http://localhost:5000/api/users/${user.id}`, formData, {
-                withCredentials: true,
+            const res = await api.put(`/users/${user.id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             showSnackbar(res.data.message || 'Perfil actualizado');
@@ -78,11 +77,7 @@ const EditProfileForm = ({ user }: Props) => {
         }
 
         try {
-            await axios.put(
-                `http://localhost:5000/api/users/${user.id}/password`,
-                { currentPassword, newPassword },
-                { withCredentials: true }
-            );
+            await api.put(`/users/${user.id}/password`, { currentPassword, newPassword });
             const msg = 'Contraseña actualizada';
             showSnackbar(msg);
             setMessage('');
@@ -121,11 +116,7 @@ const EditProfileForm = ({ user }: Props) => {
         }
 
         try {
-            await axios.post(
-                `http://localhost:5000/api/users/${user.id}/password/verify`,
-                { password: currentPassword },
-                { withCredentials: true }
-            );
+            await api.post(`/users/${user.id}/password/verify`, { password: currentPassword });
             setShowCurrentPassModal(false);
             setShowNewPassModal(true);
             setMessage('');

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { User } from '../types/user.types';
 import EditProfileForm from '../components/profile/EditProfileForm';
 
@@ -8,9 +8,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/me', {
-                    withCredentials: true,
-                });
+                const res = await api.get('/me');
 
                 setUser(res.data.user);
             } catch (error: any) {

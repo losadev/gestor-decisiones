@@ -48,8 +48,8 @@ const LineChartDecisionStats = ({ evaluations }: { evaluations: Evaluation[] }) 
     );
 
     // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+    //     api
+    //         .get('/evaluation')
     //         .then((response) => {
     //             const data = response.data.data as Evaluation[];
     //             // setEvaluation(data);

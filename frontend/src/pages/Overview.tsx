@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
+import api from '../utils/api';
 import AnalyticsResumeCard from '../components/AnalyticsResumeCard';
 import QuickStatsCard from '../components/QuickStatsCard';
 import NewDecisionButton from '../components/NewDecisionButton';
@@ -37,8 +37,8 @@ const Overview = () => {
     }, [modal]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+        api
+            .get('/evaluation')
             .then((response) => {
                 const data = response.data.data as Evaluation[];
                 setEvaluations(data);

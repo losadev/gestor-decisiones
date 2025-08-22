@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { DecisionData } from '../types/decision.types';
 import { Evaluation } from '../types/evaluation.types';
 import { useAnimation } from '../hooks/useAnimtation';
@@ -25,8 +25,8 @@ const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     console.log(data);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/decision', { withCredentials: true })
+        api
+            .get('/decision')
             .then((response) => {
                 const decisions = response.data.decisions;
                 setData(decisions);
@@ -38,8 +38,8 @@ const QuickStatsCard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     }, [refreshTrigger]);
     console.log('Evaluations: ', evaluations);
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/evaluation', { withCredentials: true })
+        api
+            .get('/evaluation')
             .then((response) => {
                 setEvaluation(response.data.data);
             })

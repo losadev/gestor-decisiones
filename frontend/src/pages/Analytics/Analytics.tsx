@@ -7,7 +7,7 @@ import AnalyticsResumeCard from '../../components/Dashboard/AnalyticsResumeCard'
 import TinyBarChart from './TinyBarChart';
 import LineChartDecisionStats from './LineChartDecisionStats';
 import { LuCircleAlert, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
-import axios from 'axios';
+import api from '../../utils/api';
 import { DecisionData } from '../../types/decision.types';
 import { Evaluation } from '../../types/evaluation.types';
 
@@ -68,8 +68,8 @@ const Analytics = () => {
         const fetchData = async () => {
             try {
                 const [evalRes, decRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/evaluation', { withCredentials: true }),
-                    axios.get('http://localhost:5000/api/decision', { withCredentials: true }),
+                    api.get('/evaluation'),
+                    api.get('/decision'),
                 ]);
                 setEvaluations(evalRes.data.data);
                 setDecisions(decRes.data.decisions);

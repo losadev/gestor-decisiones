@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { FaLightbulb } from 'react-icons/fa';
 
 type Recommendation = {
@@ -18,9 +18,7 @@ const Recommendations = () => {
     useEffect(() => {
         const fetchRecomendations = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/recommendation', {
-                    withCredentials: true,
-                });
+                const response = await api.get('/recommendation');
                 setRecomendations(response.data.recommendations.slice(0, 6));
             } catch (err: any) {
                 setError('Error al cargar las recomendaciones');

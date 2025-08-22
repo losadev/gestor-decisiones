@@ -3,17 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import Chip from '../../components/Dashboard/Chip';
 import { DecisionData } from '../../types/decision.types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const RecentActivity = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [decisions, setDecisions] = useState<DecisionData[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/decision', {
-                withCredentials: true,
-            })
+        api
+            .get('/decision')
             .then((response) => {
                 setDecisions(response.data.decisions);
             })

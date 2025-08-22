@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
 import DropDownActions from './DropDownActions';
 import { DecisionData } from '../../types/decision.types';
-import axios from 'axios';
+import api from '../../utils/api';
 import Chip from '../../components/Dashboard/Chip';
 import DecisionForm from '../Decision/DecisionForm';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
@@ -126,8 +126,8 @@ function DecisionsTable({
     };
 
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/decision', { withCredentials: true })
+        api
+            .get('/decision')
             .then((response) => {
                 setData(response.data.decisions);
             })
@@ -153,10 +153,8 @@ function DecisionsTable({
     }, [searchDecision, active, data]);
 
     const deleteDecision = (id: string) => {
-        axios
-            .delete(`http://localhost:5000/api/decision/${id}`, {
-                withCredentials: true,
-            })
+        api
+            .delete(`/decision/${id}`)
             .then((response) => {
                 setMessage(response.data.message);
                 showSnackbar(response.data.message);

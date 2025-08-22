@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import api from '../utils/api';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormRegisterValues, registerFormSchema } from '../schemas/register.schema';
@@ -47,7 +47,7 @@ const FormRegister = () => {
         }
 
         try {
-            const req = await axios.post('http://localhost:5000/api/register', formData);
+            const req = await api.post('/register', formData);
             setMessage(req.data.message);
             navigate('/login');
         } catch (error: any) {
