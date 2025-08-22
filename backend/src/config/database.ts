@@ -9,6 +9,8 @@ import { Recommendation } from "../models/recommendation.model";
 
 dotenv.config();
 
+const DB_SYNC_FORCE = process.env.DB_SYNC_FORCE === "true";
+
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,
@@ -21,7 +23,7 @@ export const sequelize = new Sequelize({
 export const connectionDB = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: DB_SYNC_FORCE });
     console.log(`Server running at http://localhost:${process.env.PORT}/`);
   } catch (error: any) {
     console.log("Error al conectarse a la BD", error.message);
