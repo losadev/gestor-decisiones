@@ -9,8 +9,13 @@ dotenv.config();
 export const createUser = async (req: Request, res: Response) => {
   try {
     const avatarUrl = req.file ? req.file.filename : "";
+    const { name, lastName, email, password, birthDate } = req.body;
     const user = await userService.createUser({
-      ...req.body,
+      name,
+      lastName,
+      email,
+      password,
+      birthDate,
       avatar: avatarUrl,
     });
     res
