@@ -120,8 +120,6 @@ const Analytics = () => {
 
         const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0); // suma los elementos del array empezando desde 0
         // Devuelve el promedio dividiendo la suma entre la cantidad de elementos
-
-        const sum = timeDiffs.reduce((acc, curr) => acc + curr, 0); 
         return sum / timeDiffs.length;
     }, [evaluations, decisions]);
 
