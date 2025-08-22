@@ -6,7 +6,7 @@ import InputFile from '../../components/Register/InputFile';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useState } from 'react';
-import { User } from '../../components/Button';
+import type { User } from '../../types/user.types';
 import { useSnackbarStore } from '../../store/snackbarStore';
 
 const editProfileSchema = z.object({

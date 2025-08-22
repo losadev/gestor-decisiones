@@ -1,4 +1,4 @@
-import { Evaluation } from './evaluation.types';
+import type { Evaluation } from './evaluation.types';
 import { ProCon } from './proCon.types';
 import { Recommendation } from './recommendation.types';
 
@@ -39,3 +39,5 @@ export type DecisionData = {
     recommendation?: Recommendation;
     createdAt: string;
 };
+
+export type { Evaluation };
