@@ -7,7 +7,6 @@ dotenv.config();
 
 export const userService = {
   createUser: async (userData: {
-    id: string;
     name: string;
     lastName: string;
     email: string;

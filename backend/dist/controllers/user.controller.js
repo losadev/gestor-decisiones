@@ -21,7 +21,15 @@ dotenv_1.default.config();
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const avatarUrl = req.file ? req.file.filename : "";
-        const user = yield user_service_1.userService.createUser(Object.assign(Object.assign({}, req.body), { avatar: avatarUrl }));
+        const { name, lastName, email, password, birthDate } = req.body;
+        const user = yield user_service_1.userService.createUser({
+            name,
+            lastName,
+            email,
+            password,
+            birthDate,
+            avatar: avatarUrl,
+        });
         res
             .status(201)
             .json({ message: "Usuario creado con éxito", data: user, success: true });
