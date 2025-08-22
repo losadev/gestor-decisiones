@@ -63,8 +63,8 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
    ```
 
 4. Configura las variables de entorno:
-   
-- Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables:
+
+- Crea un archivo `.env` en la raíz del proyecto (puedes usar `.env.example` como base) y agrega las siguientes variables:
 
     ```bash
     SALT=10
@@ -73,6 +73,7 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
     DB_NAME=tu_base_datos
     DB_USERNAME=tu_usuario
     DB_PWD=tu_contraseña
+    CORS_ORIGINS=http://localhost:5173,http://172.19.0.4:5173
    ```
 
 5. Construye el proyecto TypeScript:
