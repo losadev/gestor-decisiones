@@ -89,6 +89,12 @@ La **Plataforma de Gestión de Decisiones Personales** es una aplicación web qu
 
 El backend debería estar corriendo en http://localhost:5000.
 
+### Consideraciones de producción
+
+Para despliegues en producción es necesario servir el backend sobre **HTTPS**,
+ya que las cookies de autenticación utilizan las opciones `secure` y
+`sameSite: 'none'` y solo se enviarán a través de conexiones seguras.
+
 
 
 ### Frontend
