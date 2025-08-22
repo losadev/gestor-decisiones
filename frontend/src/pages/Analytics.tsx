@@ -66,8 +66,6 @@ const Analytics = () => {
     }, []);
 
     const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId)); // evita que se repita el filtro en cada renderizado
-
-    const filteredDecisionIds = new Set(filteredEvaluations.map((e) => e.decisionId));
     const filteredDecisions = decisions.filter((d) => filteredDecisionIds.has(d.id));
     const numberOfDecisions = filteredDecisions.length;
 
