@@ -49,30 +49,24 @@ const DecisionDetails = () => {
     }, [modal]);
 
     useEffect(() => {
-        const res = api.get(`/proscons/${id}`);
-        res.then((response) => {
-            setProsCons(response.data.prosCons);
-            console.log(response.data.prosCons);
-        }).catch((error) => {
-            console.error('Error fetching pros and cons:', error);
-        });
-    }, [id]);
+      const fetchData = async () => {
+        try {
+          const [prosConsRes, decisionRes] = await Promise.all([
+            api.get(`/proscons/${id}`),
+            api.get(`/decision/${id}`),
+          ]);
+    
+          setProsCons(prosConsRes.data.prosCons);
+    
+          const decision = decisionRes.data.decision;
+          setDecision(decision);
+          setIsEvaluated(decision.status === 'evaluated');
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
 
-    const fetchDecision = () => {
-        api
-            .get(`/decision/${id}`)
-            .then((response) => {
-                const decision = response.data.decision;
-                setDecision(decision);
-                setIsEvaluated(decision.status === 'evaluated');
-            })
-            .catch((error) => {
-                console.error('Error fetching decision details:', error);
-            });
-    };
-
-    useEffect(() => {
-        fetchDecision();
+      fetchData();
     }, [id]);
 
     const deleteDecision = () => {
@@ -85,17 +79,6 @@ const DecisionDetails = () => {
             showSnackbar(error);
         });
     };
-
-    useEffect(() => {
-        api
-            .get(`/evaluation/${id}`)
-            .then((res) => {
-                setEvaluation(res.data.data);
-            })
-            .catch((err) => {
-                console.error('Error al obtener la evaluación:', err);
-            });
-    }, [id]);
 
     // Pros
     const pros = prosCons?.filter((item) => item.type === 'Pro') || [];
